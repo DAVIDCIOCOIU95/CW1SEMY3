@@ -43,17 +43,6 @@ namespace NapierBankingApp.Services
             foreach (string line in lines)
             {
                 var abbreviation = line.Split(',');
-                #region AbbreviationSanitizer
-                // Sanitize key value on any extra comma
-                if (abbreviation.Length > 2)
-                {
-                    abbreviation[0] = abbreviation[0];
-                    for (int counter = 1; counter < abbreviation.Length; counter++)
-                    {
-                        abbreviation[1] = abbreviation[1] + "," + abbreviation[counter];
-                    }
-                }
-                #endregion
                 abbreviations.Add(abbreviation[0], abbreviation[1]);
             }
         }
@@ -90,7 +79,7 @@ namespace NapierBankingApp.Services
                     } // Sobstitute abbreviations
                     foreach (var entry in abbreviations)
                     {
-                        text = Regex.Replace(text, entry.Key, entry.Value);
+                        text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
                     }
                     message.Body = text;
                     
@@ -119,11 +108,6 @@ namespace NapierBankingApp.Services
             {
             }
             serializeToJSON();
-
-
-
-
-
         }
         public void PreprocessFile()
         {
