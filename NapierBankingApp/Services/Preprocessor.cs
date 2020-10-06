@@ -58,12 +58,15 @@ namespace NapierBankingApp.Services
 
             // Work on the body
             var bodyArray = body.Split('|');
-            MessageBox.Show(bodyArray[0]);
             if ((bodyArray.Length == 0))
             {
                 throw new Exception("The body must have at least a sender specified.");
             }
             var sender = bodyArray[0];
+            if (sender.Length == 0)
+            {
+                throw new Exception("You must have a sender.");
+            }
             var text = "";
             if (bodyArray.Length >= 2)
             {
@@ -88,11 +91,11 @@ namespace NapierBankingApp.Services
 
                 // Clean the number
                 // Eliminate any extra char
-                sender = sender.Replace(" ", "").Replace("  ","").Replace("_", "").Replace("-", "").Replace("#", "").Replace("*", "");
-                sender =  Regex.Match(sender, @"^\+\d{1,15}$").Value;
-                if(sender.Length == 0)
+                sender = sender.Replace(" ", "").Replace("  ", "").Replace("_", "").Replace("-", "").Replace("#", "").Replace("*", "");
+                sender = Regex.Match(sender, @"^\+\d{1,15}$").Value;
+                if (sender.Length == 0)
                 {
-                    throw new Exception("Your number must start with a + and must be followed by 1 or less than 15 numbers. The numbers must be consecutive.");
+                    throw new Exception("Invalid sender format. Sender must start with a + and be followed by 1 to 15 numbers.");
                 }
                 // Load the message to messageCollection
                 message.Header = header;
@@ -107,7 +110,21 @@ namespace NapierBankingApp.Services
             // Preprocess tweet
             else if (header[0] == 'T')
             {
-
+                Tweet message = new Tweet();
+                message.MessageType = "T";
+                sender = Regex.Match(sender, @"^\@[a-zA-Z0-9_]{1,15}$").Value;
+                if (sender.Length == 0)
+                {
+                    throw new Exception("Invalid sender format. Sender must start with a @ and be followed by 1 to 15 numbers and/or letters.");
+                }
+                foreach (var entry in abbreviations)
+                {
+                    text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
+                }
+                message.Text = text;
+                message.Header = header;
+                message.Sender = sender;
+                MessageCollection.TweetList.Add(message);
             }
             serializeToJSON();
         }
@@ -137,7 +154,6 @@ namespace NapierBankingApp.Services
                 }
                 try
                 {
-                    MessageBox.Show(messageArray[0]);
                     PreprocessMessage(messageArray[0], messageArray[1]);
                 }
                 catch (Exception ex)

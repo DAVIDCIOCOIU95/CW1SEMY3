@@ -61,6 +61,10 @@ namespace NapierBankingApp
                 {
                     lstViewMessages.Items.Add(item.ToString());
                 }
+                foreach (var item in preprocessor.MessageCollection.TweetList)
+                {
+                    lstViewMessages.Items.Add(item.ToString());
+                }
 
                 foreach (var item in preprocessor.UnloadedMessages)
                 {
