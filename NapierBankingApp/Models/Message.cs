@@ -10,13 +10,14 @@ namespace NapierBankingApp.Models
 	public class Message
 	{
 		public string Header { get; set; }
-		public string MessageType { get; set; }
-		public string Body { get; set; }
 		public string Sender { get; set; }
+		public string MessageType { get; set; }
+		public string Text { get; set; }
+		
 
 		public override string ToString()
 		{
-			return "Header: " + Header + "\nMessageType:" + MessageType + "\nBody: " + Body + "\nSender: " + Sender;
+			return "Header: " + Header + "\nMessageType: " + MessageType  + "\nSender: " + Sender + "\nText: " + Text;
 		}
 	}
 

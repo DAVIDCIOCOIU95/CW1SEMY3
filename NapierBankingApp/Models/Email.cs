@@ -13,7 +13,7 @@ namespace NapierBankingApp.Models
 
 		public override string ToString()
 		{
-			return "Header: " + Header + "\nMessageType:" + MessageType + "\nBody: " + Body + "\nSubject: " + Subject + "\nEmailType: " + EmailType;
+			return "Header: " + Header + "\nMessageType:" + MessageType  + "\nSubject: " + Subject + "\nEmailType: " + EmailType + "\nText: " + Text;
 		}
 	}
 }

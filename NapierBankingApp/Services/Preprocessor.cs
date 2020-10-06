@@ -56,42 +56,43 @@ namespace NapierBankingApp.Services
                 throw new Exception("The header can not be empty, must have length = 10 and must start with one of the following characters: S,E,T.");
             }
 
+            // Work on the body
+            var bodyArray = body.Split('|');
+            MessageBox.Show(bodyArray[0]);
+            if ((bodyArray.Length == 0))
+            {
+                throw new Exception("The body must have at least a sender specified.");
+            }
+            var sender = bodyArray[0];
+            var text = "";
+            if (bodyArray.Length >= 2)
+            {
+                text = bodyArray[1];
+            }
+
             // Preprocess sms 
             if (header[0] == 'S')
             {
                 SMS message = new SMS();
                 message.MessageType = "S";
+                if (text.Length > 140)
+                {
+                    throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
+                }
+                // Sobstitute abbreviations
+                foreach (var entry in abbreviations)
+                {
+                    text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
+                }
+                message.Text = text;
 
-                // Split the text and make sure it contains only sender and text. If text is > 140 then throw error.
-                MessageBox.Show(body);
-                var bodyArray = body.Split('|');
-                if ((bodyArray.Length == 0))
-                {
-                    throw new Exception("There was an error in the body. Please make sure to separate fields with | and that you input a sender.");
-                }
-                var sender = bodyArray[0];
-                if (bodyArray.Length >= 2)
-                {
-                    var text = bodyArray[1];
-                    if (text.Length > 140)
-                    {
-                        throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
-                    } // Sobstitute abbreviations
-                    foreach (var entry in abbreviations)
-                    {
-                        text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
-                    }
-                    message.Body = text;
-                    
-                }
                 // Clean the number
-                if (header[0] == '+')
+                // Eliminate any extra char
+                sender = sender.Replace(" ", "").Replace("  ","").Replace("_", "").Replace("-", "").Replace("#", "").Replace("*", "");
+                sender =  Regex.Match(sender, @"^\+\d{1,15}$").Value;
+                if(sender.Length == 0)
                 {
-                    sender = "+" + Regex.Match(sender, @"\d+").Value;
-                }
-                else
-                {
-                    sender = Regex.Match(sender, @"\d+").Value;
+                    throw new Exception("Your number must start with a + and must be followed by 1 or less than 15 numbers. The numbers must be consecutive.");
                 }
                 // Load the message to messageCollection
                 message.Header = header;
@@ -106,13 +107,14 @@ namespace NapierBankingApp.Services
             // Preprocess tweet
             else if (header[0] == 'T')
             {
+
             }
             serializeToJSON();
         }
         public void PreprocessFile()
         {
             // Load the file 
-            var filename = "mymessages.csv";
+            var filename = "csvmessages.txt";
             var path = Path.Combine(Environment.CurrentDirectory, filename);
             var lines = File.ReadAllLines(path);
 
@@ -130,11 +132,12 @@ namespace NapierBankingApp.Services
                         {
                             messageArray[1] = messageArray[1] + "," + messageArray[counter];
                         }
-                        
+
                     }
                 }
                 try
                 {
+                    MessageBox.Show(messageArray[0]);
                     PreprocessMessage(messageArray[0], messageArray[1]);
                 }
                 catch (Exception ex)
