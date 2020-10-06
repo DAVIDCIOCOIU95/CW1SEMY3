@@ -56,7 +56,7 @@ namespace NapierBankingApp.Services
                 throw new Exception("The header can not be empty, must have length = 10 and must start with one of the following characters: S,E,T.");
             }
 
-            // Work on the body
+            #region Body Validation: splits body into sender and text
             var bodyArray = body.Split('|');
             if ((bodyArray.Length == 0))
             {
@@ -72,8 +72,9 @@ namespace NapierBankingApp.Services
             {
                 text = bodyArray[1];
             }
+            #endregion
 
-            // Preprocess sms 
+            #region SMS
             if (header[0] == 'S')
             {
                 SMS message = new SMS();
@@ -102,30 +103,56 @@ namespace NapierBankingApp.Services
                 message.Sender = sender;
                 MessageCollection.SMSList.Add(message);
             }
-            // Preprocess email
+            #endregion
+
+            #region Email
             else if (header[0] == 'E')
             {
 
             }
-            // Preprocess tweet
+            #endregion
+
+            #region Tweet
             else if (header[0] == 'T')
             {
                 Tweet message = new Tweet();
                 message.MessageType = "T";
+
+                #region Sender
                 sender = Regex.Match(sender, @"^\@[a-zA-Z0-9_]{1,15}$").Value;
                 if (sender.Length == 0)
                 {
                     throw new Exception("Invalid sender format. Sender must start with a @ and be followed by 1 to 15 numbers and/or letters.");
                 }
+                #endregion
+
+                #region Body
+                if (text.Length > 140)
+                {
+                    throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
+                }
+                // Abbreviations replacement
                 foreach (var entry in abbreviations)
                 {
                     text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
                 }
+                // Mention and trending lists
+                MessageBox.Show(text);
+                Regex rgx = new Regex(@"\B\@\w{1,15}\b");
+                foreach (Match match in rgx.Matches(text))
+                {
+                    MessageBox.Show(match.ToString());
+                }
+
+                #endregion
+
                 message.Text = text;
                 message.Header = header;
                 message.Sender = sender;
                 MessageCollection.TweetList.Add(message);
             }
+            #endregion
+
             serializeToJSON();
         }
         public void PreprocessFile()
