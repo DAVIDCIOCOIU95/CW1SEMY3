@@ -16,14 +16,21 @@
             <Button x:Name="btnLoadFromFile" Content="Load From File" HorizontalAlignment="Left" Margin="83,322,0,0" VerticalAlignment="Top" Width="145" Click="btnLoadFromFile_Click"/>
             <Button x:Name="btnEndSession" Content="EndSession" HorizontalAlignment="Left" Margin="108,353,0,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
-        <ListView x:Name="lstViewMessages" HorizontalAlignment="Left" Height="184" Margin="402,33,0,0" VerticalAlignment="Top" Width="363">
+        <ListView x:Name="lstViewMessages" HorizontalAlignment="Left" Height="147" Margin="380,16,0,0" VerticalAlignment="Top" Width="391">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="lstViewUnloadedMessages" HorizontalAlignment="Left" Height="132" Margin="407,253,0,0" VerticalAlignment="Top" Width="332">
+        <ListView x:Name="lstViewUnloadedMessages" HorizontalAlignment="Left" Height="45" Margin="382,196,0,0" VerticalAlignment="Top" Width="385">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="lstStats" HorizontalAlignment="Left" Height="131" Margin="382,256,0,0" VerticalAlignment="Top" Width="378">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

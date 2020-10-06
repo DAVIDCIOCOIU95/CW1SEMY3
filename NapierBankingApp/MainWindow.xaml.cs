@@ -35,10 +35,18 @@ namespace NapierBankingApp
             {
                 preprocessor.PreprocessMessage(txtBoxHeader.Text, txtBoxBody.Text);
                 lstViewMessages.Items.Clear();
+                lstViewUnloadedMessages.Items.Clear();
+
                 foreach (var item in preprocessor.MessageCollection.SMSList)
                 {
                     lstViewMessages.Items.Add(item.ToString());
                 }
+                foreach (var item in preprocessor.UnloadedMessages)
+                {
+                    lstViewUnloadedMessages.Items.Add(item.ToString());
+                }
+                updateStats();
+
             }
             catch (Exception ex)
             {
@@ -70,11 +78,25 @@ namespace NapierBankingApp
                 {
                     lstViewUnloadedMessages.Items.Add(item.ToString());
                 }
+                updateStats();
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void updateStats()
+        {
+            lstStats.Items.Clear();
+            foreach (var item in preprocessor.MentionsList)
+            {
+                lstStats.Items.Add(item.ToString());
+            }
+            foreach (var item in preprocessor.TrendingList)
+            {
+                lstStats.Items.Add(item.ToString());
             }
         }
     }

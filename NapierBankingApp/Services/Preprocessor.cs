@@ -136,13 +136,34 @@ namespace NapierBankingApp.Services
                 {
                     text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
                 }
-                // Mention and trending lists
-                MessageBox.Show(text);
-                Regex rgx = new Regex(@"\B\@\w{1,15}\b");
-                foreach (Match match in rgx.Matches(text))
+               
+                // Mention and Trending lists
+                #region Match Tweet Id
+                foreach (Match match in Regex.Matches(text, @"\B\@\w{1,15}\b"))
                 {
-                    MessageBox.Show(match.ToString());
+                    if (MentionsList.ContainsKey(match.ToString()))
+                    {
+                        MentionsList[match.ToString()] += 1;
+                    } else
+                    {
+                        MentionsList.Add(match.ToString(), 1);
+                    }
+                    
                 }
+                #endregion
+                #region Match Tweet hashtag
+                foreach (Match match in Regex.Matches(text, @"\B\#\w{1,15}\b"))
+                {
+                    if (TrendingList.ContainsKey(match.ToString()))
+                    {
+                        TrendingList[match.ToString()] += 1;
+                    }
+                    else
+                    {
+                        TrendingList.Add(match.ToString(), 1);
+                    }
+                }
+                #endregion
 
                 #endregion
 
