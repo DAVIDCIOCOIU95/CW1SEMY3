@@ -22,9 +22,10 @@ namespace NapierBankingApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        Preprocessor preprocessor = new Preprocessor();
         public MainWindow()
         {
-            InitializeComponent();
+           
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -32,8 +33,12 @@ namespace NapierBankingApp
             
             try
             {
-                Preprocessor preprocessor = new Preprocessor();
                 preprocessor.PreprocessMessage(txtBoxHeader.Text, txtBoxBody.Text);
+                lstViewMessages.Items.Clear();
+                foreach (var item in preprocessor.MessageCollection.SMSList)
+                {
+                    lstViewMessages.Items.Add(item.ToString());
+                }
             }
             catch (Exception ex)
             {
@@ -41,6 +46,33 @@ namespace NapierBankingApp
             }
             
             
+
+
+        }
+
+        private void btnLoadFromFile_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                preprocessor.PreprocessFile();
+                lstViewMessages.Items.Clear();
+                lstViewUnloadedMessages.Items.Clear();
+                foreach (var item in preprocessor.MessageCollection.SMSList)
+                {
+                    lstViewMessages.Items.Add(item.ToString());
+                }
+
+                foreach (var item in preprocessor.UnloadedMessages)
+                {
+                    lstViewUnloadedMessages.Items.Add(item.ToString());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -61,75 +61,92 @@ namespace NapierBankingApp.Services
         public void PreprocessMessage(string header, string body)
         {
             header = header.ToUpper();
-            if (header.Length == 10)
+            // Validate header
+            if (header.Length != 10)
             {
-                // Preprocess sms
-                if (header[0] == 'S')
-                {
-                    SMS message = new SMS();
-                    message.MessageType = "S";
+                throw new Exception("The header can not be empty, must have length = 10 and must start with one of the following characters: S,E,T.");
+            }
 
-                    // Split the text and make sure it contains only sender and text. If text is > 140 then throw error.
-                    var bodyArray = body.Split('|');
-                    if (bodyArray.Length > 2)
-                    {
-                        throw new Exception("The body can have only 2 fields, please make sure to prepend sender and body with |.");
-                    }
-                    var sender = bodyArray[0];
+            // Preprocess sms 
+            if (header[0] == 'S')
+            {
+                SMS message = new SMS();
+                message.MessageType = "S";
+
+                // Split the text and make sure it contains only sender and text. If text is > 140 then throw error.
+                MessageBox.Show(body);
+                var bodyArray = body.Split('|');
+                if ((bodyArray.Length == 0))
+                {
+                    throw new Exception("There was an error in the body. Please make sure to separate fields with | and that you input a sender.");
+                }
+                var sender = bodyArray[0];
+                if (bodyArray.Length >= 2)
+                {
                     var text = bodyArray[1];
                     if (text.Length > 140)
                     {
                         throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
-                    }
-                    // Clean the number
-                    if (header[0] == '+')
-                    {
-                        sender = "+" + Regex.Match(sender, @"\d+").Value;
-                    }
-                    else
-                    {
-                        sender = Regex.Match(sender, @"\d+").Value;
-                    }
-                    // Sobstitute abbreviations
+                    } // Sobstitute abbreviations
                     foreach (var entry in abbreviations)
                     {
                         text = Regex.Replace(text, entry.Key, entry.Value);
                     }
-                    // Load the message to messageCollection
-                    MessageCollection.SMSList.Add(message);
+                    message.Body = text;
+                    
                 }
-                // Preprocess email
-                else if (header[0] == 'E')
+                // Clean the number
+                if (header[0] == '+')
                 {
-
+                    sender = "+" + Regex.Match(sender, @"\d+").Value;
                 }
-                // Preprocess tweet
-                else if (header[0] == 'T')
+                else
                 {
+                    sender = Regex.Match(sender, @"\d+").Value;
                 }
-                serializeToJSON();
+                // Load the message to messageCollection
+                message.Header = header;
+                message.Sender = sender;
+                MessageCollection.SMSList.Add(message);
             }
-            else
+            // Preprocess email
+            else if (header[0] == 'E')
             {
-                throw new Exception("The header can not be empty and must start with one of the following characters: S,E,T.");
+
             }
+            // Preprocess tweet
+            else if (header[0] == 'T')
+            {
+            }
+            serializeToJSON();
+
+
+
+
+
         }
         public void PreprocessFile()
         {
             // Load the file 
-            var filename = "myCsvMessages";
+            var filename = "mymessages.csv";
             var path = Path.Combine(Environment.CurrentDirectory, filename);
             var lines = File.ReadAllLines(path);
 
+            // Clear the error log so we can have fresh log
+            UnloadedMessages.Clear();
             // Get message line by line and preprocess it
             foreach (var line in lines)
             {
                 var messageArray = line.Split(',');
                 if (messageArray.Length > 2)
                 {
-                    for (int counter = 1; counter < messageArray.Length; counter++)
+                    for (int counter = 2; counter < messageArray.Length; counter++)
                     {
-                        messageArray[1] = messageArray[1] + "," + messageArray[counter];
+                        if (!string.IsNullOrWhiteSpace(messageArray[counter]))
+                        {
+                            messageArray[1] = messageArray[1] + "," + messageArray[counter];
+                        }
+                        
                     }
                 }
                 try
