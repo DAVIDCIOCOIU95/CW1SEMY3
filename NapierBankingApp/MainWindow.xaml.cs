@@ -25,26 +25,16 @@ namespace NapierBankingApp
         Preprocessor preprocessor = new Preprocessor();
         public MainWindow()
         {
-           
+            InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
             try
             {
                 preprocessor.PreprocessMessage(txtBoxHeader.Text, txtBoxBody.Text);
-                lstViewMessages.Items.Clear();
-                lstViewUnloadedMessages.Items.Clear();
-
-                foreach (var item in preprocessor.MessageCollection.SMSList)
-                {
-                    lstViewMessages.Items.Add(item.ToString());
-                }
-                foreach (var item in preprocessor.UnloadedMessages)
-                {
-                    lstViewUnloadedMessages.Items.Add(item.ToString());
-                }
+                updateMessages();
+                updateUnloadedMessages();
                 updateStats();
 
             }
@@ -52,10 +42,6 @@ namespace NapierBankingApp
             {
                 MessageBox.Show(ex.Message);
             }
-            
-            
-
-
         }
 
         private void btnLoadFromFile_Click(object sender, RoutedEventArgs e)
@@ -63,21 +49,8 @@ namespace NapierBankingApp
             try
             {
                 preprocessor.PreprocessFile();
-                lstViewMessages.Items.Clear();
-                lstViewUnloadedMessages.Items.Clear();
-                foreach (var item in preprocessor.MessageCollection.SMSList)
-                {
-                    lstViewMessages.Items.Add(item.ToString());
-                }
-                foreach (var item in preprocessor.MessageCollection.TweetList)
-                {
-                    lstViewMessages.Items.Add(item.ToString());
-                }
-
-                foreach (var item in preprocessor.UnloadedMessages)
-                {
-                    lstViewUnloadedMessages.Items.Add(item.ToString());
-                }
+                updateMessages();
+                updateUnloadedMessages();
                 updateStats();
 
             }
@@ -97,6 +70,26 @@ namespace NapierBankingApp
             foreach (var item in preprocessor.TrendingList)
             {
                 lstStats.Items.Add(item.ToString());
+            }
+        }
+        public void updateMessages()
+        {
+            lstViewMessages.Items.Clear();
+            foreach (var item in preprocessor.MessageCollection.SMSList)
+            {
+                lstViewMessages.Items.Add(item.ToString());
+            }
+            foreach (var item in preprocessor.MessageCollection.TweetList)
+            {
+                lstViewMessages.Items.Add(item.ToString());
+            }
+        }
+        public void updateUnloadedMessages()
+        {
+            lstViewUnloadedMessages.Items.Clear();
+            foreach (var item in preprocessor.UnloadedMessages)
+            {
+                lstViewUnloadedMessages.Items.Add(item.ToString());
             }
         }
     }

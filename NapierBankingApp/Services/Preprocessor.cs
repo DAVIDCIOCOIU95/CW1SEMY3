@@ -12,9 +12,14 @@ using System.Text.Json.Serialization;
 
 namespace NapierBankingApp.Services
 {
+    /// <summary>
+    /// A preprocessor class. Allows to preprocess messages and files of messages, serializing them to a JSON file.
+    /// All the preprocessed messages are in the message collection.
+    /// Retains 3 type of lists: trending, mentions, SIR.
+    /// An unloaded message list is retained for the massages which failed to be serialized.
+    /// </summary>
     public class Preprocessor
     {
-
         public Dictionary<string, int> TrendingList { get; private set; }
         public Dictionary<string, int> MentionsList { get; private set; }
         public Dictionary<string, Dictionary<string, int>> SirList { get; private set; }
@@ -49,19 +54,25 @@ namespace NapierBankingApp.Services
 
         public void PreprocessMessage(string header, string body)
         {
+            #region Header validation
             header = header.ToUpper();
-            // Validate header
             if (header.Length != 10)
             {
-                throw new Exception("The header can not be empty, must have length = 10 and must start with one of the following characters: S,E,T.");
+                throw new Exception("The header must have a length of 10 and start with S, E or T");
             }
+            if (header[0] != 'S' || header[0] != 'E' || header[0] != 'T')
+            {
+                throw new Exception("Incorrect header type. Make sure you start your header with: S, E or T.");
+            }
+            #endregion
 
-            #region Body Validation: splits body into sender and text
+            #region Body Validation, Split body into: sender, text
             var bodyArray = body.Split('|');
             if ((bodyArray.Length == 0))
             {
                 throw new Exception("The body must have at least a sender specified.");
             }
+
             var sender = bodyArray[0];
             if (sender.Length == 0)
             {
@@ -74,118 +85,123 @@ namespace NapierBankingApp.Services
             }
             #endregion
 
-            #region SMS
             if (header[0] == 'S')
-            {
-                SMS message = new SMS();
-                message.MessageType = "S";
-                if (text.Length > 140)
-                {
-                    throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
-                }
-                // Sobstitute abbreviations
-                foreach (var entry in abbreviations)
-                {
-                    text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
-                }
-                message.Text = text;
-
-                // Clean the number
-                // Eliminate any extra char
-                sender = sender.Replace(" ", "").Replace("  ", "").Replace("_", "").Replace("-", "").Replace("#", "").Replace("*", "");
-                sender = Regex.Match(sender, @"^\+\d{1,15}$").Value;
-                if (sender.Length == 0)
-                {
-                    throw new Exception("Invalid sender format. Sender must start with a + and be followed by 1 to 15 numbers.");
-                }
-                // Load the message to messageCollection
-                message.Header = header;
-                message.Sender = sender;
-                MessageCollection.SMSList.Add(message);
-            }
-            #endregion
-
-            #region Email
+            { PreprocessSMS(header, sender, text); }
             else if (header[0] == 'E')
-            {
-
-            }
-            #endregion
-
-            #region Tweet
+            { PreprocessEmail(header, sender, text); }
             else if (header[0] == 'T')
-            {
-                Tweet message = new Tweet();
-                message.MessageType = "T";
-
-                #region Sender
-                sender = Regex.Match(sender, @"^\@[a-zA-Z0-9_]{1,15}$").Value;
-                if (sender.Length == 0)
-                {
-                    throw new Exception("Invalid sender format. Sender must start with a @ and be followed by 1 to 15 numbers and/or letters.");
-                }
-                #endregion
-
-                #region Body
-                if (text.Length > 140)
-                {
-                    throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
-                }
-                // Abbreviations replacement
-                foreach (var entry in abbreviations)
-                {
-                    text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
-                }
-               
-                // Mention and Trending lists
-                #region Match Tweet Id
-                foreach (Match match in Regex.Matches(text, @"\B\@\w{1,15}\b"))
-                {
-                    if (MentionsList.ContainsKey(match.ToString()))
-                    {
-                        MentionsList[match.ToString()] += 1;
-                    } else
-                    {
-                        MentionsList.Add(match.ToString(), 1);
-                    }
-                    
-                }
-                #endregion
-                #region Match Tweet hashtag
-                foreach (Match match in Regex.Matches(text, @"\B\#\w{1,15}\b"))
-                {
-                    if (TrendingList.ContainsKey(match.ToString()))
-                    {
-                        TrendingList[match.ToString()] += 1;
-                    }
-                    else
-                    {
-                        TrendingList.Add(match.ToString(), 1);
-                    }
-                }
-                #endregion
-
-                #endregion
-
-                message.Text = text;
-                message.Header = header;
-                message.Sender = sender;
-                MessageCollection.TweetList.Add(message);
-            }
-            #endregion
+            { PreprocessTweet(header, sender, text); }
 
             serializeToJSON();
         }
+
+        private void PreprocessEmail(string header, string sender, string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Message PreprocessTweet(string header, string sender, string text)
+        {
+            Tweet message = new Tweet();
+           
+            // Validate sender
+            sender = Regex.Match(sender, @"^\@[a-zA-Z0-9_]{1,15}$").Value;
+            if (sender.Length == 0)
+            {
+                throw new Exception("Invalid sender format. Sender must start with a @ and be followed by 1 to 15 numbers and/or letters.");
+            }
+            
+            // Validate Text
+            if (text.Length > 140)
+            {
+                throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
+            }
+
+            // Abbreviations replacement
+            foreach (var entry in abbreviations)
+            {
+                text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
+            }
+
+            // Add to Mention list
+            foreach (Match match in Regex.Matches(text, @"\B\@\w{1,15}\b"))
+            {
+                if (MentionsList.ContainsKey(match.ToString()))
+                {
+                    MentionsList[match.ToString()] += 1;
+                }
+                else
+                {
+                    MentionsList.Add(match.ToString(), 1);
+                }
+            }
+          
+            // Add to Trending list
+            foreach (Match match in Regex.Matches(text, @"\B\#\w{1,15}\b"))
+            {
+                if (TrendingList.ContainsKey(match.ToString()))
+                {
+                    TrendingList[match.ToString()] += 1;
+                }
+                else
+                {
+                    TrendingList.Add(match.ToString(), 1);
+                }
+            }
+            
+            // Set up message fields and load to the list of preprocessed messages
+            message.Header = header;
+            message.MessageType = "T";
+            message.Sender = sender;
+            message.Text = text;
+            MessageCollection.TweetList.Add(message);
+            return message;
+        }
+
+        private Message PreprocessSMS(string header, string sender, string text)
+        {
+            SMS message = new SMS();
+
+            // Check text length is max 140 chars
+            if (text.Length > 140)
+            {
+                throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
+            }
+
+            // Sobstitute abbreviations
+            foreach (var entry in abbreviations)
+            {
+                text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
+            }
+
+            // Clean the number from any extra char
+            sender = sender.Replace(" ", "").Replace("  ", "").Replace("_", "").Replace("-", "").Replace("#", "").Replace("*", "");
+
+            // Check the sender is in the correct format: @ followed by 15 numbers
+            sender = Regex.Match(sender, @"^\+\d{1,15}$").Value;
+            if (sender.Length == 0)
+            {
+                throw new Exception("Invalid sender format. Sender must start with a + and be followed by 1 to 15 numbers.");
+            }
+
+            // Assign the fields in the message and load it to message collection
+            message.Header = header;
+            message.MessageType = "S";
+            message.Sender = sender;
+            message.Text = text;
+
+            MessageCollection.SMSList.Add(message);
+            return message;
+        }
         public void PreprocessFile()
         {
-            // Load the file 
+            #region Load File
             var filename = "csvmessages.txt";
             var path = Path.Combine(Environment.CurrentDirectory, filename);
             var lines = File.ReadAllLines(path);
+            #endregion
 
-            // Clear the error log so we can have fresh log
-            UnloadedMessages.Clear();
-            // Get message line by line and preprocess it
+            #region Split Lines and Preprocess
             foreach (var line in lines)
             {
                 var messageArray = line.Split(',');
@@ -197,7 +213,6 @@ namespace NapierBankingApp.Services
                         {
                             messageArray[1] = messageArray[1] + "," + messageArray[counter];
                         }
-
                     }
                 }
                 try
@@ -210,6 +225,7 @@ namespace NapierBankingApp.Services
                 }
 
             }
+            #endregion
         }
 
         private void serializeToJSON()
