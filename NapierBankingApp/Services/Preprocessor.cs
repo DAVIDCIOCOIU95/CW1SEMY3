@@ -62,6 +62,70 @@ namespace NapierBankingApp.Services
             }
             #endregion
 
+            if (header[0] == 'S')
+            { PreprocessSMS(header, body); }
+            else if (header[0] == 'E')
+            { PreprocessEmail(header, body); }
+            else if (header[0] == 'T')
+            { PreprocessTweet(header, body); }
+            else
+            { throw new Exception("Incorrect header type. Make sure you start your header with: S, E or T."); }
+
+            serializeToJSON();
+        }
+        private void PreprocessEmail(string header, string body)
+        {
+            #region Body Validation, Split body into: sender, subject, text
+            var bodyArray = body.Split('|');
+            if ((bodyArray.Length == 0))
+            {
+                throw new Exception("The body must have at least a sender specified.");
+            }
+            if(bodyArray.Length < 2)
+            {
+                throw new Exception("The body must have a subject specified.");
+            }
+            #endregion
+            Email message = new Email();
+
+            #region Validate sender
+            var sender = bodyArray[0];
+            if (sender.Length == 0)
+            {
+                throw new Exception("You must have a sender.");
+            }
+            sender = Regex.Match(sender, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z").Value;
+            if (sender.Length == 0)
+            {
+                throw new Exception("Invalid sender format. Sender must start with a @ and be followed by 1 to 15 numbers and/or letters.");
+            }
+            #endregion
+
+            #region Validate Subject
+            if(String.IsNullOrWhiteSpace(bodyArray[1]))
+            {
+                throw new Exception("The subject can not be empty.");
+            }
+            var subject = bodyArray[1];
+            if(Regex.IsMatch(bodyArray[1], @"^SIR\d{1,2}/\d{1,2}/\d{4}$") || Regex.IsMatch(bodyArray[1], @"^SIR \d{1,2}/\d{1,2}/\d{4}$"))
+            {
+                subject = Regex.Match(bodyArray[1], @"^SIR\d{1,2}/\d{1,2}/\d{4}$").Value;
+            }
+            #endregion
+
+            // Validate Text
+            var text = "";
+            if (bodyArray.Length >= 3)
+            {
+                text = bodyArray[2];
+            }
+            if (text.Length > 1028)
+            {
+                throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
+            }
+        }
+        private void PreprocessTweet(string header, string body)
+        {
             #region Body Validation, Split body into: sender, text
             var bodyArray = body.Split('|');
             if ((bodyArray.Length == 0))
@@ -80,48 +144,31 @@ namespace NapierBankingApp.Services
                 text = bodyArray[1];
             }
             #endregion
-
-            if (header[0] == 'S')
-            { PreprocessSMS(header, sender, text); }
-            else if (header[0] == 'E')
-            { PreprocessEmail(header, sender, text); }
-            else if (header[0] == 'T')
-            { PreprocessTweet(header, sender, text); }
-            else
-            { throw new Exception("Incorrect header type. Make sure you start your header with: S, E or T."); }
-
-            serializeToJSON();
-        }
-
-        private void PreprocessEmail(string header, string sender, string text)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Message PreprocessTweet(string header, string sender, string text)
-        {
             Tweet message = new Tweet();
 
-            // Validate sender
+            #region Validate Sender
             sender = Regex.Match(sender, @"^\@[a-zA-Z0-9_]{1,15}$").Value;
             if (sender.Length == 0)
             {
                 throw new Exception("Invalid sender format. Sender must start with a @ and be followed by 1 to 15 numbers and/or letters.");
             }
+            #endregion
 
-            // Validate Text
+            #region Validate Text
             if (text.Length > 140)
             {
                 throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
             }
+            #endregion
 
-            // Abbreviations replacement
+            #region Abbreviations replacement
             foreach (var entry in abbreviations)
             {
                 text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
             }
+            #endregion
 
-            // Add to Mention list
+            #region Add to Mention list
             foreach (Match match in Regex.Matches(text, @"\B\@\w{1,15}\b"))
             {
                 if (MentionsList.ContainsKey(match.ToString()))
@@ -133,8 +180,9 @@ namespace NapierBankingApp.Services
                     MentionsList.Add(match.ToString(), 1);
                 }
             }
+            #endregion
 
-            // Add to Trending list
+            #region Add to Trending list
             foreach (Match match in Regex.Matches(text, @"\B\#\w{1,15}\b"))
             {
                 if (TrendingList.ContainsKey(match.ToString()))
@@ -146,33 +194,51 @@ namespace NapierBankingApp.Services
                     TrendingList.Add(match.ToString(), 1);
                 }
             }
+            #endregion
 
-            // Set up message fields and load to the list of preprocessed messages
             message.Header = header;
             message.MessageType = "T";
             message.Sender = sender;
             message.Text = text;
             MessageCollection.TweetList.Add(message);
-            return message;
         }
-
-        private Message PreprocessSMS(string header, string sender, string text)
+        private void PreprocessSMS(string header, string body)
         {
+            #region Body Validation, Split body into: sender, text
+            var bodyArray = body.Split('|');
+            if ((bodyArray.Length == 0))
+            {
+                throw new Exception("The body must have at least a sender specified.");
+            }
+
+            var sender = bodyArray[0];
+            if (sender.Length == 0)
+            {
+                throw new Exception("You must have a sender.");
+            }
+            var text = "";
+            if (bodyArray.Length >= 2)
+            {
+                text = bodyArray[1];
+            }
+            #endregion
             SMS message = new SMS();
 
-            // Check text length is max 140 chars
+            #region Check text length is max 140 chars
             if (text.Length > 140)
             {
                 throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
             }
+            #endregion
 
-            // Sobstitute abbreviations
+            #region Sobstitute abbreviations
             foreach (var entry in abbreviations)
             {
                 text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
             }
+            #endregion
 
-            // Clean the number from any extra char
+            #region Sender Validation
             sender = sender.Replace(" ", "").Replace("  ", "").Replace("_", "").Replace("-", "").Replace("#", "").Replace("*", "");
 
             // Check the sender is in the correct format: @ followed by 15 numbers
@@ -181,15 +247,13 @@ namespace NapierBankingApp.Services
             {
                 throw new Exception("Invalid sender format. Sender must start with a + and be followed by 1 to 15 numbers.");
             }
+            #endregion
 
-            // Assign the fields in the message and load it to message collection
             message.Header = header;
             message.MessageType = "S";
             message.Sender = sender;
             message.Text = text;
-
             MessageCollection.SMSList.Add(message);
-            return message;
         }
         public void PreprocessFile()
         {
@@ -225,13 +289,11 @@ namespace NapierBankingApp.Services
             }
             #endregion
         }
-
         private void serializeToJSON()
         {
             string jsonString = JsonSerializer.Serialize(MessageCollection);
             File.WriteAllText("myMessages", jsonString);
         }
-
     }
 }
 
