@@ -60,10 +60,6 @@ namespace NapierBankingApp.Services
             {
                 throw new Exception("The header must have a length of 10 and start with S, E or T");
             }
-            if (header[0] != 'S' || header[0] != 'E' || header[0] != 'T')
-            {
-                throw new Exception("Incorrect header type. Make sure you start your header with: S, E or T.");
-            }
             #endregion
 
             #region Body Validation, Split body into: sender, text
@@ -91,6 +87,8 @@ namespace NapierBankingApp.Services
             { PreprocessEmail(header, sender, text); }
             else if (header[0] == 'T')
             { PreprocessTweet(header, sender, text); }
+            else
+            { throw new Exception("Incorrect header type. Make sure you start your header with: S, E or T."); }
 
             serializeToJSON();
         }
@@ -103,14 +101,14 @@ namespace NapierBankingApp.Services
         private Message PreprocessTweet(string header, string sender, string text)
         {
             Tweet message = new Tweet();
-           
+
             // Validate sender
             sender = Regex.Match(sender, @"^\@[a-zA-Z0-9_]{1,15}$").Value;
             if (sender.Length == 0)
             {
                 throw new Exception("Invalid sender format. Sender must start with a @ and be followed by 1 to 15 numbers and/or letters.");
             }
-            
+
             // Validate Text
             if (text.Length > 140)
             {
@@ -135,7 +133,7 @@ namespace NapierBankingApp.Services
                     MentionsList.Add(match.ToString(), 1);
                 }
             }
-          
+
             // Add to Trending list
             foreach (Match match in Regex.Matches(text, @"\B\#\w{1,15}\b"))
             {
@@ -148,7 +146,7 @@ namespace NapierBankingApp.Services
                     TrendingList.Add(match.ToString(), 1);
                 }
             }
-            
+
             // Set up message fields and load to the list of preprocessed messages
             message.Header = header;
             message.MessageType = "T";
