@@ -81,7 +81,7 @@ namespace NapierBankingApp.Services
             {
                 throw new Exception("The body must have at least a sender specified.");
             }
-            if(bodyArray.Length < 2)
+            if (bodyArray.Length < 2)
             {
                 throw new Exception("The body must have a subject specified.");
             }
@@ -89,40 +89,39 @@ namespace NapierBankingApp.Services
             Email message = new Email();
 
             #region Validate sender
-            var sender = bodyArray[0];
-            if (sender.Length == 0)
+            if (bodyArray[0].Length == 0) { throw new Exception("You must have a sender."); }
+            var emailRegex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+            if (Regex.IsMatch(bodyArray[0], emailRegex))
             {
-                throw new Exception("You must have a sender.");
+                message.Sender = Regex.Match(bodyArray[0], emailRegex).Value;
             }
-            sender = Regex.Match(sender, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z").Value;
-            if (sender.Length == 0)
+            else {  throw new Exception("Invalid sender format"); }
+            if (bodyArray[0].Length == 0)
             {
-                throw new Exception("Invalid sender format. Sender must start with a @ and be followed by 1 to 15 numbers and/or letters.");
+                
             }
             #endregion
 
             #region Validate Subject
-            if(String.IsNullOrWhiteSpace(bodyArray[1]))
+            if (string.IsNullOrWhiteSpace(bodyArray[1])) { throw new Exception("The subject can not be empty."); }
+            if (Regex.IsMatch(bodyArray[1], @"^SIR\d{1,2}/\d{1,2}/\d{4}$") || Regex.IsMatch(bodyArray[1], @"^SIR \d{1,2}/\d{1,2}/\d{4}$"))
             {
-                throw new Exception("The subject can not be empty.");
-            }
-            var subject = bodyArray[1];
-            if(Regex.IsMatch(bodyArray[1], @"^SIR\d{1,2}/\d{1,2}/\d{4}$") || Regex.IsMatch(bodyArray[1], @"^SIR \d{1,2}/\d{1,2}/\d{4}$"))
-            {
-                subject = Regex.Match(bodyArray[1], @"^SIR\d{1,2}/\d{1,2}/\d{4}$").Value;
+                message.Subject = Regex.Match(bodyArray[1], @"^SIR\d{1,2}/\d{1,2}/\d{4}$").Value;
             }
             #endregion
 
-            // Validate Text
+            #region  Validate Text
             var text = "";
             if (bodyArray.Length >= 3)
             {
+                if (bodyArray[2].Length > 1028) { throw new Exception("The text length contains" + bodyArray[2].Length + " characters.\nThe max characters allowed is: 140."); }
+                // sobstitue trings
                 text = bodyArray[2];
             }
-            if (text.Length > 1028)
-            {
-                throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
-            }
+
+
+            #endregion
+
         }
         private void PreprocessTweet(string header, string body)
         {
@@ -292,7 +291,8 @@ namespace NapierBankingApp.Services
         private void serializeToJSON()
         {
             string jsonString = JsonSerializer.Serialize(MessageCollection);
-            File.WriteAllText("myMessages", jsonString);
+           
+            File.AppendAllText("myMessages", jsonString);
         }
     }
 }

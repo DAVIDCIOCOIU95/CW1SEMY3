@@ -7,18 +7,12 @@ using System.Threading.Tasks;
 
 namespace NapierBankingApp.Models
 {
-	public class Message
+	public abstract class Message
 	{
-		public string Header { get; set; }
-		public string Sender { get; set; }
-		public string MessageType { get; set; }
-		public string Text { get; set; }
-		
-
-		public override string ToString()
-		{
-			return "Header: " + Header + "\nMessageType: " + MessageType  + "\nSender: " + Sender + "\nText: " + Text;
-		}
+		public abstract string MessageType { get; }
+		public abstract string Header { get; set; }
+		public abstract string Sender { get; set; }
+		public abstract string Text { get; set; }
 	}
 
 	
