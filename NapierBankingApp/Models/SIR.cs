@@ -17,12 +17,16 @@ namespace NapierBankingApp.Models
         private string _sortCode;
         private string _incidentType;
 
-        public SIR(string header, string sender, string text)
+        public SIR(string header, string sender, string text, string subject, string emailType, string sortCode, string incidentType)
         {
             _messageType = "SIR";
             _header = header;
             _sender = sender;
             _text = text;
+            _subject = subject;
+            _emailType = emailType;
+            _sortCode = sortCode;
+            _incidentType = incidentType;
         }
 
         public override string MessageType { get { return _messageType; } }
