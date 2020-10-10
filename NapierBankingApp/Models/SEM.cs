@@ -15,6 +15,11 @@ namespace NapierBankingApp.Models
         private string _subject;
         private string _emailType;
 
+        public SEM()
+        {
+            _messageType = "SEM";
+        }
+
         public SEM(string header, string sender, string text, string subject, string emailType)
         {
             _messageType = "SEM";

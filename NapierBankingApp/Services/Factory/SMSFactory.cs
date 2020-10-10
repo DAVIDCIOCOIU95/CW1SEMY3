@@ -13,12 +13,6 @@ namespace NapierBankingApp.Services.Factory
         private string _sender;
         private string _text;
 
-        public string Text
-        {
-            get { return _text; }
-            set { _text = value; }
-        }
-
         /// <summary>
         /// Creates an SMSFactory only if the validation has been successful
         /// </summary>

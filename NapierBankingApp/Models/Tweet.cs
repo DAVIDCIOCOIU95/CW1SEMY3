@@ -13,6 +13,10 @@ namespace NapierBankingApp.Models
         private string _sender;
         private string _text;
 
+        public Tweet()
+        {
+            _messageType = "Tweet";
+        }
         public Tweet(string header, string sender, string text)
         {
             _messageType = "Tweet";

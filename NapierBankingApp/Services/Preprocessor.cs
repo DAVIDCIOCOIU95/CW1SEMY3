@@ -16,12 +16,6 @@ using System.Windows.Navigation;
 
 namespace NapierBankingApp.Services
 {
-    /// <summary>
-    /// A preprocessor class. Allows to preprocess messages and files of messages, serializing them to a JSON file.
-    /// All the preprocessed messages are in the message collection.
-    /// Retains 3 type of lists: trending, mentions, SIR.
-    /// An unloaded message list is retained for the massages which failed to be serialized.
-    /// </summary>
     public class Preprocessor
     {
         public Dictionary<string, int> TrendingList { get; private set; }
@@ -29,8 +23,8 @@ namespace NapierBankingApp.Services
         public Dictionary<string, Dictionary<string, int>> SirList { get; private set; }
         public MessageCollection MessageCollection { get; private set; }
         public List<string> UnloadedMessages { get; private set; }
-        private Dictionary<string, string> abbreviations;
 
+        private Dictionary<string, string> abbreviations;
 
         Database database = new Database("myMessage");
 
@@ -45,39 +39,116 @@ namespace NapierBankingApp.Services
             LoadAbbreviations();
         }
 
-        private void LoadAbbreviations()
+        #region Parsers
+        /// <summary>
+        /// Parses a csv file line by line to get a list of field. Each field is in the form of a string[].
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns>A list of fields.</returns>
+        public List<string[]> ParseCsvFile(string filename)
         {
-            // Loading abbreviations file
-            var filename = "textwords.csv";
             var path = Path.Combine(Environment.CurrentDirectory, filename);
-            var lines = File.ReadAllLines(path);
+            TextFieldParser parser = new TextFieldParser(path);
+            parser.HasFieldsEnclosedInQuotes = true;
+            parser.SetDelimiters(",");
 
-            foreach (string line in lines)
+            List<string[]> fields = new List<string[]>();
+            while (!parser.EndOfData)
             {
-                var abbreviation = line.Split(',');
-                abbreviations.Add(abbreviation[0], abbreviation[1]);
+                fields.Add(parser.ReadFields());
+            }
+            parser.Close();
+            return fields;
+        }
+
+
+        /// <summary>
+        /// Separates a block of text into fields. A delimiter can be set.
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="delimiter"></param>
+        /// <param name="hasQuotes"></param>
+        /// <returns>A list of strings containing all the fields.</returns>
+        public List<string> ParseBody(string body, string delimiter, bool hasQuotes)
+        {
+            TextFieldParser parser = new TextFieldParser(body);
+            parser.HasFieldsEnclosedInQuotes = hasQuotes;
+            parser.SetDelimiters(delimiter);
+
+            List<string> fields = new List<string>();
+            while (!parser.EndOfData)
+            {
+                var line = parser.ReadFields();
+                foreach (var field in line)
+                {
+                    fields.Add(field);
+                }
+            }
+            parser.Close();
+            return fields;
+        }
+        #endregion
+
+        #region Validators
+        public void validateHeader(string header)
+        {
+            if (header.Length != 10)
+            {
+                header = header.ToUpper();
+                throw new Exception("The header must have a length of 10.");
+            }
+            if (header[0].ToString() != Regex.Match(header, @"[SET]").Value)
+            {
+                throw new Exception("The header must start with S, E or T");
+            }
+            if (header != Regex.Match(header, @"[SET]\d+").Value)
+            {
+                throw new Exception("The header type must be followed by only numeric characters.");
             }
         }
-
-        public void PreprocessMessage(string header, string body)
+        private Message ValidateSMS(string header, string body)
         {
-            MessageFactory messageFactory = null;
-            if (header[0] == 'S')
-                messageFactory = new SMSFactory(header, body);
-            else if (header[0] == 'E')
+            var fields = ParseBody(body, ",", true);
+            #region Sender Validation
+            if ((fields.Count == 0))
+            {
+                throw new Exception("The body must have at least a sender specified.");
+            }
+            // Allow for special chars in the sender and remove them
+            fields[0] = fields[0].Replace(" ", "").Replace("  ", "").Replace("_", "").Replace("-", "").Replace("#", "").Replace("*", "");
 
+            // Check the sender is in the correct format: + followed by 15 numbers
+            var senderRegex = @"^\+\d{1,15}$";
+            if (fields[0] != Regex.Match(fields[0], senderRegex).Value)
+            {
+                throw new Exception("Invalid sender type. Please make sure the sender starts with + and is followed by maximum 15 numbers.");
+            }
 
-            else if (header[0] == 'T')
-                        messageFactory = new SMSFactory(header, body);
+            #endregion
+            #region Text Validation
+            var text = "";
+            if (fields.Count > 1)
+            {
+                #region Check text length is max 140 chars
+                if (text.Length > 140)
+                {
+                    throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
+                }
+                #endregion
+                text = fields[1];
+            }
+            #endregion
 
-                    else
-                    { throw new Exception("Incorrect header type. Make sure you start your header with: S, E or T."); }
-
-
-            database.serializeToJSON(MessageCollection);
+            return new SMS(header, fields[0], text);
         }
 
-        private void PreprocessTweet(string header, string body)
+        private void ValidateTweet();
+        private void ValidateSIR();
+        #endregion
+
+        #region Preprocessors
+        
+        private Message PreprocessTweet(string header, string body)
         {
             #region Body Validation, Split body into: sender, text
             var bodyArray = body.Split('|');
@@ -154,8 +225,10 @@ namespace NapierBankingApp.Services
             message.Sender = sender;
             message.Text = text;
             MessageCollection.TweetList.Add(message);
+
+            return new Tweet();
         }
-        private void PreprocessEmail(string header, string body)
+        private Message PreprocessEmail(string header, string body)
         {
             #region Body Validation, Split body into: sender, subject, text
             var bodyArray = body.Split('|');
@@ -203,59 +276,36 @@ namespace NapierBankingApp.Services
 
 
             #endregion
-
+            return new Email();
         }
-        private void PreprocessSMS(string header, string body)
+        private Message PreprocessSMS(string header, string body)
         {
-            MessageFactory factory = ValidateSMS(header, body);
+            Message message = ValidateSMS(header, body);
+            message.Text = SobstituteAbbreviations(message.Text);
+            return message;
         }
-
-        public MessageFactory SobstituteAbbreviations(string text)
+        public void PreprocessMessage(string header, string body)
         {
-            foreach (var entry in abbreviations)
+            Message message;
+            validateHeader(header);
+            switch (header[0])
             {
-                text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
+                case 'S':
+                    message = PreprocessSMS(header, body);
+                    break;
+                case 'E':
+                    break;
+                case 'T':
+                    break;
+                default:
+                    throw new Exception("Incorrect message type");
             }
+
+            { ); }
+
+
+            database.serializeToJSON(MessageCollection);
         }
-
-        private MessageFactory ValidateSMS(string header, string body)
-        {
-            var fields = ParseBody(body, ",", true);
-            #region Sender Validation
-            if ((fields.Count == 0))
-            {
-                throw new Exception("The body must have at least a sender specified.");
-            }
-            // Allow for special chars in the sender and remove them
-            fields[0] = fields[0].Replace(" ", "").Replace("  ", "").Replace("_", "").Replace("-", "").Replace("#", "").Replace("*", "");
-
-            // Check the sender is in the correct format: + followed by 15 numbers
-            var senderRegex = @"^\+\d{1,15}$";
-            if(fields[0] != Regex.Match(fields[0], senderRegex).Value)
-            {
-                throw new Exception("Invalid sender type. Please make sure the sender starts with + and is followed by maximum 15 numbers.");
-            }
-
-            #endregion
-            #region Text Validation
-            var text = "";
-            if (fields.Count > 1)
-            {
-                #region Check text length is max 140 chars
-                if (text.Length > 140)
-                {
-                    throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
-                }
-                #endregion
-                text = fields[1];
-            }
-            #endregion
-
-            return new SMSFactory(header, fields[0], text);
-        }
-
-        private void ValidateTweet();
-        private void ValidateSIR();
         public void PreprocessFile()
         {
             List<string[]> lines = ParseCsvFile("rawmessages.txt");
@@ -281,7 +331,7 @@ namespace NapierBankingApp.Services
 
                 if (line[0][0] == 'S')
                 {
-                    
+
                 }
 
                 foreach (var field in line)
@@ -299,72 +349,33 @@ namespace NapierBankingApp.Services
             }
 
         }
+        #endregion
 
-        /// <summary>
-        /// Parses a csv file line by line to get a list of field. Each field is in the form of a string[].
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns>A list of fields.</returns>
-        public List<string[]> ParseCsvFile(string filename)
+
+        private void LoadAbbreviations()
         {
+            // Loading abbreviations file
+            var filename = "textwords.csv";
             var path = Path.Combine(Environment.CurrentDirectory, filename);
-            TextFieldParser parser = new TextFieldParser(path);
-            parser.HasFieldsEnclosedInQuotes = true;
-            parser.SetDelimiters(",");
+            var lines = File.ReadAllLines(path);
 
-            List<string[]> fields = new List<string[]>();
-            while (!parser.EndOfData)
+            foreach (string line in lines)
             {
-                fields.Add(parser.ReadFields());
+                var abbreviation = line.Split(',');
+                abbreviations.Add(abbreviation[0], abbreviation[1]);
             }
-            parser.Close();
-            return fields;
         }
-
-
-        /// <summary>
-        /// Separates a block of text into fields. A delimiter can be set.
-        /// </summary>
-        /// <param name="body"></param>
-        /// <param name="delimiter"></param>
-        /// <param name="hasQuotes"></param>
-        /// <returns>A list of strings containing all the fields.</returns>
-        public List<string> ParseBody(string body, string delimiter, bool hasQuotes)
+        public string SobstituteAbbreviations(string text)
         {
-            TextFieldParser parser = new TextFieldParser(body);
-            parser.HasFieldsEnclosedInQuotes = hasQuotes;
-            parser.SetDelimiters(delimiter);
-
-            List<string> fields = new List<string>();
-            while (!parser.EndOfData)
+            foreach (var entry in abbreviations)
             {
-                var line = parser.ReadFields();
-                foreach(var field in line)
-                {
-                    fields.Add(field);
-                }
+                text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
             }
-            parser.Close();
-            return fields;
+            return text;
         }
 
-        // Validators
-        public void validateHeader(string header)
-        {
-            if (header.Length != 10)
-            {
-                header = header.ToUpper();
-                throw new Exception("The header must have a length of 10.");
-            }
-            if (header[0].ToString() != Regex.Match(header, @"[SET]").Value)
-            {
-                throw new Exception("The header must start with S, E or T");
-            }
-            if (header != Regex.Match(header, @"[SET]\d+").Value)
-            {
-                throw new Exception("The header type must be followed by only numeric characters.");
-            }
-        }
+       
+       
 
     }
 }

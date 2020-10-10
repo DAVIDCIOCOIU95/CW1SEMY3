@@ -15,6 +15,11 @@ namespace NapierBankingApp.Models
         private string _sender;
         private string _text;
 
+        public SMS()
+        {
+            _messageType = "SMS";
+        }
+
         public SMS(string header, string sender, string text)
         {
             _messageType = "SMS";
