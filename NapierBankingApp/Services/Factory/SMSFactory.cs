@@ -5,15 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using NapierBankingApp.Models;
 
-namespace NapierBankingApp.Services.MessageFactory
+namespace NapierBankingApp.Services.Factory
 {
-    class SEMFactory: MessageFactory
+    class SMSFactory : MessageFactory
     {
         private string _header;
         private string _sender;
         private string _text;
-        private string _subject;
-        private string _emailType;
+
+        public string Text
+        {
+            get { return _text; }
+            set { _text = value; }
+        }
 
         /// <summary>
         /// Creates an SMSFactory only if the validation has been successful
@@ -21,18 +25,16 @@ namespace NapierBankingApp.Services.MessageFactory
         /// <param name="header"></param>
         /// <param name="sender"></param>
         /// <param name="text"></param>
-        public SEMFactory(string header, string body)
+        public SMSFactory(string header, string sender, string text)
         {
-            // Call the validation methods
-            // If all pass then assign the fields
-            // else throw an error
-
-            // assign fields
+            _header = header;
+            _sender = sender;
+            _text = text;
         }
 
         public override Message GetMessage()
         {
-            return new SEM(_header, _sender, _text, _subject, _emailType);
+            return new SMS(_header, _sender, _text);
         }
     }
 }

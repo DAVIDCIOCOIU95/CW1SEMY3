@@ -85,11 +85,17 @@
     </ApplicationDefinition>
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Services\Database.cs" />
     <Compile Include="Services\MessageCollection.cs" />
     <Compile Include="Models\SEM.cs" />
     <Compile Include="Models\SIR.cs" />
     <Compile Include="Models\SMS.cs" />
     <Compile Include="Models\Tweet.cs" />
+    <Compile Include="Services\Factory\MessageFactory.cs" />
+    <Compile Include="Services\Factory\SEMFactory.cs" />
+    <Compile Include="Services\Factory\SIRFactory.cs" />
+    <Compile Include="Services\Factory\SMSFactory.cs" />
+    <Compile Include="Services\Factory\TweetFactory.cs" />
     <Compile Include="Services\Preprocessor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +128,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
