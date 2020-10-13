@@ -19,13 +19,13 @@ namespace NapierBankingApp.Models
 
         public SIR()
         {
-            _messageType = "Email";
+            _messageType = "E";
             _emailType = "SIR";
         }
 
         public SIR(string header, string sender, string subject, string sortCode, string incidentType, string text)
         {
-            _messageType = "Email";
+            _messageType = "E";
             _header = header;
             _sender = sender;
             _text = text;

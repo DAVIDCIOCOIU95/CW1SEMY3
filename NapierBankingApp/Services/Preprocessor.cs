@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using NapierBankingApp.Services.Factory;
 using Microsoft.VisualBasic.FileIO;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Navigation;
@@ -21,11 +20,9 @@ namespace NapierBankingApp.Services
         public Dictionary<string, int> TrendingList { get; private set; }
         public Dictionary<string, int> MentionsList { get; private set; }
         public Dictionary<string, Dictionary<string, int>> SirList { get; private set; }
+        public Dictionary<string, int> QuarantinedLinks { get; private set; }
         public MessageCollection MessageCollection { get; private set; }
-        public List<string> UnloadedMessages { get; private set; }
-
         private Dictionary<string, string> abbreviations;
-
         Database database = new Database("myMessage");
 
         public Preprocessor()
@@ -33,29 +30,33 @@ namespace NapierBankingApp.Services
             TrendingList = new Dictionary<string, int>();
             MentionsList = new Dictionary<string, int>();
             SirList = new Dictionary<string, Dictionary<string, int>>();
+            QuarantinedLinks = new Dictionary<string, int>();
             MessageCollection = new MessageCollection();
             abbreviations = new Dictionary<string, string>();
-            UnloadedMessages = new List<string>();
             LoadAbbreviations("textwords.csv");
         }
-
-        
-
         #region Preprocessors
-        private Message PreprocessTweet(Message message)
+        private Tweet PreprocessTweet(Message message)
         {
             message.Text = SobstituteAbbreviations(message.Text);
             AddToMentionList(message.Text);
             AddToTrendingList(message.Text);
-            return message;
+            Tweet tweet = new Tweet(message.Header, message.Sender, message.Text);
+            return tweet;
         }
-        private Message PreprocessEmail(Message message)
-        {
-            return message;
-        }
-        private Message PreprocessSMS(Message message)
+        private SMS PreprocessSMS(SMS message)
         {
             message.Text = SobstituteAbbreviations(message.Text);
+            return message;
+        }
+        private SEM PreprocessSEM(SEM message)
+        {
+            message.Text = SobstituteURL(message.Text);
+            return message;
+        }
+        private SIR PreprocessSIR(SIR message)
+        {
+            message.Text = SobstituteURL(message.Text);
             return message;
         }
         public void PreprocessMessage(Message message)
@@ -63,22 +64,39 @@ namespace NapierBankingApp.Services
             switch (message.MessageType)
             {
                 case "S":
-                    message = PreprocessSMS(message);
+                    SMS sms = new SMS(message.Header, message.Sender, message.Text);
+                    MessageCollection.SMSList.Add(PreprocessSMS(sms));
+
                     break;
                 case "E":
-                    message = PreprocessEmail(message);
+                    Email email = (Email)message;
+                    if(email.EmailType == "SEM")
+                    {
+                        SEM sem = (SEM)email;
+                        MessageCollection.SEMList.Add(PreprocessSEM(sem));
+
+                    } else if(email.EmailType == "SIR")
+                    {
+                        SIR sir = (SIR)email;
+                        MessageCollection.SIRList.Add(PreprocessSIR(sir));
+                    }
+                    else
+                    {
+                        throw new Exception("Email type not recognized, please make sure you have a valid email type.");
+                    }
+                    
                     break;
                 case "T":
-                    message = PreprocessTweet(message);
+                    Tweet tweet = new Tweet(message.Header, message.Sender, message.Text);
+                    MessageCollection.TweetList.Add(PreprocessTweet(tweet));
                     break;
                 default:
                     throw new Exception("Incorrect message type");
             }
             database.serializeToJSON(MessageCollection);
         }
-       
-        #endregion
 
+        #endregion
         #region Preprocessor private methods
         private void LoadAbbreviations(string filename)
         {
@@ -96,6 +114,30 @@ namespace NapierBankingApp.Services
             foreach (var entry in abbreviations)
             {
                 text = text.Replace(entry.Key, $"{entry.Key} <{entry.Value}>");
+            }
+            return text;
+        }
+
+        private string SobstituteURL(string text)
+        {
+            List<string> urls = new List<string>();
+            var linkRegex = @"\b(?:http(s)?:\\\\)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+\b";
+            foreach (Match match in Regex.Matches(text, linkRegex))
+            {
+                urls.Add(match.ToString());
+                if (QuarantinedLinks.ContainsKey(match.ToString()))
+                {
+                    QuarantinedLinks[match.ToString()] += 1;
+                }
+                else
+                {
+                    QuarantinedLinks.Add(match.ToString(), 1);
+                }
+            }
+
+            foreach (var url in urls)
+            {
+                text = text.Replace(url, $"<URL quarantined>");
             }
             return text;
         }

@@ -12,28 +12,30 @@
             <TextBlock x:Name="txtBlockHeader" HorizontalAlignment="Left" Margin="7,2,0,0" TextWrapping="Wrap" Text="Header" VerticalAlignment="Top" RenderTransformOrigin="8.771,13.972"/>
             <TextBox x:Name="txtBoxHeader" HorizontalAlignment="Left" Height="25" Margin="6,23,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="313"/>
             <TextBlock x:Name="txtBlockBody" HorizontalAlignment="Left" Margin="9,54,0,0" TextWrapping="Wrap" Text="Body" VerticalAlignment="Top"/>
-            <TextBox x:Name="txtBoxBody" HorizontalAlignment="Left" Height="178" Margin="9,82,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="309"/>
+            <TextBox x:Name="txtBoxBody" HorizontalAlignment="Left" Height="68" Margin="9,82,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="309"/>
             <Button x:Name="btnLoadFromFile" Content="Load From File" HorizontalAlignment="Left" Margin="83,322,0,0" VerticalAlignment="Top" Width="145" Click="btnLoadFromFile_Click"/>
             <Button x:Name="btnEndSession" Content="EndSession" HorizontalAlignment="Left" Margin="108,353,0,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
         <ListView x:Name="lstViewMessages" HorizontalAlignment="Left" Height="147" Margin="380,16,0,0" VerticalAlignment="Top" Width="391">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Width="300">
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="lstViewUnloadedMessages" HorizontalAlignment="Left" Height="45" Margin="382,196,0,0" VerticalAlignment="Top" Width="385">
+
+        <ListView x:Name="lstViewUnloadedMessages" HorizontalAlignment="Left" Height="95" Margin="382,175,0,0" VerticalAlignment="Top" Width="385">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="lstStats" HorizontalAlignment="Left" Height="131" Margin="382,256,0,0" VerticalAlignment="Top" Width="378">
+        <ListView x:Name="lstStats" HorizontalAlignment="Left" Height="100" Margin="382,287,0,0" VerticalAlignment="Top" Width="378">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Width="300"/>
                 </GridView>
             </ListView.View>
         </ListView>

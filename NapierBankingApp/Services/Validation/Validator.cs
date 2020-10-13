@@ -27,11 +27,11 @@ namespace NapierBankingApp.Services.Validation
         /// </summary>
         /// <param name="filename"></param>
         /// <returns>A list of fields.</returns>
-        public List<string[]> ParseCsvFile(string filename)
+        private List<string[]> ParseCsvFile(string filename)
         {
             var path = Path.Combine(Environment.CurrentDirectory, filename);
             TextFieldParser parser = new TextFieldParser(path);
-            parser.HasFieldsEnclosedInQuotes = true;
+            parser.HasFieldsEnclosedInQuotes = false;
             parser.SetDelimiters("|");
 
             List<string[]> fields = new List<string[]>();
@@ -50,9 +50,10 @@ namespace NapierBankingApp.Services.Validation
         /// <param name="delimiter"></param>
         /// <param name="hasQuotes"></param>
         /// <returns>A list of strings containing all the fields.</returns>
-        public List<string> ParseBody(string body, string delimiter, bool hasQuotes)
+        private List<string> ParseBody(string body, string delimiter, bool hasQuotes)
         {
-            TextFieldParser parser = new TextFieldParser(body);
+            StringReader sr = new StringReader(body);
+            TextFieldParser parser = new TextFieldParser(sr);
             parser.HasFieldsEnclosedInQuotes = hasQuotes;
             parser.SetDelimiters(delimiter);
 
@@ -87,7 +88,7 @@ namespace NapierBankingApp.Services.Validation
                 throw new Exception("The header type must be followed by only numeric characters.");
             }
         }
-        private Message ValidateSMS(string header, string body)
+        private SMS ValidateSMS(string header, string body)
         {
             var fields = ParseBody(body, ",", true);
             #region Sender Validation
@@ -109,18 +110,16 @@ namespace NapierBankingApp.Services.Validation
             var text = "";
             if (fields.Count > 1)
             {
-
+                text = fields[1];
                 if (text.Length > 140)
                 {
                     throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
                 }
-
-                text = fields[1];
             }
             #endregion
             return new SMS(header, fields[0], text);
         }
-        private Message ValidateTweet(string header, string body)
+        private Tweet ValidateTweet(string header, string body)
         {
             var fields = ParseBody(body, ",", true);
             #region Sender Validation
@@ -139,18 +138,16 @@ namespace NapierBankingApp.Services.Validation
             var text = "";
             if (fields.Count > 1)
             {
-
+                text = fields[1];
                 if (text.Length > 140)
                 {
                     throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
                 }
-
-                text = fields[1];
             }
             #endregion
             return new Tweet(header, fields[0], text);
         }
-        private Message ValidateEmail(string header, string body)
+        private Email ValidateEmail(string header, string body)
         {
             var fields = ParseBody(body, ",", true);
             #region Sender Validation
@@ -216,13 +213,20 @@ namespace NapierBankingApp.Services.Validation
             var textSEM = "";
             if (fields.Count >= 3)
             {
-                if (fields[3].Length > 1028) { throw new Exception("The text length contains" + fields[3].Length + " characters.\nThe max characters allowed is: 140."); }
-                textSEM = fields[3];
+                if (fields[2].Length > 1028) { throw new Exception("The text length contains" + fields[2].Length + " characters.\nThe max characters allowed is: 140."); }
+                textSEM = fields[2];
             }
             #endregion
             #endregion
             return new SEM(header, fields[0], fields[1], textSEM);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="header"></param>
+        /// <param name="body"></param>
+        /// <returns>A validated message.</returns>
         public Message ValidateMessage(string header, string body)
         {
             ValidateHeader(header);
@@ -235,7 +239,7 @@ namespace NapierBankingApp.Services.Validation
                 case 'T':
                     return ValidateTweet(header, body);
                 default:
-                    throw new Exception("Invalid Message Type");
+                    throw new Exception("Invalid Message Type.");
             }
 
         }
@@ -263,7 +267,7 @@ namespace NapierBankingApp.Services.Validation
                     }
                     catch (Exception ex)
                     {
-                        UnloadedMessages.Add("Error for: " + field.ToString() + "\nError type: " + ex.Message);
+                        UnloadedMessages.Add("Error for: " + field[0].ToString() + "\nError type: " + ex.Message);
                     }
                 }
 

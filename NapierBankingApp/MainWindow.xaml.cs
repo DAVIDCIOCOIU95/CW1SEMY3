@@ -1,5 +1,6 @@
 ﻿using NapierBankingApp.Models;
 using NapierBankingApp.Services;
+using NapierBankingApp.Services.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace NapierBankingApp
     public partial class MainWindow : Window
     {
         Preprocessor preprocessor = new Preprocessor();
+        Validator validator = new Validator();
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +34,7 @@ namespace NapierBankingApp
         {
             try
             {
-                preprocessor.PreprocessMessage(txtBoxHeader.Text, txtBoxBody.Text);
+                preprocessor.PreprocessMessage(validator.ValidateMessage(txtBoxHeader.Text, txtBoxBody.Text));
                 updateMessages();
                 updateUnloadedMessages();
                 updateStats();
@@ -48,7 +50,11 @@ namespace NapierBankingApp
         {
             try
             {
-                preprocessor.PreprocessFile();
+                foreach(var message in validator.ValidateFile())
+                {
+                    preprocessor.PreprocessMessage(message);
+                }
+                
                 updateMessages();
                 updateUnloadedMessages();
                 updateStats();
@@ -71,6 +77,14 @@ namespace NapierBankingApp
             {
                 lstStats.Items.Add(item.ToString());
             }
+            foreach (var item in preprocessor.SirList)
+            {
+                lstStats.Items.Add(item.ToString());
+            }
+            foreach (var item in preprocessor.QuarantinedLinks)
+            {
+                lstStats.Items.Add(item.ToString());
+            }
         }
         public void updateMessages()
         {
@@ -78,16 +92,28 @@ namespace NapierBankingApp
             foreach (var item in preprocessor.MessageCollection.SMSList)
             {
                 lstViewMessages.Items.Add(item.ToString());
+          
             }
             foreach (var item in preprocessor.MessageCollection.TweetList)
             {
                 lstViewMessages.Items.Add(item.ToString());
+               
+            }
+            foreach (var item in preprocessor.MessageCollection.SEMList)
+            {
+                lstViewMessages.Items.Add(item.ToString());
+
+            }
+            foreach (var item in preprocessor.MessageCollection.SIRList)
+            {
+                lstViewMessages.Items.Add(item.ToString());
+
             }
         }
         public void updateUnloadedMessages()
         {
             lstViewUnloadedMessages.Items.Clear();
-            foreach (var item in preprocessor.UnloadedMessages)
+            foreach (var item in validator.UnloadedMessages)
             {
                 lstViewUnloadedMessages.Items.Add(item.ToString());
             }

@@ -92,12 +92,8 @@
     <Compile Include="Models\SIR.cs" />
     <Compile Include="Models\SMS.cs" />
     <Compile Include="Models\Tweet.cs" />
-    <Compile Include="Services\Factory\MessageFactory.cs" />
-    <Compile Include="Services\Factory\SEMFactory.cs" />
-    <Compile Include="Services\Factory\SIRFactory.cs" />
-    <Compile Include="Services\Factory\SMSFactory.cs" />
-    <Compile Include="Services\Factory\TweetFactory.cs" />
     <Compile Include="Services\Preprocessor.cs" />
+    <Compile Include="Services\Validation\Validator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
