@@ -93,6 +93,13 @@
     <Compile Include="Models\SMS.cs" />
     <Compile Include="Models\Tweet.cs" />
     <Compile Include="Services\Preprocessor.cs" />
+    <Compile Include="Services\Validation\EmailValidator.cs" />
+    <Compile Include="Services\Validation\MessageValidator.cs" />
+    <Compile Include="Services\Validation\Parser.cs" />
+    <Compile Include="Services\Validation\SEMValidator.cs" />
+    <Compile Include="Services\Validation\SIRValidator.cs" />
+    <Compile Include="Services\Validation\SMSValidator.cs" />
+    <Compile Include="Services\Validation\TweetValidator.cs" />
     <Compile Include="Services\Validation\Validator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
