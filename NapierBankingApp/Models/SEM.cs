@@ -17,17 +17,18 @@ namespace NapierBankingApp.Models
 
         public SEM()
         {
-            _messageType = "SEM";
+            _messageType = "Email";
+            _emailType = "SEM";
         }
 
-        public SEM(string header, string sender, string text, string subject, string emailType)
+        public SEM(string header, string sender, string text, string subject)
         {
-            _messageType = "SEM";
+            _messageType = "Email";
             _header = header;
             _sender = sender;
             _text = text;
             _subject = subject;
-            _emailType = emailType;
+            _emailType = "SEM";
         }
 
         public override string MessageType { get { return _messageType; } }
