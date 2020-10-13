@@ -10,18 +10,17 @@ namespace NapierBankingApp.Services.Validation
 {
     class Parser
     {
-        #region Parsers
         /// <summary>
         /// Parses a structured csv file line by line getting a list of message entities. Each message entity is in the form of string[], where index 0 is the header and index 1 is the body.
         /// </summary>
         /// <param name="filename"></param>
-        /// <returns>A list of fields.</returns>
-        public static List<string[]> ParseCsvFile(string filename)
+        /// <returns>A list of message entities, each containing header and body.</returns>
+        public static List<string[]> ParseCsvFile(string filename, string delimiter)
         {
             var path = Path.Combine(Environment.CurrentDirectory, filename);
             TextFieldParser parser = new TextFieldParser(path);
             parser.HasFieldsEnclosedInQuotes = false;
-            parser.SetDelimiters("|");
+            parser.SetDelimiters(delimiter);
 
             List<string[]> fields = new List<string[]>();
             while (!parser.EndOfData)
@@ -33,12 +32,12 @@ namespace NapierBankingApp.Services.Validation
         }
 
         /// <summary>
-        /// Separates a block of text into fields. A delimiter can be set.
+        /// Separates a block of text into fields.
         /// </summary>
         /// <param name="body"></param>
         /// <param name="delimiter"></param>
         /// <param name="hasQuotes"></param>
-        /// <returns>A list of strings containing all the fields.</returns>
+        /// <returns>A list of strings containing all the fields in the body.</returns>
         public static List<string> ParseBody(string body, string delimiter, bool hasQuotes)
         {
             StringReader sr = new StringReader(body);
@@ -58,6 +57,5 @@ namespace NapierBankingApp.Services.Validation
             parser.Close();
             return fields;
         }
-        #endregion
     }
 }

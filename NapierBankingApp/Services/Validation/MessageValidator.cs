@@ -44,7 +44,6 @@ namespace NapierBankingApp.Services.Validation
             }
             return fields[0];
         }
-
         protected static string ValidateText(List<string> fields, int textPosition, int maxChars) 
         {
             var text = "";
@@ -58,6 +57,5 @@ namespace NapierBankingApp.Services.Validation
             }
             return text;
         }
-
     }
 }

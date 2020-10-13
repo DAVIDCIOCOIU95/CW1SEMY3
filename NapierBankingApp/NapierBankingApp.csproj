@@ -96,8 +96,6 @@
     <Compile Include="Services\Validation\EmailValidator.cs" />
     <Compile Include="Services\Validation\MessageValidator.cs" />
     <Compile Include="Services\Validation\Parser.cs" />
-    <Compile Include="Services\Validation\SEMValidator.cs" />
-    <Compile Include="Services\Validation\SIRValidator.cs" />
     <Compile Include="Services\Validation\SMSValidator.cs" />
     <Compile Include="Services\Validation\TweetValidator.cs" />
     <Compile Include="Services\Validation\Validator.cs" />

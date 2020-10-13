@@ -8,7 +8,7 @@ namespace NapierBankingApp.Services.Validation
     /// <summary>
     /// Takes in a header and a body of a message. Detects and validates the message. Returns a message type according to the business rules.
     /// </summary>
-    class Validator: MessageValidator
+    class Validator : MessageValidator
     {
         public List<string> UnloadedMessages { get; private set; }
         public Validator()
@@ -16,16 +16,6 @@ namespace NapierBankingApp.Services.Validation
             UnloadedMessages = new List<string>();
         }
 
-        #region Validators
-        
-        
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="header"></param>
-        /// <param name="body"></param>
-        /// <returns>A validated message.</returns>
         public Message ValidateMessage(string header, string body)
         {
             ValidateHeader(header);
@@ -42,6 +32,7 @@ namespace NapierBankingApp.Services.Validation
             }
 
         }
+
         /// <summary>
         /// Validates a file containing messages.
         /// </summary>
@@ -49,7 +40,7 @@ namespace NapierBankingApp.Services.Validation
         /// <returns>A list of valid messages.</returns>
         public List<Message> ValidateFile()
         {
-            var fields = Parser.ParseCsvFile("rawmessages.txt");
+            var fields = Parser.ParseCsvFile("rawmessages.txt", "|");
             List<Message> validMessages = new List<Message>();
             UnloadedMessages.Clear();
             foreach (var field in fields)
@@ -69,14 +60,12 @@ namespace NapierBankingApp.Services.Validation
                         UnloadedMessages.Add("Error for: " + field[0].ToString() + "\nError type: " + ex.Message);
                     }
                 }
-
             }
             if (validMessages.Count == 0)
             {
-                throw new Exception("No valid message identified in file");
+                throw new Exception("No valid messages identified in the file");
             }
             return validMessages;
         }
-        #endregion
     }
 }

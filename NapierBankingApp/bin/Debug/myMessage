@@ -11,9 +11,45 @@
       "Header": "S123456789",
       "Sender": "+2345",
       "Text": "hello WTF <What the f***>"
+    },
+    {
+      "MessageType": "S",
+      "Header": "S123456789",
+      "Sender": "+2345",
+      "Text": "hello WTF <What the f***>"
+    },
+    {
+      "MessageType": "S",
+      "Header": "S123456789",
+      "Sender": "+2345",
+      "Text": "hello WTF <What the f***>"
+    },
+    {
+      "MessageType": "S",
+      "Header": "S123456789",
+      "Sender": "+2345",
+      "Text": "hello WTF <What the f***>"
     }
   ],
   "TweetList": [
+    {
+      "MessageType": "T",
+      "Header": "T123456789",
+      "Sender": "@david",
+      "Text": "hello world @david #sunny"
+    },
+    {
+      "MessageType": "T",
+      "Header": "T123456789",
+      "Sender": "@david",
+      "Text": "hello world @david #sunny"
+    },
+    {
+      "MessageType": "T",
+      "Header": "T123456789",
+      "Sender": "@david",
+      "Text": "hello world @david #sunny"
+    },
     {
       "MessageType": "T",
       "Header": "T123456789",
@@ -42,6 +78,30 @@
       "Header": "E123456789",
       "Sender": "david@gmail.com",
       "Text": "<URL quarantined>",
+      "Subject": "SEM email",
+      "EmailType": "SEM"
+    },
+    {
+      "MessageType": "E",
+      "Header": "E123456789",
+      "Sender": "david@gmail.com",
+      "Text": "<URL quarantined>",
+      "Subject": "SEM email",
+      "EmailType": "SEM"
+    },
+    {
+      "MessageType": "E",
+      "Header": "E123456789",
+      "Sender": "david@gmail.com",
+      "Text": "<URL quarantined>",
+      "Subject": "SEM email",
+      "EmailType": "SEM"
+    },
+    {
+      "MessageType": "E",
+      "Header": "E123456789",
+      "Sender": "david@gmail.com",
+      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>",
       "Subject": "SEM email",
       "EmailType": "SEM"
     }
