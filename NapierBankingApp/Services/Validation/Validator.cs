@@ -16,11 +16,6 @@ namespace NapierBankingApp.Services.Validation
     class Validator
     {
         public List<string> UnloadedMessages { get; private set; }
-        // Methods
-        // Validate Header
-        // Validate text
-        // Validate sender
-        // Validate 
         public Validator()
         {
             UnloadedMessages = new List<string>();
@@ -123,7 +118,6 @@ namespace NapierBankingApp.Services.Validation
                 text = fields[1];
             }
             #endregion
-
             return new SMS(header, fields[0], text);
         }
         private Message ValidateTweet(string header, string body)
@@ -182,7 +176,6 @@ namespace NapierBankingApp.Services.Validation
             if (fields[1].Length > 20) { throw new Exception("The subject length must be less or equal to 20 characters."); }
             var subjectRegex = @"^SIR \d{1,2}/\d{1,2}/\d{4}$";
 
-
             if (Regex.IsMatch(fields[1], subjectRegex))
             {
                 if ((fields.Count < 3))
@@ -216,15 +209,19 @@ namespace NapierBankingApp.Services.Validation
                 return new SIR(header, fields[0], fields[1], fields[2], fields[3], text);
 
             }
-            var textT = "";
+
+            // Else check for SEM validation
+
+            #region  Validate Text
+            var textSEM = "";
+            if (fields.Count >= 3)
+            {
+                if (fields[3].Length > 1028) { throw new Exception("The text length contains" + fields[3].Length + " characters.\nThe max characters allowed is: 140."); }
+                textSEM = fields[3];
+            }
             #endregion
-            return new SIR(header, fields[0], fields[1], fields[2], fields[3], textT);
-
-
-
-
-
-
+            #endregion
+            return new SEM(header, fields[0], fields[1], textSEM);
         }
         public Message ValidateMessage(string header, string body)
         {
