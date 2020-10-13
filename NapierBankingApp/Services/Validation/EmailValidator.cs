@@ -9,81 +9,77 @@ using System.Threading.Tasks;
 
 namespace NapierBankingApp.Services.Validation
 {
-    class EmailValidator: MessageValidator
+    class EmailValidator : MessageValidator
     {
         public static Email ValidateEmail(string header, string body)
         {
             var fields = Parser.ParseBody(body, ",", true);
-            var sender = ValidateSender(fields, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", new Dictionary<string, string>());
-            #region Sender Validation
-            if ((fields.Count == 0))
+            var sender = ValidateSender(fields, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z");
+            var type = ValidateSubject(fields, 1, @"^SIR \d{1,2}/\d{1,2}/\d{4}$");
+
+            if (type == "SIR")
             {
-                throw new Exception("The body must have at least a sender specified.");
+                return new SIR(header, fields[0], fields[1], ValidateSortCode(fields, 2, @"\b[0-9]{2}-?[0-9]{2}-?[0-9]{2}\b"), ValidateIncidentType(fields, 3), ValidateText(fields, 4, 1028));
             }
-
-            // Check the sender is in the correct format: + followed by 15 numbers
-            var senderRegex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
-            if (fields[0] != Regex.Match(fields[0], senderRegex).Value)
+            else if (type == "SEM")
             {
-                throw new Exception("Invalid sender type. Please make sure the sender has an email format.");
+                return new SEM(header, fields[0], fields[1], ValidateText(fields, 2, 1028));
             }
-            #endregion
-
-            #region Validate Subject
-            if ((fields.Count < 1))
+            else
             {
-                throw new Exception("The body must have at least a subject specified.");
+                throw new Exception("Can't validate the email, the sender has an invalid type.");
             }
-            if (string.IsNullOrWhiteSpace(fields[1])) { throw new Exception("The subject can not be empty."); }
-            if (fields[1].Length > 20) { throw new Exception("The subject length must be less or equal to 20 characters."); }
-            var subjectRegex = @"^SIR \d{1,2}/\d{1,2}/\d{4}$";
+        }
 
-            if (Regex.IsMatch(fields[1], subjectRegex))
+        /// <summary>
+        /// Validates the subject of an email.
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <param name="subjectRegex"></param>
+        /// <returns>The type of the email.</returns>
+        protected static string ValidateSubject(List<string> fields, int subjectIndex,string subjectRegex)
+        {
+            if ((fields.Count < (subjectIndex + 1)))
             {
-                if ((fields.Count < 3))
-                {
-                    throw new Exception("The body must contain sort code and nature of incident.");
-                }
-
-                // Sort code validation
-                var sortCodeRegex = @"\b[0-9]{2}-?[0-9]{2}-?[0-9]{2}\b";
-                if (fields[2] != Regex.Match(fields[2], sortCodeRegex).Value)
-                {
-                    throw new Exception("Incorrect sort code format.");
-                }
-
-                // Incident type validation
-                List<string> incidentTypes = new List<string>() { "Theft", "Staff Attack", "ATM Theft", "Raid", "Customer Attack", "Staff Abuse", "Bomb Threat", "Terrorism", "Suspicious Incident", "Intelligence", "Cash Loss" };
-                if (!incidentTypes.Contains(fields[3]))
-                {
-                    throw new Exception("Invalid incident type.");
-                }
-
-                #region  Validate Text
-                var text = "";
-                if (fields.Count >= 4)
-                {
-                    if (fields[4].Length > 1028) { throw new Exception("The text length contains" + fields[4].Length + " characters.\nThe max characters allowed is: 140."); }
-                    text = fields[4];
-                }
-                #endregion
-
-                return new SIR(header, fields[0], fields[1], fields[2], fields[3], text);
-
+                throw new Exception("The body must have a subject specified.");
             }
-
-            // Else check for SEM validation
-
-            #region  Validate Text
-            var textSEM = "";
-            if (fields.Count >= 3)
+            if (string.IsNullOrWhiteSpace(fields[subjectIndex])) { throw new Exception("The subject can not be empty."); }
+            if (fields[subjectIndex].Length > 20) { throw new Exception("The subject length must be less or equal to 20 characters."); }
+            if (Regex.IsMatch(fields[subjectIndex], subjectRegex))
             {
-                if (fields[2].Length > 1028) { throw new Exception("The text length contains" + fields[2].Length + " characters.\nThe max characters allowed is: 140."); }
-                textSEM = fields[2];
+                return "SIR";
             }
-            #endregion
-            #endregion
-            return new SEM(header, fields[0], fields[1], textSEM);
+            else
+            {
+                return "SEM";
+            }
+        }
+
+        protected static string ValidateSortCode(List<string> fields, int sortCodeIndex, string sortCodeRegex)
+        {
+            if ((fields.Count < (sortCodeIndex + 1)))
+            {
+                throw new Exception("The body must have a sort code specified.");
+            }
+            if (fields[sortCodeIndex] != Regex.Match(fields[sortCodeIndex], sortCodeRegex).Value)
+            {
+                throw new Exception("Incorrect sort code format.");
+            }
+            return fields[sortCodeIndex];
+        }
+
+        protected static string ValidateIncidentType(List<string> fields, int incidentIndex)
+        {
+            if ((fields.Count < (incidentIndex + 1)))
+            {
+                throw new Exception("The body must have an incident type specified.");
+            }
+            List<string> incidentTypes = new List<string>() { "Theft", "Staff Attack", "ATM Theft", "Raid", "Customer Attack", "Staff Abuse", "Bomb Threat", "Terrorism", "Suspicious Incident", "Intelligence", "Cash Loss" };
+            if (!incidentTypes.Contains(fields[incidentIndex]))
+            {
+                throw new Exception("Invalid incident type.");
+            }
+            return fields[incidentIndex];
         }
     }
 }

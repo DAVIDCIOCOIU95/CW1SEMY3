@@ -25,8 +25,11 @@ namespace NapierBankingApp.Services.Validation
                 throw new Exception("The header type must be followed by only numeric characters.");
             }
         }
-        protected static string ValidateSender(List<string> fields, string senderRegex, Dictionary<string, string> specialCharacters)
+        protected static string ValidateSender(List<string> fields, string senderRegex, Dictionary<string, string> specialCharacters = null)
         {
+            if (specialCharacters == null)
+                specialCharacters = new Dictionary<string, string>();
+
             if ((fields.Count == 0))
             {
                 throw new Exception("The body must have at least a sender specified.");
