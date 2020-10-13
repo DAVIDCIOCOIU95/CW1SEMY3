@@ -1,7 +1,6 @@
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\NapierBankingApp.exe.config
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\NapierBankingApp.exe
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\NapierBankingApp.pdb
-C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.csprojAssemblyReference.cache
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\MainWindow.g.cs
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\App.g.cs
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp_MarkupCompile.cache

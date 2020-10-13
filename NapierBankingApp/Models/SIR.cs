@@ -46,7 +46,7 @@ namespace NapierBankingApp.Models
 
         public override string ToString()
         {
-            return "MessageType:" + MessageType + "\nEmail Type: " + EmailType + "\nHeader: " + Header + "\nSender: " + Sender  + "\nSubject: " + Subject + "\nSorCode: " + SortCode + "\nIncidentTypet: " + IncidentType + "\nText: " + Text;
+            return "MessageType:" + MessageType + "\nEmail Type: " + EmailType + "\nHeader: " + Header + "\nSender: " + Sender  + "\nSubject: " + Subject + "\nSorCode: " + SortCode + "\nIncidentType: " + IncidentType + "\nText: " + Text;
         }
     }
 }

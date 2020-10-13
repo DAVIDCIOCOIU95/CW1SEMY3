@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NapierBankingApp.Services.Validation
 {
-    abstract class MessageValidator
+    public abstract class MessageValidator
     {
-        protected static void ValidateHeader(string header)
+        public static void ValidateHeader(string header)
         {
             if (header.Length != 10)
             {
@@ -25,7 +25,7 @@ namespace NapierBankingApp.Services.Validation
                 throw new Exception("The header type must be followed by only numeric characters.");
             }
         }
-        protected static string ValidateSender(List<string> fields, string senderRegex, Dictionary<string, string> specialCharacters = null)
+        public static string ValidateSender(List<string> fields, string senderRegex, Dictionary<string, string> specialCharacters = null)
         {
             if (specialCharacters == null)
                 specialCharacters = new Dictionary<string, string>();
@@ -44,7 +44,7 @@ namespace NapierBankingApp.Services.Validation
             }
             return fields[0];
         }
-        protected static string ValidateText(List<string> fields, int textPosition, int maxChars) 
+        public static string ValidateText(List<string> fields, int textPosition, int maxChars) 
         {
             var text = "";
             if (fields.Count > textPosition)
