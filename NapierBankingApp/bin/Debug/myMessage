@@ -1,13 +1,13 @@
 {
-  "SMSList": [
+  "SMSList": [],
+  "TweetList": [
     {
-      "MessageType": "S",
-      "Header": "S123456789",
-      "Sender": "0423",
-      "Text": ""
+      "MessageType": "T",
+      "Header": "T123456789",
+      "Sender": "@david",
+      "Text": "#hello #world#sunny##"
     }
   ],
-  "TweetList": [],
   "SIRList": [],
   "SEMList": []
 }

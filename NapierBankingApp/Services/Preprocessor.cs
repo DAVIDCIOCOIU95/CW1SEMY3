@@ -61,7 +61,7 @@ namespace NapierBankingApp.Services
         {
             message.Text = SobstituteURL(message.Text);
             //Add To SIR
-            string[] sirObject = { message.SortCode, message.IncidentType};
+            string[] sirObject = { message.SortCode, message.IncidentType };
             return message;
         }
         public void PreprocessMessage(Message message)
@@ -75,12 +75,13 @@ namespace NapierBankingApp.Services
                     break;
                 case "E":
                     Email email = (Email)message;
-                    if(email.EmailType == "SEM")
+                    if (email.EmailType == "SEM")
                     {
                         SEM sem = (SEM)email;
                         MessageCollection.SEMList.Add(PreprocessSEM(sem));
 
-                    } else if(email.EmailType == "SIR")
+                    }
+                    else if (email.EmailType == "SIR")
                     {
                         SIR sir = (SIR)email;
                         MessageCollection.SIRList.Add(PreprocessSIR(sir));
@@ -89,7 +90,7 @@ namespace NapierBankingApp.Services
                     {
                         throw new Exception("Email type not recognized, please make sure you have a valid email type.");
                     }
-                    
+
                     break;
                 case "T":
                     Tweet tweet = new Tweet(message.Header, message.Sender, message.Text);
@@ -153,6 +154,7 @@ namespace NapierBankingApp.Services
         /// <param name="text"></param>
         private void AddToMentionList(string text)
         {
+
             foreach (Match match in Regex.Matches(text, @"\B\@\w{1,15}\b"))
             {
                 if (MentionsList.ContainsKey(match.ToString()))
@@ -172,18 +174,28 @@ namespace NapierBankingApp.Services
         /// <param name="text"></param>
         private void AddToTrendingList(string text)
         {
-            foreach (Match match in Regex.Matches(text, @"\B\#\w{1,15}\b"))
+            // Split the text in order to find each hashtag
+            string[] textSplit = text.Split('#');
+            foreach (var chunk in textSplit)
             {
-                if (TrendingList.ContainsKey(match.ToString()))
+                var hashtag = '#' + chunk;
+                //  Hashtags can only contain letters, numbers, and underscores
+                foreach (Match match in Regex.Matches(hashtag, @"\B\#\w{1,15}\b"))
                 {
-                    TrendingList[match.ToString()] += 1;
-                }
-                else
-                {
-                    TrendingList.Add(match.ToString(), 1);
+                    if (TrendingList.ContainsKey(match.ToString()))
+                    {
+                        TrendingList[match.ToString()] += 1;
+                    }
+                    else
+                    {
+                        TrendingList.Add(match.ToString(), 1);
+                    }
                 }
             }
+
         }
+
+
         #endregion
     }
 }
