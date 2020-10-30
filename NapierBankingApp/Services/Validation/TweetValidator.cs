@@ -13,11 +13,6 @@ namespace NapierBankingApp.Services.Validation
         public static Tweet ValidateTweet(string header, string body)
         {
             var fields = Parser.ParseBody(body, ",", true);
-            foreach(var v in fields)
-            {
-                MessageBox.Show(v.ToString());
-            }
-            
             return new Tweet(header, ValidateSender(fields, @"^\@[a-zA-Z0-9_]{1,15}$"), ValidateText(fields, 1, 140));
         }
     }

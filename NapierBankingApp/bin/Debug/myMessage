@@ -1,13 +1,88 @@
 {
-  "SMSList": [],
+  "SMSList": [
+    {
+      "MessageType": "S",
+      "Header": "S123456789",
+      "Sender": "+2345",
+      "Text": "hello WTF <What the f***>"
+    },
+    {
+      "MessageType": "S",
+      "Header": "S123456789",
+      "Sender": "+2345",
+      "Text": "hello WTF <What the f***>"
+    }
+  ],
   "TweetList": [
     {
       "MessageType": "T",
       "Header": "T123456789",
       "Sender": "@david",
-      "Text": "#hello #world#sunny##"
+      "Text": "#hello #world#sunny## @ciocoiu"
+    },
+    {
+      "MessageType": "T",
+      "Header": "T123456789",
+      "Sender": "@david",
+      "Text": "#hello #world#sunny## @ciocoiu"
+    },
+    {
+      "MessageType": "T",
+      "Header": "T123456789",
+      "Sender": "@david",
+      "Text": "#hello #world#sunny## @ciocoiu@ciocoiu"
+    },
+    {
+      "MessageType": "T",
+      "Header": "T123456789",
+      "Sender": "@david",
+      "Text": "hello world @david #sunny"
+    },
+    {
+      "MessageType": "T",
+      "Header": "T123456789",
+      "Sender": "@david",
+      "Text": "hello world @david #sunny"
     }
   ],
-  "SIRList": [],
-  "SEMList": []
+  "SIRList": [
+    {
+      "MessageType": "E",
+      "Header": "E123456789",
+      "Sender": "david@gmail.com",
+      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>",
+      "Subject": "SIR 9/2/2020",
+      "EmailType": "SIR",
+      "SortCode": "00-00-00",
+      "IncidentType": null
+    },
+    {
+      "MessageType": "E",
+      "Header": "E123456789",
+      "Sender": "david@gmail.com",
+      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>",
+      "Subject": "SIR 9/2/2020",
+      "EmailType": "SIR",
+      "SortCode": "00-00-00",
+      "IncidentType": null
+    }
+  ],
+  "SEMList": [
+    {
+      "MessageType": "E",
+      "Header": "E123456789",
+      "Sender": "david@gmail.com",
+      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>",
+      "Subject": "SEM email",
+      "EmailType": "SEM"
+    },
+    {
+      "MessageType": "E",
+      "Header": "E123456789",
+      "Sender": "david@gmail.com",
+      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>",
+      "Subject": "SEM email",
+      "EmailType": "SEM"
+    }
+  ]
 }

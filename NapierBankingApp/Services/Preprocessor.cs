@@ -155,17 +155,25 @@ namespace NapierBankingApp.Services
         private void AddToMentionList(string text)
         {
 
-            foreach (Match match in Regex.Matches(text, @"\B\@\w{1,15}\b"))
+            // Split the text in order to find each id
+            string[] textSplit = text.Split('@');
+            foreach (var chunk in textSplit)
             {
-                if (MentionsList.ContainsKey(match.ToString()))
+                var id = '@' + chunk;
+                foreach (Match match in Regex.Matches(id, @"\B\@\w{1,15}\b"))
                 {
-                    MentionsList[match.ToString()] += 1;
-                }
-                else
-                {
-                    MentionsList.Add(match.ToString(), 1);
+                    if (MentionsList.ContainsKey(match.ToString()))
+                    {
+                        MentionsList[match.ToString()] += 1;
+                    }
+                    else
+                    {
+                        MentionsList.Add(match.ToString(), 1);
+                    }
                 }
             }
+
+           
         }
 
         /// <summary>
@@ -194,7 +202,6 @@ namespace NapierBankingApp.Services
             }
 
         }
-
 
         #endregion
     }
