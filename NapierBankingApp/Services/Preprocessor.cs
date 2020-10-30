@@ -21,11 +21,10 @@ namespace NapierBankingApp.Services
         public Dictionary<string, int> MentionsList { get; private set; }
         public List<string[]> SirList { get; private set; }
         public Dictionary<string, int> QuarantinedLinks { get; private set; }
-        public MessageCollection MessageCollection { get; private set; }
 
         private Dictionary<string, string> abbreviations;
 
-        Database database = new Database("myMessage");
+        
 
         public Preprocessor()
         {
@@ -33,7 +32,6 @@ namespace NapierBankingApp.Services
             MentionsList = new Dictionary<string, int>();
             SirList = new List<string[]>();
             QuarantinedLinks = new Dictionary<string, int>();
-            MessageCollection = new MessageCollection();
             abbreviations = new Dictionary<string, string>();
             LoadAbbreviations("textwords.csv");
         }
@@ -64,42 +62,41 @@ namespace NapierBankingApp.Services
             string[] sirObject = { message.SortCode, message.IncidentType };
             return message;
         }
-        public void PreprocessMessage(Message message)
+        public Message PreprocessMessage(Message message)
         {
             switch (message.MessageType)
             {
                 case "S":
                     SMS sms = new SMS(message.Header, message.Sender, message.Text);
-                    MessageCollection.SMSList.Add(PreprocessSMS(sms));
-
-                    break;
+                    sms = PreprocessSMS(sms);
+                    return sms;
                 case "E":
                     Email email = (Email)message;
                     if (email.EmailType == "SEM")
                     {
                         SEM sem = (SEM)email;
-                        MessageCollection.SEMList.Add(PreprocessSEM(sem));
+                        sem = PreprocessSEM(sem);
+                        return sem;
 
                     }
                     else if (email.EmailType == "SIR")
                     {
                         SIR sir = (SIR)email;
-                        MessageCollection.SIRList.Add(PreprocessSIR(sir));
+                        sir = PreprocessSIR(sir);
+                        return sir;
                     }
                     else
                     {
                         throw new Exception("Email type not recognized, please make sure you have a valid email type.");
                     }
-
-                    break;
                 case "T":
                     Tweet tweet = new Tweet(message.Header, message.Sender, message.Text);
-                    MessageCollection.TweetList.Add(PreprocessTweet(tweet));
-                    break;
+                    tweet = PreprocessTweet(tweet);
+                    return tweet;
                 default:
                     throw new Exception("Incorrect message type");
             }
-            database.serializeToJSON(MessageCollection);
+            
         }
         #endregion
 

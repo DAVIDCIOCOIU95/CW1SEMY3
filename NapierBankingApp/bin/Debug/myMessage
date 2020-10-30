@@ -1,74 +1,41 @@
 {
-  "SMSList": [
-    {
+  "SMSList": {
+    "S123456783": {
       "MessageType": "S",
       "Header": "S123456789",
-      "Sender": "+2345",
-      "Text": "hello WTF <What the f***>"
+      "Sender": "+234",
+      "Text": "hello"
     },
-    {
+    "S123456789": {
       "MessageType": "S",
       "Header": "S123456789",
       "Sender": "+2345",
-      "Text": "hello WTF <What the f***>"
+      "Text": "hello WTF hgfhdsfgsfdgsdfgds"
     }
-  ],
-  "TweetList": [
-    {
+  },
+  "TweetList": {
+    "T123456784": {
       "MessageType": "T",
       "Header": "T123456789",
       "Sender": "@david",
-      "Text": "#hello #world#sunny## @ciocoiu"
+      "Text": ""
     },
-    {
+    "T123456783": {
       "MessageType": "T",
-      "Header": "T123456789",
+      "Header": "T123456782",
       "Sender": "@david",
-      "Text": "#hello #world#sunny## @ciocoiu"
+      "Text": ""
     },
-    {
-      "MessageType": "T",
-      "Header": "T123456789",
-      "Sender": "@david",
-      "Text": "#hello #world#sunny## @ciocoiu@ciocoiu"
-    },
-    {
-      "MessageType": "T",
-      "Header": "T123456789",
-      "Sender": "@david",
-      "Text": "hello world @david #sunny"
-    },
-    {
+    "T123456789": {
       "MessageType": "T",
       "Header": "T123456789",
       "Sender": "@david",
       "Text": "hello world @david #sunny"
     }
-  ],
-  "SIRList": [
-    {
-      "MessageType": "E",
-      "Header": "E123456789",
-      "Sender": "david@gmail.com",
-      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>",
-      "Subject": "SIR 9/2/2020",
-      "EmailType": "SIR",
-      "SortCode": "00-00-00",
-      "IncidentType": null
-    },
-    {
-      "MessageType": "E",
-      "Header": "E123456789",
-      "Sender": "david@gmail.com",
-      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>",
-      "Subject": "SIR 9/2/2020",
-      "EmailType": "SIR",
-      "SortCode": "00-00-00",
-      "IncidentType": null
-    }
-  ],
-  "SEMList": [
-    {
+  },
+  "SIRList": {},
+  "SEMList": {
+    "E123456782": {
       "MessageType": "E",
       "Header": "E123456789",
       "Sender": "david@gmail.com",
@@ -76,13 +43,13 @@
       "Subject": "SEM email",
       "EmailType": "SEM"
     },
-    {
+    "E123456789": {
       "MessageType": "E",
       "Header": "E123456789",
       "Sender": "david@gmail.com",
-      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>",
+      "Text": "<URL quarantined> <URL quarantined> <URL quarantined>  gfdsgsdfgfdsgdfgdfsgdsgfdsgsdfgdsfgfdsgfdsgdgsdgsdfgdsfgsfdgfdsgfdgdfsgsdfgfdsgsdffds",
       "Subject": "SEM email",
       "EmailType": "SEM"
     }
-  ]
+  }
 }

@@ -9,19 +9,19 @@ namespace NapierBankingApp.Services
 {
     public class MessageCollection
     {
-        public List<SMS> SMSList { get; set; }
-        public List<Tweet> TweetList { get; set; }
+        public Dictionary<string, SMS> SMSList { get; set; }
+        public Dictionary<string, Tweet> TweetList { get; set; }
         
-        public List<SIR> SIRList { get; set; }
-        public List<SEM> SEMList { get; set; }
+        public Dictionary<string, SIR> SIRList { get; set; }
+        public Dictionary<string, SEM> SEMList { get; set; }
 
 
         public MessageCollection()
         {
-            SMSList = new List<SMS>();
-            TweetList = new List<Tweet>();
-            SIRList = new List<SIR>();
-            SEMList = new List<SEM>();
+            SMSList = new Dictionary<string,SMS>();
+            TweetList = new Dictionary<string, Tweet>();
+            SIRList = new Dictionary<string, SIR>();
+            SEMList = new Dictionary<string, SEM>();
         }
 
     }
