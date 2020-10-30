@@ -16,6 +16,12 @@ namespace NapierBankingApp.Services.Validation
             UnloadedMessages = new List<string>();
         }
 
+        /// <summary>
+        /// Validates a message according to business rules.
+        /// </summary>
+        /// <param name="header"></param>
+        /// <param name="body"></param>
+        /// <returns>A validated message object of a particular type.</returns>
         public Message ValidateMessage(string header, string body)
         {
             ValidateHeader(header);

@@ -19,22 +19,25 @@ namespace NapierBankingApp.Services
     {
         public Dictionary<string, int> TrendingList { get; private set; }
         public Dictionary<string, int> MentionsList { get; private set; }
-        public Dictionary<string, Dictionary<string, int>> SirList { get; private set; }
+        public List<string[]> SirList { get; private set; }
         public Dictionary<string, int> QuarantinedLinks { get; private set; }
         public MessageCollection MessageCollection { get; private set; }
+
         private Dictionary<string, string> abbreviations;
+
         Database database = new Database("myMessage");
 
         public Preprocessor()
         {
             TrendingList = new Dictionary<string, int>();
             MentionsList = new Dictionary<string, int>();
-            SirList = new Dictionary<string, Dictionary<string, int>>();
+            SirList = new List<string[]>();
             QuarantinedLinks = new Dictionary<string, int>();
             MessageCollection = new MessageCollection();
             abbreviations = new Dictionary<string, string>();
             LoadAbbreviations("textwords.csv");
         }
+
         #region Preprocessors
         private Tweet PreprocessTweet(Message message)
         {
@@ -57,6 +60,8 @@ namespace NapierBankingApp.Services
         private SIR PreprocessSIR(SIR message)
         {
             message.Text = SobstituteURL(message.Text);
+            //Add To SIR
+            string[] sirObject = { message.SortCode, message.IncidentType};
             return message;
         }
         public void PreprocessMessage(Message message)
@@ -95,8 +100,8 @@ namespace NapierBankingApp.Services
             }
             database.serializeToJSON(MessageCollection);
         }
-
         #endregion
+
         #region Preprocessor private methods
         private void LoadAbbreviations(string filename)
         {
