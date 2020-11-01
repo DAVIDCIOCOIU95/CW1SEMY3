@@ -118,15 +118,15 @@ namespace NapierBankingApp
             lstSIR.Items.Clear();
             foreach (var item in preprocessor.MentionsList)
             {
-                lstMentions.Items.Add(item.ToString());
+                lstMentions.Items.Add("Mention: " + item.Key.ToString() + "\nCount: " + item.Value.ToString());
             }
             foreach (var item in preprocessor.TrendingList)
             {
-                lstTrends.Items.Add(item.ToString());
+                lstTrends.Items.Add("Trend: " + item.Key.ToString() + "\nCount : " + item.Value.ToString());
             }
             foreach (var item in preprocessor.SirList)
             {
-                lstSIR.Items.Add(item.ToString());
+                lstSIR.Items.Add("Sort Code: " + item[0].ToString() + "\nIncident Type: " + item[1].ToString());
               
             }
         }

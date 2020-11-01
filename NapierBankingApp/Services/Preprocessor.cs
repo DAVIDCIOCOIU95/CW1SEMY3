@@ -60,6 +60,7 @@ namespace NapierBankingApp.Services
             message.Text = SobstituteURL(message.Text);
             //Add To SIR
             string[] sirObject = { message.SortCode, message.IncidentType };
+            SirList.Add(sirObject);
             return message;
         }
         public Message PreprocessMessage(Message message)
