@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NapierBankingApp.Services.Validation
 {
@@ -40,6 +41,7 @@ namespace NapierBankingApp.Services.Validation
         /// <returns>A list of strings containing all the fields in the body.</returns>
         public static List<string> ParseBody(string body, string delimiter, bool hasQuotes)
         {
+            body = body.Replace("\n", " ").Replace("\r", " ");
             StringReader sr = new StringReader(body);
             TextFieldParser parser = new TextFieldParser(sr);
             parser.HasFieldsEnclosedInQuotes = hasQuotes;
@@ -49,6 +51,7 @@ namespace NapierBankingApp.Services.Validation
             while (!parser.EndOfData)
             {
                 var line = parser.ReadFields();
+                
                 foreach (var field in line)
                 {
                     fields.Add(field);

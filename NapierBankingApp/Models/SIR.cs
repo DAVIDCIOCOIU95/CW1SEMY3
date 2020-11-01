@@ -42,7 +42,7 @@ namespace NapierBankingApp.Models
         public override string Subject { get { return _subject; } set { _subject = value; } }
         public override string EmailType { get { return _emailType; } set { _emailType = value; } }
         public string SortCode { get { return _sortCode; } set { _sortCode = value; } }
-        public string IncidentType { get; set; }
+        public string IncidentType { get { return _incidentType; } set { _incidentType = value; } }
 
         public override string ToString()
         {

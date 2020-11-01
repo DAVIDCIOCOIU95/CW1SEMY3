@@ -17,6 +17,30 @@
       "Header": "S123456781",
       "Sender": "+123",
       "Text": "hello"
+    },
+    "S123456543": {
+      "MessageType": "S",
+      "Header": "S123456543",
+      "Sender": "+24",
+      "Text": "hello WTF <What the f***>"
+    },
+    "S222222222": {
+      "MessageType": "S",
+      "Header": "S222222222",
+      "Sender": "+234",
+      "Text": ""
+    },
+    "S222222225": {
+      "MessageType": "S",
+      "Header": "S222222225",
+      "Sender": "+432432",
+      "Text": ""
+    },
+    "S222222111": {
+      "MessageType": "S",
+      "Header": "S222222111",
+      "Sender": "+432432",
+      "Text": ""
     }
   },
   "TweetList": {
@@ -37,6 +61,66 @@
       "Header": "T123456789",
       "Sender": "@david",
       "Text": "hello world @david #sunny"
+    },
+    "T111111111": {
+      "MessageType": "T",
+      "Header": "T111111111",
+      "Sender": "@david",
+      "Text": ""
+    },
+    "T111111112": {
+      "MessageType": "T",
+      "Header": "T111111112",
+      "Sender": "@david",
+      "Text": ""
+    },
+    "T111111113": {
+      "MessageType": "T",
+      "Header": "T111111113",
+      "Sender": "@david",
+      "Text": ""
+    },
+    "T111111115": {
+      "MessageType": "T",
+      "Header": "T111111115",
+      "Sender": "@david",
+      "Text": ""
+    },
+    "T111111116": {
+      "MessageType": "T",
+      "Header": "T111111116",
+      "Sender": "@david",
+      "Text": "david ciocoiu @david @hello@world LOL <Laughing out loud>"
+    },
+    "T111111134": {
+      "MessageType": "T",
+      "Header": "T111111134",
+      "Sender": "@david",
+      "Text": "david ciocoiu @david @hello@world LOL <Laughing out loud>"
+    },
+    "T111111132": {
+      "MessageType": "T",
+      "Header": "T111111132",
+      "Sender": "@david",
+      "Text": "david ciocoiu @david @hello@world LOL <Laughing out loud>"
+    },
+    "T000000000": {
+      "MessageType": "T",
+      "Header": "T000000000",
+      "Sender": "@david",
+      "Text": "@samir"
+    },
+    "T000000001": {
+      "MessageType": "T",
+      "Header": "T000000001",
+      "Sender": "@david",
+      "Text": "@samir"
+    },
+    "T000000002": {
+      "MessageType": "T",
+      "Header": "T000000002",
+      "Sender": "@david",
+      "Text": "@samir @ciocoiu@david"
     }
   },
   "SIRList": {
@@ -48,6 +132,26 @@
       "Subject": "SIR 12/12/1234",
       "EmailType": "SIR",
       "SortCode": "33-33-33",
+      "IncidentType": null
+    },
+    "E000000000": {
+      "MessageType": "E",
+      "Header": "E000000000",
+      "Sender": "david@gmail.com",
+      "Text": "",
+      "Subject": "SIR 02/03/2020",
+      "EmailType": "SIR",
+      "SortCode": "99-99-99",
+      "IncidentType": null
+    },
+    "E000000002": {
+      "MessageType": "E",
+      "Header": "E000000002",
+      "Sender": "david@gmail.com",
+      "Text": "",
+      "Subject": "SIR 02/03/2020",
+      "EmailType": "SIR",
+      "SortCode": "99-99-99",
       "IncidentType": null
     }
   },

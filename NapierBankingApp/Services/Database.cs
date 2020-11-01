@@ -22,7 +22,7 @@ namespace NapierBankingApp.Services
         public string ConnectionPath
         { get { return _connectionPath; } }
 
-        public bool serializeToJSON(Message message)
+        public void serializeToJSON(Message message)
         {
             // Look into the message collection for duplicates
             MessageCollection collection = loadFile(_connectionPath);
@@ -30,7 +30,7 @@ namespace NapierBankingApp.Services
             // Throw error if the database already contains message
             if (collection.SMSList.ContainsKey(message.Header) || collection.TweetList.ContainsKey(message.Header) || collection.SIRList.ContainsKey(message.Header) || collection.SEMList.ContainsKey(message.Header))
             {
-                return false;
+                throw new Exception("Message not saved: the database already contains the message.");
             }
 
             // add message to collection
@@ -69,7 +69,6 @@ namespace NapierBankingApp.Services
             });
 
             File.WriteAllText(ConnectionPath, jsonString);
-            return true;
         }
 
 

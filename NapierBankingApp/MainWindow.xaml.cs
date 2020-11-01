@@ -27,41 +27,59 @@ namespace NapierBankingApp
         Preprocessor preprocessor = new Preprocessor();
         Validator validator = new Validator();
         Database database = new Database("myMessage");
+        List<Message> currentMessages = new List<Message>();
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Processes the message.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Process_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                messageErrors.Items.Clear();
                 var message = preprocessor.PreprocessMessage(validator.ValidateMessage(txtBoxHeader.Text, txtBoxBody.Text));
-                if (database.serializeToJSON(message))
-                {
-                    MessageBox.Show("Message Saved.");
-                }
-                else
-                {
-                    MessageBox.Show("Couldn't save message.");
-                }
-                updateMessages(message);
-                updateUnloadedMessages();
+                currentMessages.Add(message);
+                updateProcessedMessages(currentMessages);
                 updateStats();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                messageErrors.Items.Add("Error: " + ex.Message);
             }
-
-
-
-
         }
 
-        private void btnLoadFromFile_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Saves the processed messages to a database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
-            try
+            messageErrors.Items.Clear();
+            savedMessages.Items.Clear();
+            foreach (var message in currentMessages)
+            {
+                try
+                {
+                    database.serializeToJSON(message);
+                    savedMessages.Items.Add(message);
+                }
+                catch (Exception ex)
+                {
+                    messageErrors.Items.Add("Error for message: " + message.Header + " " + ex.Message);
+                }
+            }
+        }
+
+        private void LoadFromFile_Click(object sender, RoutedEventArgs e)
+        {
+            /*try
             {
                 List<Message> messages = new List<Message>();
                 foreach (var message in validator.ValidateFile(browseFile()))
@@ -83,15 +101,15 @@ namespace NapierBankingApp
                         MessageBox.Show(ex.Message);
                     }
                 }
-                updateMessages(messages);
-                updateUnloadedMessages();
+                updateProcessedMessages(messages);
+                MessageErrors();
                 updateStats();
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
+            }*/
         }
 
         public void updateStats()
@@ -110,28 +128,29 @@ namespace NapierBankingApp
             foreach (var item in preprocessor.SirList)
             {
                 lstSIR.Items.Add(item.ToString());
+              
             }
         }
         public void updateMessages(Message message)
         {
-            lstViewMessages.Items.Clear();
-            lstViewMessages.Items.Add(message.ToString());
+            processedMessages.Items.Clear();
+            processedMessages.Items.Add(message.ToString());
         }
-        public void updateMessages(List<Message> messages)
+        public void updateProcessedMessages(List<Message> messages)
         {
-            lstViewMessages.Items.Clear();
-            foreach(var message in messages)
+            processedMessages.Items.Clear();
+            foreach (var message in messages)
             {
-                lstViewMessages.Items.Add(message.ToString());
+                processedMessages.Items.Add(message.ToString());
             }
-            
+
         }
-        public void updateUnloadedMessages()
+        public void MessageErrors()
         {
-            lstViewUnloadedMessages.Items.Clear();
+            messageErrors.Items.Clear();
             foreach (var item in validator.UnloadedMessages)
             {
-                lstViewUnloadedMessages.Items.Add(item.ToString());
+                messageErrors.Items.Add(item.ToString());
             }
         }
 
@@ -147,6 +166,13 @@ namespace NapierBankingApp
                 //etc
             }
             return "";
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            processedMessages.Items.Clear();
+            currentMessages.Clear();
+            savedMessages.Items.Clear();
         }
     }
 }

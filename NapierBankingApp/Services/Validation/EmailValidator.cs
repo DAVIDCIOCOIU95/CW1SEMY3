@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NapierBankingApp.Services.Validation
 {
@@ -20,7 +21,9 @@ namespace NapierBankingApp.Services.Validation
 
             if (type == "SIR")
             {
-                return new SIR(header, fields[0], fields[1], ValidateSortCode(fields, 2, @"\b[0-9]{2}-?[0-9]{2}-?[0-9]{2}\b"), ValidateIncidentType(fields, 3), ValidateText(fields, 4, 1028));
+                var txt =  new SIR(header, fields[0], fields[1], ValidateSortCode(fields, 2, @"\b[0-9]{2}-?[0-9]{2}-?[0-9]{2}\b"), ValidateIncidentType(fields, 3), ValidateText(fields, 4, 1028));
+                MessageBox.Show(txt.IncidentType);
+                return txt;
             }
             else if (type == "SEM")
             {
@@ -84,6 +87,7 @@ namespace NapierBankingApp.Services.Validation
             {
                 throw new Exception("Invalid incident type.");
             }
+            
             return fields[incidentIndex];
         }
     }
