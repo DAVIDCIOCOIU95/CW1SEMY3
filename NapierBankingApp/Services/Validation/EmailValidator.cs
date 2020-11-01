@@ -15,7 +15,8 @@ namespace NapierBankingApp.Services.Validation
         {
             var fields = Parser.ParseBody(body, ",", true);
             var sender = ValidateSender(fields, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z");
-            var type = ValidateSubject(fields, 1, @"^SIR \d{1,2}/\d{1,2}/\d{4}$");
+            var type = ValidateSubject(fields, 1, @"^SIR \d{1,2}/\d{1,2}/\d{4}$", @"^SEM[a-zA-Z0-9_]{0,20}");
+            // @"^\@[a-zA-Z0-9_]{1,15}$"
 
             if (type == "SIR")
             {
@@ -37,7 +38,7 @@ namespace NapierBankingApp.Services.Validation
         /// <param name="fields"></param>
         /// <param name="subjectRegex"></param>
         /// <returns>The type of the email.</returns>
-        protected static string ValidateSubject(List<string> fields, int subjectIndex,string subjectRegex)
+        protected static string ValidateSubject(List<string> fields, int subjectIndex,string subjectRegex1, string subjectRegex2)
         {
             if ((fields.Count < (subjectIndex + 1)))
             {
@@ -45,13 +46,17 @@ namespace NapierBankingApp.Services.Validation
             }
             if (string.IsNullOrWhiteSpace(fields[subjectIndex])) { throw new Exception("The subject can not be empty."); }
             if (fields[subjectIndex].Length > 20) { throw new Exception("The subject length must be less or equal to 20 characters."); }
-            if (Regex.IsMatch(fields[subjectIndex], subjectRegex))
+            if (Regex.IsMatch(fields[subjectIndex], subjectRegex1))
             {
                 return "SIR";
             }
-            else
+            else if (Regex.IsMatch(fields[subjectIndex], subjectRegex2))
             {
                 return "SEM";
+            }
+            else
+            {
+                throw new Exception("Invalid subject.");
             }
         }
 

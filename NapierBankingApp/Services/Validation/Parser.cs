@@ -17,7 +17,7 @@ namespace NapierBankingApp.Services.Validation
         /// <returns>A list of message entities, each containing header and body.</returns>
         public static List<string[]> ParseCsvFile(string filename, string delimiter)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, filename);
+            var path = Path.Combine(filename);
             TextFieldParser parser = new TextFieldParser(path);
             parser.HasFieldsEnclosedInQuotes = false;
             parser.SetDelimiters(delimiter);

@@ -44,9 +44,9 @@ namespace NapierBankingApp.Services.Validation
         /// </summary>
         /// <param name="fields"></param>
         /// <returns>A list of valid messages.</returns>
-        public List<Message> ValidateFile()
+        public List<Message> ValidateFile(string path)
         {
-            var fields = Parser.ParseCsvFile("rawmessages.txt", "|");
+            var fields = Parser.ParseCsvFile(path, "|");
             List<Message> validMessages = new List<Message>();
             UnloadedMessages.Clear();
             foreach (var field in fields)

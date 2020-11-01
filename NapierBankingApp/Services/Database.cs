@@ -82,6 +82,7 @@ namespace NapierBankingApp.Services
             {
                 collection = JsonSerializer.Deserialize<MessageCollection>(jsonString);
             }
+            // Create a new collection if no file exists in order to avoid throwing an extra error
             catch (Exception ex)
             {
                 collection = new MessageCollection();
@@ -89,10 +90,5 @@ namespace NapierBankingApp.Services
             
             return collection;
         }
-
-        
-
-
-        // Add deserializer
     }
 }

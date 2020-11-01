@@ -3,6 +3,7 @@ using NapierBankingApp.Services;
 using NapierBankingApp.Services.Validation;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,7 +64,7 @@ namespace NapierBankingApp
             try
             {
                 List<Message> messages = new List<Message>();
-                foreach (var message in validator.ValidateFile())
+                foreach (var message in validator.ValidateFile(browseFile()))
                 {
                     try
                     {
@@ -95,22 +96,20 @@ namespace NapierBankingApp
 
         public void updateStats()
         {
-            lstStats.Items.Clear();
+            lstTrends.Items.Clear();
+            lstMentions.Items.Clear();
+            lstSIR.Items.Clear();
             foreach (var item in preprocessor.MentionsList)
             {
-                lstStats.Items.Add(item.ToString());
+                lstMentions.Items.Add(item.ToString());
             }
             foreach (var item in preprocessor.TrendingList)
             {
-                lstStats.Items.Add(item.ToString());
+                lstTrends.Items.Add(item.ToString());
             }
             foreach (var item in preprocessor.SirList)
             {
-                lstStats.Items.Add(item.ToString());
-            }
-            foreach (var item in preprocessor.QuarantinedLinks)
-            {
-                lstStats.Items.Add(item.ToString());
+                lstSIR.Items.Add(item.ToString());
             }
         }
         public void updateMessages(Message message)
@@ -134,6 +133,20 @@ namespace NapierBankingApp
             {
                 lstViewUnloadedMessages.Items.Add(item.ToString());
             }
+        }
+
+        private string browseFile()
+        {
+            var FD = new System.Windows.Forms.OpenFileDialog();
+            if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string fileToOpen = FD.FileName;
+                //FileInfo File = new FileInfo(FD.FileName);
+                //StreamReader reader = new StreamReader(fileToOpen);
+                return fileToOpen;
+                //etc
+            }
+            return "";
         }
     }
 }
