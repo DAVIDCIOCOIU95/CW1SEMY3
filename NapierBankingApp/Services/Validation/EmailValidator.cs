@@ -21,9 +21,7 @@ namespace NapierBankingApp.Services.Validation
 
             if (type == "SIR")
             {
-                var txt =  new SIR(header, fields[0], fields[1], ValidateSortCode(fields, 2, @"\b[0-9]{2}-?[0-9]{2}-?[0-9]{2}\b"), ValidateIncidentType(fields, 3), ValidateText(fields, 4, 1028));
-                MessageBox.Show(txt.IncidentType);
-                return txt;
+                return new SIR(header, fields[0], fields[1], ValidateSortCode(fields, 2, @"\b[0-9]{2}-?[0-9]{2}-?[0-9]{2}\b"), ValidateIncidentType(fields, 3), ValidateText(fields, 4, 1028));
             }
             else if (type == "SEM")
             {

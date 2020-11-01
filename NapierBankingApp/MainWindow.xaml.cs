@@ -45,7 +45,7 @@ namespace NapierBankingApp
                 messageErrors.Items.Clear();
                 var message = preprocessor.PreprocessMessage(validator.ValidateMessage(txtBoxHeader.Text, txtBoxBody.Text));
                 currentMessages.Add(message);
-                updateProcessedMessages(currentMessages);
+                updateProcessedMessages();
                 updateStats();
             }
             catch (Exception ex)
@@ -79,39 +79,38 @@ namespace NapierBankingApp
 
         private void LoadFromFile_Click(object sender, RoutedEventArgs e)
         {
-            /*try
+            try
             {
-                List<Message> messages = new List<Message>();
+                messageErrors.Items.Clear();
                 foreach (var message in validator.ValidateFile(browseFile()))
                 {
                     try
                     {
-                        messages.Add(preprocessor.PreprocessMessage(message));
-                        if (database.serializeToJSON(message))
-                        {
-                            MessageBox.Show("Message Saved.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Couldn't save message.");
-                        }
+                        currentMessages.Add(preprocessor.PreprocessMessage(message));
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        messageErrors.Items.Add(ex.Message);
                     }
                 }
-                updateProcessedMessages(messages);
-                MessageErrors();
+                updateProcessedMessages();
                 updateStats();
+                foreach(var unloaded in validator.UnloadedMessages)
+                {
+                    messageErrors.Items.Add(unloaded);
+                }
+              
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-            }*/
+                messageErrors.Items.Add(ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Updates the statistics lists in the UI getting them from the preprocessor.
+        /// </summary>
         public void updateStats()
         {
             lstTrends.Items.Clear();
@@ -131,15 +130,15 @@ namespace NapierBankingApp
               
             }
         }
-        public void updateMessages(Message message)
+
+        /// <summary>
+        /// Updates the processed messages list.
+        /// </summary>
+        /// <param name="messages"></param>
+        public void updateProcessedMessages()
         {
             processedMessages.Items.Clear();
-            processedMessages.Items.Add(message.ToString());
-        }
-        public void updateProcessedMessages(List<Message> messages)
-        {
-            processedMessages.Items.Clear();
-            foreach (var message in messages)
+            foreach (var message in currentMessages)
             {
                 processedMessages.Items.Add(message.ToString());
             }
