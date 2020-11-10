@@ -163,6 +163,12 @@
       "Header": "T000000777",
       "Sender": "@david",
       "Text": "hello"
+    },
+    "T777777773": {
+      "MessageType": "T",
+      "Header": "T777777773",
+      "Sender": "@david",
+      "Text": ""
     }
   },
   "SIRList": {

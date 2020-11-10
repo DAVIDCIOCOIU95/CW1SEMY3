@@ -5,33 +5,125 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NapierBankingApp"
         mc:Ignorable="d"
-        Title="Napier Banking App" Height="550" Width="1000">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="194*"/>
-            <ColumnDefinition Width="795*"/>
-        </Grid.ColumnDefinitions>
-        <TabControl HorizontalAlignment="Left" Height="504" Margin="10,4,0,0" VerticalAlignment="Top" Width="966" Grid.ColumnSpan="2" Grid.Column="1">
-            <TabItem Header="Process Message">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="47*"/>
-                        <ColumnDefinition Width="476*"/>
-                    </Grid.ColumnDefinitions>
-                    <GroupBox Header="Message" HorizontalAlignment="Left" Height="246" Margin="10,10,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" Grid.ColumnSpan="2">
-                        <Grid HorizontalAlignment="Left" Height="155" Margin="5,7,-13,0" VerticalAlignment="Top" Width="367">
-                            <TextBlock x:Name="txtBlockHeader" HorizontalAlignment="Left" Margin="2,2,0,0" TextWrapping="Wrap" Text="Header" VerticalAlignment="Top" RenderTransformOrigin="8.771,13.972" FontWeight="Normal" FontStyle="Italic"/>
-                            <TextBox x:Name="txtBoxHeader" HorizontalAlignment="Left" Height="25" Margin="1,23,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="111" FontWeight="Normal"/>
+        Title="Napier Banking App" Height="550" Width="1000" Background="#FF0F0F0F">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="TabButton">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10,10,10,10" />
+                </Style>
 
-                            <TextBlock x:Name="txtBlockBody" HorizontalAlignment="Left" Margin="3,66,0,0" TextWrapping="Wrap" Text="Body" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic"/>
-                            <TextBox x:Name="txtBoxBody" HorizontalAlignment="Left" Height="85" Margin="0,89,0,-19" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="350" FontWeight="Normal" AcceptsReturn="True"/>
+            </Style.Resources>
+        </Style>
+
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FF9BACF0"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF9BACF0"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="10">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                <!-- ADDED: -->
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FF2F3136">
+        <TabControl HorizontalAlignment="Left" Height="504" Margin="10,4,0,0" VerticalAlignment="Top" BorderBrush="#FF232325" Background="#FF2F3136" Foreground="#FF2F3136" Width="975" >
+            <TabItem Header="Process Message" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
+                <Grid Background="#FF2F3136" Margin="0,46,0,1">
+                    <GroupBox HorizontalAlignment="Left" Height="268" Margin="33,11,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
+                        <GroupBox.Header>
+                            <TextBlock Text="Message" Foreground="White" />
+                        </GroupBox.Header>
+
+                        <Grid HorizontalAlignment="Left" Height="155" Margin="5,7,-13,0" VerticalAlignment="Top" Width="367">
+                            <TextBlock Text="{Binding MessageHeaderTextBlock}" HorizontalAlignment="Left" Margin="2,2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="8.771,13.972" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7"/>
+                            <TextBox Text="{Binding MessageHeaderTextBox}" HorizontalAlignment="Left" Height="25" Margin="1,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+
+                            <TextBlock  Text="{Binding MessageBodyTextBlock}" HorizontalAlignment="Left" Margin="3,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7"/>
+                            <TextBox Text="{Binding MessageBodyTextBox}" HorizontalAlignment="Left" Height="85" Margin="0,89,0,-19" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" FontWeight="Normal" AcceptsReturn="True" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBlock Text="{Binding MessageErrorTextBlock}" HorizontalAlignment="Left" Height="32" Margin="1,179,0,-56" TextWrapping="Wrap" VerticalAlignment="Top" Width="346" FontWeight="Normal" Background="#FF2F3136" Foreground="Red"/>
+                            <TextBlock Text="{Binding MessageErrorTextBlock}" HorizontalAlignment="Left" Height="32" Margin="1,179,0,-56" TextWrapping="Wrap" VerticalAlignment="Top" Width="346" FontWeight="Normal" Background="#FF2F3136" Foreground="Red"/>
+                            <TextBlock Text="{Binding MessageErrorTextBlock}" HorizontalAlignment="Left" Height="32" Margin="1,179,0,-56" TextWrapping="Wrap" VerticalAlignment="Top" Width="346" FontWeight="Normal" Background="#FF2F3136" Foreground="Red"/>
                         </Grid>
                     </GroupBox>
-                    <Button x:Name="Process" FontWeight="Bold" Content="Process" HorizontalAlignment="Left" Margin="211,226,0,0" VerticalAlignment="Top" Width="74" Click="Process_Click" Background="#FFB2B2B2" Height="20" Foreground="Black" Grid.Column="1"/>
+
+                    <Button Content="{Binding ProcessMessageButtonText}" Command="{Binding ProcessMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="317,248,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <GroupBox HorizontalAlignment="Left" Height="270" Margin="537,11,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
+                        <GroupBox.Header>
+                            <TextBlock Text="Processed Message" Foreground="White" />
+                        </GroupBox.Header>
+
+                        <Grid HorizontalAlignment="Left" Height="155" Margin="5,7,-13,0" VerticalAlignment="Top" Width="367">
+                            <TextBlock Text="{Binding ProcessedMessageHeaderTextBlock}" HorizontalAlignment="Left" Margin="2,2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="8.771,13.972" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7"/>
+                            <TextBox Text="{Binding ProcessedMessageHeaderTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="1,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+
+                            <TextBlock  Text="{Binding MessageTextTextBlock}" HorizontalAlignment="Left" Margin="2,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
+                            <TextBox Text="{Binding ProcessedMessageTextTextBox }" IsReadOnly="true" HorizontalAlignment="Left" Height="50" Margin="0,127,0,-22" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" FontWeight="Normal" AcceptsReturn="True" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBlock Text="{Binding SaveMessageErrorTextBlock}" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" VerticalAlignment="Top" Width="346" FontWeight="Normal" Background="#FF2F3136" Foreground="Red" Margin="4,184,0,-61"/>
+                            <TextBlock Text="{Binding MessageSenderTextBlock}" HorizontalAlignment="Left" Margin="2,2,0,0" TextWrapping="Wrap"  RenderTransformOrigin="8.771,13.972" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7"/>
+                            <TextBox Text="{Binding ProcessedMessageSenderTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="2,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBox Text="{Binding ProcessedMessageSIRTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="128,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBox Text="{Binding ProcessedMessageSortCodeTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="255,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBox Text="{Binding ProcessedMessageIncidentTypeTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="183,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBlock  Text="{Binding MessageSenderTextBlock}" HorizontalAlignment="Left" Margin="3,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
+                            <TextBlock  Text="{Binding MessageIncidentTypeTextBlock}" HorizontalAlignment="Left" Margin="186,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="90"/>
+                            <TextBlock  Text="{Binding MessageSIRTextBlock}" HorizontalAlignment="Left" Margin="131,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
+                            <TextBlock  Text="{Binding MessagesSortCodeTextBlock}" HorizontalAlignment="Left" Margin="258,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
+                        </Grid>
+                    </GroupBox>
+                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="817,251,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Process File">
+            <TabItem Header="Process File" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
                 <GroupBox Header="Processed Messages" HorizontalAlignment="Left" Height="202" VerticalAlignment="Top" Width="540" Margin="310,10,0,0" FontWeight="Bold" Grid.Column="1">
                     <ListView x:Name="processedMessages" HorizontalAlignment="Left" Margin="4,5,-1,2" Width="525" FontWeight="Normal">
                         <ListView.ItemTemplate>
@@ -47,7 +139,7 @@
 
 
 
-            <TabItem Header="Lists">
+            <TabItem Header="Lists" BorderBrush="White" Background="White" Foreground="#FF36393F" FontWeight="Bold">
                 <Grid Background="#FFE5E5E5">
                     <GroupBox Header="Mentions" HorizontalAlignment="Left" Height="380
                               " VerticalAlignment="Top" Width="300" Margin="12,21,0,0" FontWeight="Bold">
@@ -81,6 +173,9 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
+
+
+
         </TabControl>
 
     </Grid>

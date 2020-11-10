@@ -36,8 +36,8 @@ namespace NapierBankingApp.Services
             LoadAbbreviations("textwords.csv");
         }
 
-        #region Preprocessors
-        private Tweet PreprocessTweet(Message message)
+        #region Processor
+        private Tweet ProcessTweet(Message message)
         {
             message.Text = SobstituteAbbreviations(message.Text);
             AddToMentionList(message.Text);
@@ -45,17 +45,17 @@ namespace NapierBankingApp.Services
             Tweet tweet = new Tweet(message.Header, message.Sender, message.Text);
             return tweet;
         }
-        private SMS PreprocessSMS(SMS message)
+        private SMS ProcessSMS(SMS message)
         {
             message.Text = SobstituteAbbreviations(message.Text);
             return message;
         }
-        private SEM PreprocessSEM(SEM message)
+        private SEM ProcessSEM(SEM message)
         {
             message.Text = SobstituteURL(message.Text);
             return message;
         }
-        private SIR PreprocessSIR(SIR message)
+        private SIR ProcessSIR(SIR message)
         {
             message.Text = SobstituteURL(message.Text);
             //Add To SIR
@@ -63,27 +63,27 @@ namespace NapierBankingApp.Services
             SirList.Add(sirObject);
             return message;
         }
-        public Message PreprocessMessage(Message message)
+        public Message ProcessMessage(Message message)
         {
             switch (message.MessageType)
             {
                 case "S":
                     SMS sms = new SMS(message.Header, message.Sender, message.Text);
-                    sms = PreprocessSMS(sms);
+                    sms = ProcessSMS(sms);
                     return sms;
                 case "E":
                     Email email = (Email)message;
                     if (email.EmailType == "SEM")
                     {
                         SEM sem = (SEM)email;
-                        sem = PreprocessSEM(sem);
+                        sem = ProcessSEM(sem);
                         return sem;
 
                     }
                     else if (email.EmailType == "SIR")
                     {
                         SIR sir = (SIR)email;
-                        sir = PreprocessSIR(sir);
+                        sir = ProcessSIR(sir);
                         return sir;
                     }
                     else
@@ -92,7 +92,7 @@ namespace NapierBankingApp.Services
                     }
                 case "T":
                     Tweet tweet = new Tweet(message.Header, message.Sender, message.Text);
-                    tweet = PreprocessTweet(tweet);
+                    tweet = ProcessTweet(tweet);
                     return tweet;
                 default:
                     throw new Exception("Incorrect message type");
@@ -101,7 +101,7 @@ namespace NapierBankingApp.Services
         }
         #endregion
 
-        #region Preprocessor private methods
+        #region Processor private methods
         private void LoadAbbreviations(string filename)
         {
             var path = Path.Combine(Environment.CurrentDirectory, filename);
