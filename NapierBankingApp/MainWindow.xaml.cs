@@ -1,6 +1,7 @@
 ﻿using NapierBankingApp.Models;
 using NapierBankingApp.Services;
 using NapierBankingApp.Services.Validation;
+using NapierBankingApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,13 +25,14 @@ namespace NapierBankingApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        Preprocessor preprocessor = new Preprocessor();
+        Processor preprocessor = new Processor();
         Validator validator = new Validator();
         Database database = new Database("myMessage");
         List<Message> currentMessages = new List<Message>();
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
         }
 
         /// <summary>
@@ -50,6 +52,7 @@ namespace NapierBankingApp
             }
             catch (Exception ex)
             {
+                headerErrorLabel.Content = "hello";
                 messageErrors.Items.Add("Error: " + ex.Message);
             }
         }
@@ -172,6 +175,16 @@ namespace NapierBankingApp
             processedMessages.Items.Clear();
             currentMessages.Clear();
             savedMessages.Items.Clear();
+        }
+
+        /// <summary>
+        /// Takes in a list of labels and updates the error labels.
+        /// </summary>
+        /// <param name="labels"></param>
+        private void Error_updater(List<object> labels)
+        {
+            
+
         }
     }
 }

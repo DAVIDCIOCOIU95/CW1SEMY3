@@ -24,8 +24,7 @@ namespace NapierBankingApp.Services.Validation
         /// <returns>A validated message object of a particular type.</returns>
         public Message ValidateMessage(string header, string body)
         {
-            ValidateHeader(header);
-            switch (header[0])
+            switch (ValidateHeader(header)[0])
             {
                 case 'S':
                     return SMSValidator.ValidateSMS(header, body);
@@ -36,7 +35,6 @@ namespace NapierBankingApp.Services.Validation
                 default:
                     throw new Exception("Invalid Message Type.");
             }
-
         }
 
         /// <summary>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NapierBankingApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="1000">
+        Title="Napier Banking App" Height="550" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
@@ -13,59 +13,45 @@
             <ColumnDefinition Width="795*"/>
         </Grid.ColumnDefinitions>
         <TabControl HorizontalAlignment="Left" Height="504" Margin="10,4,0,0" VerticalAlignment="Top" Width="966" Grid.ColumnSpan="2" Grid.Column="1">
-            <TabItem Header="Message">
+            <TabItem Header="Process Message">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="47*"/>
                         <ColumnDefinition Width="476*"/>
                     </Grid.ColumnDefinitions>
-                    <GroupBox Header="Message" HorizontalAlignment="Left" Height="200" Margin="10,10,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" Grid.ColumnSpan="2">
+                    <GroupBox Header="Message" HorizontalAlignment="Left" Height="246" Margin="10,10,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" Grid.ColumnSpan="2">
                         <Grid HorizontalAlignment="Left" Height="155" Margin="5,7,-13,0" VerticalAlignment="Top" Width="367">
                             <TextBlock x:Name="txtBlockHeader" HorizontalAlignment="Left" Margin="2,2,0,0" TextWrapping="Wrap" Text="Header" VerticalAlignment="Top" RenderTransformOrigin="8.771,13.972" FontWeight="Normal" FontStyle="Italic"/>
                             <TextBox x:Name="txtBoxHeader" HorizontalAlignment="Left" Height="25" Margin="1,23,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="111" FontWeight="Normal"/>
-                            <TextBlock x:Name="txtBlockBody" HorizontalAlignment="Left" Margin="3,59,0,0" TextWrapping="Wrap" Text="Body" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic"/>
-                            <TextBox x:Name="txtBoxBody" HorizontalAlignment="Left" Height="85" Margin="0,82,0,-12" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="350" FontWeight="Normal" AcceptsReturn="True"/>
+
+                            <TextBlock x:Name="txtBlockBody" HorizontalAlignment="Left" Margin="3,66,0,0" TextWrapping="Wrap" Text="Body" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic"/>
+                            <TextBox x:Name="txtBoxBody" HorizontalAlignment="Left" Height="85" Margin="0,89,0,-19" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="350" FontWeight="Normal" AcceptsReturn="True"/>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Processed Messages" HorizontalAlignment="Left" Height="202" VerticalAlignment="Top" Width="540" Margin="310,10,0,0" FontWeight="Bold" Grid.Column="1">
-                        <ListView x:Name="processedMessages" HorizontalAlignment="Left" Margin="4,5,-1,2" Width="525" FontWeight="Normal">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </GroupBox>
-                    <GroupBox Header="Errors" HorizontalAlignment="Left" Height="167" Margin="10,288,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" Grid.ColumnSpan="2">
-                        <ListView x:Name="messageErrors" HorizontalAlignment="Left" Height="139" Margin="3,4,0,0" VerticalAlignment="Top" Width="350" FontWeight="Normal">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </GroupBox>
-                    <Button x:Name="Save" FontWeight="Bold" Content="Save" HorizontalAlignment="Left" Margin="769,225,0,0" VerticalAlignment="Top" Width="74" Click="Save_Click" Background="#FFB2B2B2" Height="20" Foreground="Black" Grid.Column="1"/>
-                    <Button x:Name="Process" FontWeight="Bold" Content="Process" HorizontalAlignment="Left" Margin="216,220,0,0" VerticalAlignment="Top" Width="74" Click="Process_Click" Background="#FFB2B2B2" Height="20" Foreground="Black" Grid.Column="1"/>
-                    <Button x:Name="LoadFromFile" FontWeight="Bold" Content="Load From File" HorizontalAlignment="Left" Margin="145,248,0,0" VerticalAlignment="Top" Width="145" Click="LoadFromFile_Click" Background="#FFB2B2B2" Grid.Column="1"/>
-                    <GroupBox Header="Saved Messages" HorizontalAlignment="Left" Height="168" VerticalAlignment="Top" Width="540" Margin="309,287,0,0" FontWeight="Bold" Grid.Column="1">
-                        <ListView x:Name="savedMessages" HorizontalAlignment="Left" Margin="4,5,-1,2" Width="525" FontWeight="Normal">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </GroupBox>
-                    <Button x:Name="clear" FontWeight="Bold" Content="Clear" HorizontalAlignment="Left" Margin="682,225,0,0" VerticalAlignment="Top" Width="74" Click="Clear_Click" Background="#FFB2B2B2" Height="20" Foreground="Black" Grid.Column="1"/>
+                    <Button x:Name="Process" FontWeight="Bold" Content="Process" HorizontalAlignment="Left" Margin="211,226,0,0" VerticalAlignment="Top" Width="74" Click="Process_Click" Background="#FFB2B2B2" Height="20" Foreground="Black" Grid.Column="1"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Process File">
+                <GroupBox Header="Processed Messages" HorizontalAlignment="Left" Height="202" VerticalAlignment="Top" Width="540" Margin="310,10,0,0" FontWeight="Bold" Grid.Column="1">
+                    <ListView x:Name="processedMessages" HorizontalAlignment="Left" Margin="4,5,-1,2" Width="525" FontWeight="Normal">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </GroupBox>
+
+            </TabItem>
+
+
 
             <TabItem Header="Lists">
                 <Grid Background="#FFE5E5E5">
                     <GroupBox Header="Mentions" HorizontalAlignment="Left" Height="380
-                              " VerticalAlignment="Top" Width="239" Margin="32,20,0,0" FontWeight="Bold">
-                        <ListView x:Name="lstMentions" HorizontalAlignment="Left" Height="345" Margin="4,8,0,0" VerticalAlignment="Top" Width="219" FontWeight="Normal">
+                              " VerticalAlignment="Top" Width="300" Margin="12,21,0,0" FontWeight="Bold">
+                        <ListView x:Name="lstMentions" HorizontalAlignment="Left" Height="345" Margin="4,8,0,0" VerticalAlignment="Top" Width="280" FontWeight="Normal">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -74,8 +60,8 @@
                         </ListView>
                     </GroupBox>
                     <GroupBox Header="Trends" HorizontalAlignment="Left" Height="380
-                              " VerticalAlignment="Top" Width="240" Margin="359,20,0,0" FontWeight="Bold">
-                        <ListView x:Name="lstTrends" HorizontalAlignment="Left" Height="345" Margin="6,8,0,0" VerticalAlignment="Top" Width="217" FontWeight="Normal">
+                              " VerticalAlignment="Top" Width="303" Margin="328,22,0,0" FontWeight="Bold">
+                        <ListView x:Name="lstTrends" HorizontalAlignment="Left" Height="345" Margin="6,8,0,0" VerticalAlignment="Top" Width="280" FontWeight="Normal">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -84,8 +70,8 @@
                         </ListView>
                     </GroupBox>
                     <GroupBox Header="SIR" HorizontalAlignment="Left" Height="380
-                              " VerticalAlignment="Top" Width="240" Margin="689,20,0,0" FontWeight="Bold">
-                        <ListView x:Name="lstSIR" HorizontalAlignment="Left" Height="345" Margin="5,9,0,0" VerticalAlignment="Top" Width="218" FontWeight="Normal">
+                              " VerticalAlignment="Top" Width="300" Margin="648,21,0,0" FontWeight="Bold">
+                        <ListView x:Name="lstSIR" HorizontalAlignment="Left" Height="345" Margin="5,9,0,0" VerticalAlignment="Top" Width="280" FontWeight="Normal">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>

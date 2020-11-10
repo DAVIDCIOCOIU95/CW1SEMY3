@@ -9,11 +9,11 @@ namespace NapierBankingApp.Services.Validation
 {
     public abstract class MessageValidator
     {
-        public static void ValidateHeader(string header)
+        public static string ValidateHeader(string header)
         {
+            header = header.ToUpper();
             if (header.Length != 10)
             {
-                header = header.ToUpper();
                 throw new Exception("The header must have a length of 10.");
             }
             if (header[0].ToString() != Regex.Match(header, @"[SET]").Value)
@@ -24,6 +24,7 @@ namespace NapierBankingApp.Services.Validation
             {
                 throw new Exception("The header type must be followed by only numeric characters.");
             }
+            return header;
         }
         public static string ValidateSender(List<string> fields, string senderRegex, Dictionary<string, string> specialCharacters = null)
         {

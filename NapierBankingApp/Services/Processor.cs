@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 
 namespace NapierBankingApp.Services
 {
-    public class Preprocessor
+    public class Processor
     {
         public Dictionary<string, int> TrendingList { get; private set; }
         public Dictionary<string, int> MentionsList { get; private set; }
@@ -26,7 +26,7 @@ namespace NapierBankingApp.Services
 
         
 
-        public Preprocessor()
+        public Processor()
         {
             TrendingList = new Dictionary<string, int>();
             MentionsList = new Dictionary<string, int>();

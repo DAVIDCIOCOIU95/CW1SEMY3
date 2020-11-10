@@ -96,7 +96,7 @@
     <Compile Include="Models\SIR.cs" />
     <Compile Include="Models\SMS.cs" />
     <Compile Include="Models\Tweet.cs" />
-    <Compile Include="Services\Preprocessor.cs" />
+    <Compile Include="Services\Processor.cs" />
     <Compile Include="Services\Validation\EmailValidator.cs" />
     <Compile Include="Services\Validation\MessageValidator.cs" />
     <Compile Include="Services\Validation\Parser.cs" />
