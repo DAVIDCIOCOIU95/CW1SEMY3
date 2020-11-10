@@ -19,19 +19,19 @@ namespace NapierBankingApp.ViewModels
         public string MessageHeaderTextBlock { get; private set; }
         public string MessageBodyTextBlock { get; private set; }
         public string MessageSenderTextBlock { get; private set; }
-        public string MessageSIRTextBlock { get; private set; }
         public string MessageIncidentTypeTextBlock { get; private set; }
         public string MessagesSortCodeTextBlock { get; private set; }
         public string MessageTextTextBlock { get; private set; }
+        public string MessageSubjectTextBlock { get; private set; }
         public string MessageErrorTextBlock { get; private set; }
         public string SaveMessageErrorTextBlock { get; private set; }
 
         public string MessageHeaderTextBox { get; set; }
         public string MessageBodyTextBox { get; set; }
         public string ProcessedMessageSenderTextBox { get; set; }
-        public string ProcessedMessageSIRTextBox { get; set; }
         public string ProcessedMessageSortCodeTextBox { get; set; }
         public string ProcessedMessageIncidentTypeTextBox { get; set; }
+        public string ProcessedMessageSubjectTextBox { get; set; }
         public string ProcessedMessageHeaderTextBox { get; set; }
         public string ProcessedMessageTextTextBox { get; set; }
 
@@ -57,10 +57,10 @@ namespace NapierBankingApp.ViewModels
             MessageHeaderTextBlock = "Header";
             MessageBodyTextBlock = "Body";
             MessageSenderTextBlock = "Sender";
-            MessageSIRTextBlock = "SIR";
             MessageIncidentTypeTextBlock = "Incident Type";
             MessagesSortCodeTextBlock = "Sort Code";
             MessageTextTextBlock = "Text";
+            MessageSubjectTextBlock = "Subject";
 
             MessageErrorTextBlock = string.Empty;
             SaveMessageErrorTextBlock = string.Empty;
@@ -73,9 +73,9 @@ namespace NapierBankingApp.ViewModels
             MessageHeaderTextBox = string.Empty;
             MessageBodyTextBox = string.Empty;
             ProcessedMessageSenderTextBox = string.Empty;
-            ProcessedMessageSIRTextBox = string.Empty;
             ProcessedMessageSortCodeTextBox = string.Empty;
             ProcessedMessageIncidentTypeTextBox = string.Empty;
+            ProcessedMessageSubjectTextBox = string.Empty;
 
             ProcessedMessageHeaderTextBox = string.Empty;
             ProcessedMessageTextTextBox = string.Empty;
@@ -143,6 +143,36 @@ namespace NapierBankingApp.ViewModels
                 OnChanged(nameof(ProcessedMessageHeaderTextBox));
                 OnChanged(nameof(ProcessedMessageTextTextBox));
                 OnChanged(nameof(ProcessedMessageSenderTextBox));
+
+                // If SIR display appropriate fields, else display "N/A"
+                {
+                   if(message.MessageType == "E")
+                    {
+                        Email email = (Email)message;
+                        // Display subject 
+                        ProcessedMessageSubjectTextBox = email.Subject;
+                        OnChanged(nameof(ProcessedMessageSubjectTextBox));
+
+                        if (email.EmailType == "SIR")
+                        {
+                            SIR sir = (SIR)email;
+                            ProcessedMessageSortCodeTextBox = sir.SortCode;
+                            ProcessedMessageIncidentTypeTextBox = sir.IncidentType;
+                            OnChanged(nameof(ProcessedMessageSortCodeTextBox));
+                            OnChanged(nameof(ProcessedMessageIncidentTypeTextBox));
+                        }
+                    } else
+                    {
+                        ProcessedMessageSortCodeTextBox = "N/A";
+                        ProcessedMessageIncidentTypeTextBox = "N/A";
+                        OnChanged(nameof(ProcessedMessageSortCodeTextBox));
+                        OnChanged(nameof(ProcessedMessageIncidentTypeTextBox));
+                    }
+                }
+
+                // Clean any leftover error from saved messages
+                SaveMessageErrorTextBlock = string.Empty;
+                OnChanged(nameof(SaveMessageErrorTextBlock));
             }
             catch (Exception ex)
             {
