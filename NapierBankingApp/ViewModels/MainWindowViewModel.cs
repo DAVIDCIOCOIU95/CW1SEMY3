@@ -18,7 +18,6 @@ namespace NapierBankingApp.ViewModels
         public ObservableCollection<Message> LoadedMessages { get; set; }
         public ObservableCollection<string> LoadedMessagesErrors { get; set; }
 
-        // 3 lists
         public ObservableCollection<string> TrendList { get; set; }
         public ObservableCollection<string> MentionList { get; set; }
         public ObservableCollection<string> SIRList { get; set; }
@@ -42,13 +41,11 @@ namespace NapierBankingApp.ViewModels
         public string ProcessedMessageHeaderTextBox { get; set; }
         public string ProcessedMessageTextTextBox { get; set; }
 
-
         public ICommand ProcessMessageButtonCommand { get; private set; }
         public ICommand ClearMessageButton { get; private set; }
         public ICommand SaveMessageButtonCommand { get; private set; }
         public ICommand LoadMessageButtonCommand { get; private set; }
         public ICommand SaveLoadedMessageButtonCommand { get; private set; }
-        
 
         public string ProcessMessageButtonText { get; private set; }
         public string ClearMessageButtonText { get; private set; }
@@ -58,7 +55,6 @@ namespace NapierBankingApp.ViewModels
         Processor processor;
         Validator validator;
         Database database;
-        List<Message> currentMessages;
         Message currentMessage;
 
         public MainWindowViewModel()
@@ -108,7 +104,6 @@ namespace NapierBankingApp.ViewModels
             processor = new Processor();
             validator = new Validator();
             database = new Database("myMessage");
-            currentMessages = new List<Message>();
         }
 
         /// <summary>
@@ -289,11 +284,6 @@ namespace NapierBankingApp.ViewModels
         /// <param name="message"></param>
         private void UpdateLists(Message message)
         {
-            // First Clear the 3 lists in order to update them
-            SIRList.Clear();
-            MentionList.Clear();
-            TrendList.Clear();
-
             // Update the relevant lists
             switch (message.MessageType)
             {
@@ -301,6 +291,7 @@ namespace NapierBankingApp.ViewModels
                     Email email = (Email)message;
                     if (email.EmailType == "SIR")
                     {
+                        SIRList.Clear();
                         SIR sir = (SIR)email;
                         // Loop through SIRList and Add new instances
                         foreach (var item in processor.SirList)
@@ -311,6 +302,8 @@ namespace NapierBankingApp.ViewModels
                     }
                     break;
                 case "T":
+                    MentionList.Clear();
+                    TrendList.Clear();
                     foreach (var item in processor.MentionsList)
                     {
                         MentionList.Add("Mention: " + item.Key.ToString() + "\nCount: " + item.Value.ToString());
