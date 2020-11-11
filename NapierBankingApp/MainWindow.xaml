@@ -118,7 +118,8 @@
                         </Grid>
                     </GroupBox>
                     <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="690,271,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="601,272,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearProcessedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="601,272,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="214,249,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
                 </Grid>
             </TabItem>
 

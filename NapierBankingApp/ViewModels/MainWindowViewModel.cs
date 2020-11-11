@@ -42,8 +42,9 @@ namespace NapierBankingApp.ViewModels
         public string ProcessedMessageTextTextBox { get; set; }
 
         public ICommand ProcessMessageButtonCommand { get; private set; }
-        public ICommand ClearMessageButton { get; private set; }
+        public ICommand ClearMessageButtonCommand { get; private set; }
         public ICommand SaveMessageButtonCommand { get; private set; }
+        public ICommand ClearProcessedMessageButtonCommand { get; private set; }
         public ICommand LoadMessageButtonCommand { get; private set; }
         public ICommand SaveLoadedMessageButtonCommand { get; private set; }
 
@@ -66,7 +67,7 @@ namespace NapierBankingApp.ViewModels
             TrendList = new ObservableCollection<string>();
             MentionList = new ObservableCollection<string>();
 
-
+            // Text Blocks
             MessageHeaderTextBlock = "Header";
             MessageBodyTextBlock = "Body";
             MessageSenderTextBlock = "Sender";
@@ -78,12 +79,7 @@ namespace NapierBankingApp.ViewModels
             MessageErrorTextBlock = string.Empty;
             SaveMessageErrorTextBlock = string.Empty;
 
-
-            ProcessMessageButtonText = "Process";
-            ClearMessageButtonText = "Clear";
-            SaveMessageButtonText = "Save";
-            LoadMessageButtonText = "Load Messages";
-
+            // Text Boxes
             MessageHeaderTextBox = string.Empty;
             MessageBodyTextBox = string.Empty;
             ProcessedMessageSenderTextBox = string.Empty;
@@ -94,17 +90,29 @@ namespace NapierBankingApp.ViewModels
             ProcessedMessageHeaderTextBox = string.Empty;
             ProcessedMessageTextTextBox = string.Empty;
 
+            // Button Text
+            ProcessMessageButtonText = "Process";
+            ClearMessageButtonText = "Clear";
+            SaveMessageButtonText = "Save";
+            LoadMessageButtonText = "Load Messages";
 
-            ClearMessageButton = new RelayCommand(ClearMessageButtonClick);
+
+            // Commands
             ProcessMessageButtonCommand = new RelayCommand(ProcessMessageButtonClick);
-            SaveMessageButtonCommand = new RelayCommand(SaveMessageButtonClick);
             LoadMessageButtonCommand = new RelayCommand(LoadMessagesFromFile);
+            
             SaveLoadedMessageButtonCommand = new RelayCommand(SaveLoadedMessages);
+            SaveMessageButtonCommand = new RelayCommand(SaveMessageButtonClick);
+            
+            ClearProcessedMessageButtonCommand = new RelayCommand(ClearProcessedMessageButtonClick);
+            ClearMessageButtonCommand = new RelayCommand(ClearMessageButtonClick);
 
             processor = new Processor();
             validator = new Validator();
             database = new Database("myMessage");
         }
+
+        
 
         /// <summary>
         /// Attempts so the save the message.
@@ -212,6 +220,23 @@ namespace NapierBankingApp.ViewModels
 
             OnChanged(nameof(MessageHeaderTextBox));
             OnChanged(nameof(MessageBodyTextBox));
+        }
+
+        private void ClearProcessedMessageButtonClick()
+        {
+            ProcessedMessageHeaderTextBox = string.Empty;
+            ProcessedMessageSortCodeTextBox = string.Empty;
+            ProcessedMessageSenderTextBox = string.Empty;
+            ProcessedMessageIncidentTypeTextBox = string.Empty;
+            ProcessedMessageSubjectTextBox = string.Empty;
+            ProcessedMessageTextTextBox = string.Empty;
+
+            OnChanged(nameof(ProcessedMessageHeaderTextBox));
+            OnChanged(nameof(ProcessedMessageSortCodeTextBox));
+            OnChanged(nameof(ProcessedMessageSenderTextBox));
+            OnChanged(nameof(ProcessedMessageIncidentTypeTextBox));
+            OnChanged(nameof(ProcessedMessageSubjectTextBox));
+            OnChanged(nameof(ProcessedMessageTextTextBox));
         }
 
         private void LoadMessagesFromFile()
