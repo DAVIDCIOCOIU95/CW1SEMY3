@@ -21,8 +21,8 @@
         </Style>
         <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
         <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FF232323"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="Black"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FF8B8B8B"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="White"/>
         <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
         <SolidColorBrush x:Key="Button.MouseOver.Foreground" Color="#FF116997"/>
         <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
@@ -118,8 +118,8 @@
                         </Grid>
                     </GroupBox>
                     <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="690,271,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearProcessedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="601,272,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="214,249,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearProcessedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="601,272,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="214,249,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
                 </Grid>
             </TabItem>
 
@@ -148,7 +148,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <Button Content="{Binding LoadMessageButtonText}" Command="{Binding LoadMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="650,378,0,0" VerticalAlignment="Top" Width="110" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearLoadedMessageCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="622,343,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearLoadedMessageCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="622,343,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
                     <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveLoadedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="711,343,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
                 </Grid>
 
