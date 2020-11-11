@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NapierBankingApp"
         mc:Ignorable="d"
-        Title="Napier Banking App" Height="430" Width="842" Background="#FF2F3136"
+        Title="Napier Banking App" Height="476" Width="842" Background="#FF2F3136"
         >
 
     <Window.Resources>
@@ -120,11 +120,11 @@
 
             <TabItem Header="Process File" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
                 <Grid Margin="0,0,-25,0">
-                    <GroupBox HorizontalAlignment="Left" Height="281" VerticalAlignment="Top" Width="772" Margin="18,7,0,0" FontWeight="Bold" Foreground="White">
+                    <GroupBox HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="772" Margin="18,7,0,0" FontWeight="Bold" Foreground="White">
                         <GroupBox.Header>
                             <TextBlock Text="Messages" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView ItemsSource="{Binding LoadedMessages}" HorizontalAlignment="Left" Margin="4,5,0,68" Width="750" FontWeight="Normal" Foreground="White" Background="#FF40444B" BorderBrush="#FF40444B">
+                        <ListView ItemsSource="{Binding LoadedMessages}" HorizontalAlignment="Left" Margin="4,5,0,71" Width="750" FontWeight="Normal" Foreground="White" Background="#FF40444B" BorderBrush="#FF40444B" >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5" Foreground="White"/>
@@ -132,10 +132,19 @@
                             </ListView.ItemTemplate>
                         </ListView>
 
+
                     </GroupBox>
-                    <Button Content="{Binding LoadMessageButtonText}" Command="{Binding LoadMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="646,339,0,0" VerticalAlignment="Top" Width="110" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearLoadedMessageCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="618,304,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveLoadedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="707,304,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+
+                    <ListView ItemsSource="{Binding LoadedMessagesErrors}" HorizontalAlignment="Left" Margin="29,260,0,653" Width="749" FontWeight="Normal" Foreground="Red" Background="#FF2F3136" BorderBrush="#FF2F3136" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5" Foreground="Red"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button Content="{Binding LoadMessageButtonText}" Command="{Binding LoadMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="650,378,0,0" VerticalAlignment="Top" Width="110" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearLoadedMessageCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="622,343,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveLoadedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="711,343,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
                 </Grid>
 
 

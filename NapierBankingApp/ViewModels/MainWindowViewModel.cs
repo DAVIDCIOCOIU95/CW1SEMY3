@@ -16,6 +16,8 @@ namespace NapierBankingApp.ViewModels
     class MainWindowViewModel : BaseViewModel
     {
         public ObservableCollection<Message> LoadedMessages { get; set; }
+        public ObservableCollection<string> LoadedMessagesErrors { get; set; }
+        
         public string MessageHeaderTextBlock { get; private set; }
         public string MessageBodyTextBlock { get; private set; }
         public string MessageSenderTextBlock { get; private set; }
@@ -55,6 +57,7 @@ namespace NapierBankingApp.ViewModels
         public MainWindowViewModel()
         {
             LoadedMessages = new ObservableCollection<Message>();
+            LoadedMessagesErrors = new ObservableCollection<string>();
 
             MessageHeaderTextBlock = "Header";
             MessageBodyTextBlock = "Body";
@@ -204,6 +207,12 @@ namespace NapierBankingApp.ViewModels
         private void LoadMessagesFromFile()
         {
             var (messages, unloadedMessages) = validator.ValidateFile(browseFile());
+            // First Load All the errors related to the file
+            foreach (var error in unloadedMessages)
+            {
+                LoadedMessagesErrors.Add(error);
+            }
+
             foreach (var message in messages)
             {
                 try
@@ -213,6 +222,7 @@ namespace NapierBankingApp.ViewModels
                 catch (Exception ex)
                 {
                     // Display Error For This Message
+                    LoadedMessagesErrors.Add(ex.Message.ToString());
                 }
             }
 

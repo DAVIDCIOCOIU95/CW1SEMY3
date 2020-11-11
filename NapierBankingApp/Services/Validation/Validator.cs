@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace NapierBankingApp.Services.Validation
 {
@@ -51,7 +52,7 @@ namespace NapierBankingApp.Services.Validation
             {
                 if (field.Length != 2)
                 {
-                    UnloadedMessages.Add("Error for: " + field.ToString() + "\nError type: please make sure your input is of the type <header>|<body>");
+                    UnloadedMessages.Add("Error for: " + field[0].ToString() + "\nError type: please make sure your input is of the type <header>|<body>");
                 }
                 else
                 {
