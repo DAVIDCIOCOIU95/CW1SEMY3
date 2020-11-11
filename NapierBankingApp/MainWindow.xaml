@@ -139,7 +139,7 @@
 
                     </GroupBox>
 
-                    <ListView ItemsSource="{Binding LoadedMessagesErrors}" HorizontalAlignment="Left" Margin="29,260,0,653" Width="749" FontWeight="Normal" Foreground="Red" Background="#FF2F3136" BorderBrush="#FF2F3136" >
+                    <ListView ItemsSource="{Binding LoadedMessagesErrors}" HorizontalAlignment="Left" Margin="29,260,0,97" Width="749" FontWeight="Normal" Foreground="Red" Background="#FF2F3136" BorderBrush="#FF2F3136" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5" Foreground="Red"/>
@@ -184,7 +184,7 @@
                         <GroupBox.Header>
                             <TextBlock Text="SIR" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstSIR" ItemsSource="{Binding SIRList}" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
+                        <ListView x:Name="lstSIR" ItemsSource="{Binding SIRLi}" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>

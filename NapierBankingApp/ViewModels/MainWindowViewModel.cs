@@ -219,29 +219,34 @@ namespace NapierBankingApp.ViewModels
             // Empty the loaded messages and messages errors lists
             LoadedMessages.Clear();
             LoadedMessagesErrors.Clear();
-
-            var (messages, unloadedMessages) = validator.ValidateFile(browseFile());
-            // First Load All the errors related to the file
-            foreach (var error in unloadedMessages)
+            try
             {
-                LoadedMessagesErrors.Add(error);
-            }
+                var (messages, unloadedMessages) = validator.ValidateFile(browseFile());
+                // First Load All the errors related to the file
+                foreach (var error in unloadedMessages)
+                {
+                    LoadedMessagesErrors.Add(error);
+                }
 
-            foreach (var message in messages)
+                foreach (var message in messages)
+                {
+                    try
+                    {
+                        LoadedMessages.Add(processor.ProcessMessage(message));
+                        // Update lists
+                        UpdateLists(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Display Error For This Message
+                        LoadedMessagesErrors.Add(ex.Message.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    LoadedMessages.Add(processor.ProcessMessage(message));
-                    // Update lists
-                    UpdateLists(message);
-                }
-                catch (Exception ex)
-                {
-                    // Display Error For This Message
-                    LoadedMessagesErrors.Add(ex.Message.ToString());
-                }
+                LoadedMessagesErrors.Add(ex.Message);
             }
-
         }
 
         private void SaveLoadedMessages()
@@ -249,8 +254,15 @@ namespace NapierBankingApp.ViewModels
             // Clear Error Messages
             LoadedMessagesErrors.Clear();
 
+            // Save the message
+            // Throw error if there is no error to be saved
+            if (LoadedMessages.Count == 0)
+            {
+                LoadedMessagesErrors.Add("No message to be saved.");
+                return;
+            }
             // Try to save to database
-            foreach(var message in LoadedMessages)
+            foreach (var message in LoadedMessages)
             {
                 try
                 {
