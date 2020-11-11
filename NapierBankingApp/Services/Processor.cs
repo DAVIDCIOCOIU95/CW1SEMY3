@@ -152,12 +152,22 @@ namespace NapierBankingApp.Services
         /// <param name="text"></param>
         private void AddToMentionList(string text)
         {
-
+            MessageBox.Show(text);
             // Split the text in order to find each id
+            // If the first char is a @ then set a flag, else leave it to zero
+            var flag = 0;
+            if(text[0] == '@'){
+                flag = 1;
+            }
             string[] textSplit = text.Split('@');
-            foreach (var chunk in textSplit)
+            for(var counter = 0; counter < textSplit.Length; counter++)
             {
-                var id = '@' + chunk;
+                // Check if first word in order to deal with the eventual @ lost on splitting
+                if(counter == 0 && flag == 0)
+                {
+                    continue;
+                }
+                var id = '@' + textSplit[counter];
                 foreach (Match match in Regex.Matches(id, @"\B\@\w{1,15}\b"))
                 {
                     if (MentionsList.ContainsKey(match.ToString()))
@@ -170,8 +180,6 @@ namespace NapierBankingApp.Services
                     }
                 }
             }
-
-           
         }
 
         /// <summary>
