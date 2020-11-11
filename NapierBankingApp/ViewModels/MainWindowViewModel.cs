@@ -218,16 +218,17 @@ namespace NapierBankingApp.ViewModels
 
         }
 
+        /// <summary>
+        /// Opens a file dialog for selecting a File.
+        /// </summary>
+        /// <returns>A string representing the path of the file location.</returns>
         private string browseFile()
         {
             var FD = new System.Windows.Forms.OpenFileDialog();
             if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string fileToOpen = FD.FileName;
-                //FileInfo File = new FileInfo(FD.FileName);
-                //StreamReader reader = new StreamReader(fileToOpen);
                 return fileToOpen;
-                //etc
             }
             return "";
         }

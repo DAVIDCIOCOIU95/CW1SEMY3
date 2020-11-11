@@ -124,7 +124,7 @@
                         <GroupBox.Header>
                             <TextBlock Text="Messages" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView HorizontalAlignment="Left" Margin="4,5,0,68" Width="750" FontWeight="Normal" Foreground="White" Background="#FF40444B" BorderBrush="#FF40444B">
+                        <ListView ItemsSource="{Binding LoadedMessages}" HorizontalAlignment="Left" Margin="4,5,0,68" Width="750" FontWeight="Normal" Foreground="White" Background="#FF40444B" BorderBrush="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5" Foreground="White"/>
