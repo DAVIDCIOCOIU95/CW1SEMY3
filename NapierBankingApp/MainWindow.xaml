@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NapierBankingApp"
         mc:Ignorable="d"
-        Title="Napier Banking App" Height="476" Width="842" Background="#FF2F3136"
+        Title="Napier Banking App" Height="477" Width="842" Background="#FF2F3136"
         >
 
     <Window.Resources>
@@ -70,8 +70,12 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="#FF2F3136" Margin="0,0,3,163">
-        <TabControl HorizontalAlignment="Left" Height="998" Margin="10,4,-29,-764" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Width="852" >
+    <Grid Background="#FF2F3136" Margin="0,0,3,3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="104*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <TabControl HorizontalAlignment="Left" Height="1004" Margin="10,4,0,-564" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Width="814" Grid.RowSpan="2" >
             <TabItem Header="Process Message" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
                 <Grid Margin="0,46,-3,576">
                     <GroupBox HorizontalAlignment="Left" Height="315" Margin="10,-33,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
@@ -119,12 +123,12 @@
             </TabItem>
 
             <TabItem Header="Process File" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
-                <Grid Margin="0,0,-25,0">
+                <Grid Margin="0,0,-6,562">
                     <GroupBox HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="772" Margin="18,7,0,0" FontWeight="Bold" Foreground="White">
                         <GroupBox.Header>
                             <TextBlock Text="Messages" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView ItemsSource="{Binding LoadedMessages}" HorizontalAlignment="Left" Margin="4,5,0,71" Width="750" FontWeight="Normal" Foreground="White" Background="#FF40444B" BorderBrush="#FF40444B" >
+                        <ListView ItemsSource="{Binding LoadedMessages}" HorizontalAlignment="Left" Margin="4,5,0,71" Width="750" FontWeight="Normal" Foreground="White" Background="#FF40444B" BorderBrush="{x:Null}" >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5" Foreground="White"/>
@@ -151,10 +155,12 @@
             </TabItem>
 
             <TabItem Header="Lists" BorderBrush="White" Background="White" Foreground="#FF36393F" FontWeight="Bold">
-                <Grid Background="#FFE5E5E5">
-                    <GroupBox Header="Mentions" HorizontalAlignment="Left" Height="380
-                              " VerticalAlignment="Top" Width="300" Margin="12,21,0,0" FontWeight="Bold">
-                        <ListView x:Name="lstMentions" HorizontalAlignment="Left" Height="345" Margin="4,8,0,0" VerticalAlignment="Top" Width="280" FontWeight="Normal">
+                <Grid Background="#FF2F3136" Margin="0,0,32,561">
+                    <GroupBox HorizontalAlignment="Left" Height="349" VerticalAlignment="Top" Width="250" Margin="12,21,0,0" FontWeight="Bold">
+                        <GroupBox.Header>
+                            <TextBlock Text="Trends" Foreground="White" />
+                        </GroupBox.Header>
+                        <ListView x:Name="lstMentions" HorizontalAlignment="Left" Height="315" Margin="3,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" Background="#FF40444B" BorderBrush="{x:Null}" Foreground="White">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -162,9 +168,11 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </GroupBox>
-                    <GroupBox Header="Trends" HorizontalAlignment="Left" Height="380
-                              " VerticalAlignment="Top" Width="303" Margin="328,22,0,0" FontWeight="Bold">
-                        <ListView x:Name="lstTrends" HorizontalAlignment="Left" Height="345" Margin="6,8,0,0" VerticalAlignment="Top" Width="280" FontWeight="Normal">
+                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="281,22,0,0" FontWeight="Bold">
+                        <GroupBox.Header>
+                            <TextBlock Text="Trends" Foreground="White" />
+                        </GroupBox.Header>
+                        <ListView x:Name="lstTrends" HorizontalAlignment="Left" Height="316" Margin="5,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -172,9 +180,11 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </GroupBox>
-                    <GroupBox Header="SIR" HorizontalAlignment="Left" Height="380
-                              " VerticalAlignment="Top" Width="300" Margin="648,21,0,0" FontWeight="Bold">
-                        <ListView x:Name="lstSIR" HorizontalAlignment="Left" Height="345" Margin="5,9,0,0" VerticalAlignment="Top" Width="280" FontWeight="Normal">
+                    <GroupBox HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="250" Margin="551,21,-25,0" FontWeight="Bold">
+                        <GroupBox.Header>
+                            <TextBlock Text="SIR" Foreground="White" />
+                        </GroupBox.Header>
+                        <ListView x:Name="lstSIR" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
