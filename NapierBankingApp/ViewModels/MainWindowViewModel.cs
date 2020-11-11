@@ -17,7 +17,12 @@ namespace NapierBankingApp.ViewModels
     {
         public ObservableCollection<Message> LoadedMessages { get; set; }
         public ObservableCollection<string> LoadedMessagesErrors { get; set; }
-        
+
+        // 3 lists
+        public ObservableCollection<string> TrendList { get; set; }
+        public ObservableCollection<string> MentionList { get; set; }
+        public ObservableCollection<string> SIRList { get; set; }
+
         public string MessageHeaderTextBlock { get; private set; }
         public string MessageBodyTextBlock { get; private set; }
         public string MessageSenderTextBlock { get; private set; }
@@ -61,6 +66,11 @@ namespace NapierBankingApp.ViewModels
             LoadedMessages = new ObservableCollection<Message>();
             LoadedMessagesErrors = new ObservableCollection<string>();
 
+            SIRList = new ObservableCollection<string>();
+            TrendList = new ObservableCollection<string>();
+            MentionList = new ObservableCollection<string>();
+
+
             MessageHeaderTextBlock = "Header";
             MessageBodyTextBlock = "Body";
             MessageSenderTextBlock = "Sender";
@@ -100,8 +110,6 @@ namespace NapierBankingApp.ViewModels
             database = new Database("myMessage");
             currentMessages = new List<Message>();
         }
-
-        
 
         /// <summary>
         /// Attempts so the save the message.
@@ -156,6 +164,8 @@ namespace NapierBankingApp.ViewModels
                 var message = processor.ProcessMessage(validator.ValidateMessage(MessageHeaderTextBox, MessageBodyTextBox));
                 // Retain an instance of the last processed message so we can save it later
                 currentMessage = message;
+                // Update lists
+                UpdateLists(message);
 
                 // Display message in a separate component
                 ProcessedMessageHeaderTextBox = message.Header;
@@ -227,6 +237,8 @@ namespace NapierBankingApp.ViewModels
                 try
                 {
                     LoadedMessages.Add(processor.ProcessMessage(message));
+                    // Update lists
+                    UpdateLists(message);
                 }
                 catch (Exception ex)
                 {
@@ -269,6 +281,50 @@ namespace NapierBankingApp.ViewModels
                 return fileToOpen;
             }
             return "";
+        }
+
+        /// <summary>
+        /// Updates the mention, trend or SIR lists according to the message type.
+        /// </summary>
+        /// <param name="message"></param>
+        private void UpdateLists(Message message)
+        {
+            // First Clear the 3 lists in order to update them
+            SIRList.Clear();
+            MentionList.Clear();
+            TrendList.Clear();
+
+            // Update the relevant lists
+            switch (message.MessageType)
+            {
+                case "E":
+                    Email email = (Email)message;
+                    if (email.EmailType == "SIR")
+                    {
+                        SIR sir = (SIR)email;
+                        // Loop through SIRList and Add new instances
+                        foreach (var item in processor.SirList)
+                        {
+                            SIRList.Add("Sort Code: " + item[0].ToString() + "\nIncident Type: " + item[1].ToString());
+                            
+                        }
+                    }
+                    break;
+                case "T":
+                    foreach (var item in processor.MentionsList)
+                    {
+                        MentionList.Add("Mention: " + item.Key.ToString() + "\nCount: " + item.Value.ToString());
+
+                    }
+                    foreach (var item in processor.TrendingList)
+                    {
+                        TrendList.Add("Trend: " + item.Key.ToString() + "\nCount : " + item.Value.ToString());
+
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

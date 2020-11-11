@@ -160,7 +160,7 @@
                         <GroupBox.Header>
                             <TextBlock Text="Trends" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstMentions" HorizontalAlignment="Left" Height="315" Margin="3,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" Background="#FF40444B" BorderBrush="{x:Null}" Foreground="White">
+                        <ListView x:Name="lstMentions" ItemsSource="{Binding TrendList}" HorizontalAlignment="Left" Height="315" Margin="3,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" Background="#FF40444B" BorderBrush="{x:Null}" Foreground="White">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -170,9 +170,9 @@
                     </GroupBox>
                     <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="281,22,0,0" FontWeight="Bold">
                         <GroupBox.Header>
-                            <TextBlock Text="Trends" Foreground="White" />
+                            <TextBlock Text="Mentions" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstTrends" HorizontalAlignment="Left" Height="316" Margin="5,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
+                        <ListView x:Name="lstTrends" ItemsSource="{Binding MentionList}" HorizontalAlignment="Left" Height="316" Margin="5,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -184,7 +184,7 @@
                         <GroupBox.Header>
                             <TextBlock Text="SIR" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstSIR" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
+                        <ListView x:Name="lstSIR" ItemsSource="{Binding SIRList}" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
