@@ -42,6 +42,8 @@ namespace NapierBankingApp.ViewModels
         public ICommand ClearMessageButton { get; private set; }
         public ICommand SaveMessageButtonCommand { get; private set; }
         public ICommand LoadMessageButtonCommand { get; private set; }
+        public ICommand SaveLoadedMessageButtonCommand { get; private set; }
+        
 
         public string ProcessMessageButtonText { get; private set; }
         public string ClearMessageButtonText { get; private set; }
@@ -91,12 +93,15 @@ namespace NapierBankingApp.ViewModels
             ProcessMessageButtonCommand = new RelayCommand(ProcessMessageButtonClick);
             SaveMessageButtonCommand = new RelayCommand(SaveMessageButtonClick);
             LoadMessageButtonCommand = new RelayCommand(LoadMessagesFromFile);
+            SaveLoadedMessageButtonCommand = new RelayCommand(SaveLoadedMessages);
 
             processor = new Processor();
             validator = new Validator();
             database = new Database("myMessage");
             currentMessages = new List<Message>();
         }
+
+        
 
         /// <summary>
         /// Attempts so the save the message.
@@ -206,6 +211,10 @@ namespace NapierBankingApp.ViewModels
 
         private void LoadMessagesFromFile()
         {
+            // Empty the loaded messages and messages errors lists
+            LoadedMessages.Clear();
+            LoadedMessagesErrors.Clear();
+
             var (messages, unloadedMessages) = validator.ValidateFile(browseFile());
             // First Load All the errors related to the file
             foreach (var error in unloadedMessages)
@@ -226,6 +235,25 @@ namespace NapierBankingApp.ViewModels
                 }
             }
 
+        }
+
+        private void SaveLoadedMessages()
+        {
+            // Clear Error Messages
+            LoadedMessagesErrors.Clear();
+
+            // Try to save to database
+            foreach(var message in LoadedMessages)
+            {
+                try
+                {
+                    database.serializeToJSON(message);
+                }
+                catch (Exception ex)
+                {
+                    LoadedMessagesErrors.Add(ex.Message.ToString());
+                }
+            }
         }
 
         /// <summary>

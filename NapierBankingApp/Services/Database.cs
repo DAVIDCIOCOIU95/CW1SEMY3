@@ -27,16 +27,14 @@ namespace NapierBankingApp.Services
             // Look into the message collection for duplicates
             MessageCollection collection = loadFile(_connectionPath);
 
-            // Throw error if the database already contains message
-            if (collection.SMSList.ContainsKey(message.Header) || collection.TweetList.ContainsKey(message.Header) || collection.SIRList.ContainsKey(message.Header) || collection.SEMList.ContainsKey(message.Header))
-            {
-                throw new Exception("Message not saved: the database already contains the message.");
-            }
-
-            // add message to collection
+            // add message to collection or throw error
             switch (message.MessageType)
             {
                 case "S":
+                    if (collection.SMSList.ContainsKey(message.Header))
+                    {
+                        throw new Exception($"{message.Header} message not saved: the database already contains the message.");
+                    }
                     SMS sms = (SMS)message;
                     collection.SMSList.Add(message.Header, sms);
                     break;
@@ -44,17 +42,29 @@ namespace NapierBankingApp.Services
                     Email email = (Email)message;
                     if (email.EmailType == "SEM")
                     {
+                        if (collection.SEMList.ContainsKey(message.Header))
+                        {
+                            throw new Exception($"{message.Header} message not saved: the database already contains the message.");
+                        }
                         SEM sem = (SEM)email;
                         collection.SEMList.Add(message.Header, sem);
 
                     }
                     else if (email.EmailType == "SIR")
                     {
+                        if (collection.SIRList.ContainsKey(message.Header))
+                        {
+                            throw new Exception($"{message.Header} message not saved: the database already contains the message.");
+                        }
                         SIR sir = (SIR)email;
                         collection.SIRList.Add(message.Header, sir);
                     }
                     break;
                 case "T":
+                    if (collection.TweetList.ContainsKey(message.Header))
+                    {
+                        throw new Exception($"{message.Header} message not saved: the database already contains the message.");
+                    }
                     Tweet tweet = (Tweet)message;
                     collection.TweetList.Add(message.Header, tweet);
                     break;
