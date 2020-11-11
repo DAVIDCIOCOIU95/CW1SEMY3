@@ -47,6 +47,7 @@ namespace NapierBankingApp.ViewModels
         public ICommand ClearProcessedMessageButtonCommand { get; private set; }
         public ICommand LoadMessageButtonCommand { get; private set; }
         public ICommand SaveLoadedMessageButtonCommand { get; private set; }
+        public ICommand ClearLoadedMessageCommand { get; private set; }
 
         public string ProcessMessageButtonText { get; private set; }
         public string ClearMessageButtonText { get; private set; }
@@ -106,6 +107,7 @@ namespace NapierBankingApp.ViewModels
             
             ClearProcessedMessageButtonCommand = new RelayCommand(ClearProcessedMessageButtonClick);
             ClearMessageButtonCommand = new RelayCommand(ClearMessageButtonClick);
+            ClearLoadedMessageCommand = new RelayCommand(ClearLoadedMessageClick);
 
             processor = new Processor();
             validator = new Validator();
@@ -217,9 +219,11 @@ namespace NapierBankingApp.ViewModels
         {
             MessageHeaderTextBox = string.Empty;
             MessageBodyTextBox = string.Empty;
+            MessageErrorTextBlock = string.Empty;
 
             OnChanged(nameof(MessageHeaderTextBox));
             OnChanged(nameof(MessageBodyTextBox));
+            OnChanged(nameof(MessageErrorTextBlock));
         }
 
         private void ClearProcessedMessageButtonClick()
@@ -230,6 +234,7 @@ namespace NapierBankingApp.ViewModels
             ProcessedMessageIncidentTypeTextBox = string.Empty;
             ProcessedMessageSubjectTextBox = string.Empty;
             ProcessedMessageTextTextBox = string.Empty;
+            SaveMessageErrorTextBlock = string.Empty;
 
             OnChanged(nameof(ProcessedMessageHeaderTextBox));
             OnChanged(nameof(ProcessedMessageSortCodeTextBox));
@@ -237,6 +242,13 @@ namespace NapierBankingApp.ViewModels
             OnChanged(nameof(ProcessedMessageIncidentTypeTextBox));
             OnChanged(nameof(ProcessedMessageSubjectTextBox));
             OnChanged(nameof(ProcessedMessageTextTextBox));
+            OnChanged(nameof(SaveMessageErrorTextBlock));
+        }
+
+        private void ClearLoadedMessageClick()
+        {
+            LoadedMessages.Clear();
+            LoadedMessagesErrors.Clear();
         }
 
         private void LoadMessagesFromFile()
