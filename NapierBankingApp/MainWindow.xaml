@@ -72,15 +72,15 @@
 
     <Grid Background="#FF2F3136" Margin="0,0,3,3">
         <Grid.RowDefinitions>
-            <RowDefinition Height="104*"/>
-            <RowDefinition Height="7*"/>
+            <RowDefinition Height="88*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <TabControl HorizontalAlignment="Left" Height="1004" Margin="10,4,0,-564" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Width="814" Grid.RowSpan="2" >
-            <TabItem Header="Process Message" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
+        <TabControl HorizontalAlignment="Left" Height="1004" Margin="10,4,0,-563" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="{x:Null}" Width="814" Grid.RowSpan="2" >
+            <TabItem Header="{Binding ProcessMessageTabText}" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
                 <Grid Margin="0,46,-3,576">
-                    <GroupBox HorizontalAlignment="Left" Height="315" Margin="10,-33,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
+                    <GroupBox HorizontalAlignment="Left" Height="274" Margin="10,-33,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
                         <GroupBox.Header>
-                            <TextBlock Text="Message" Foreground="White" />
+                            <TextBlock Text="{Binding MessageTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
 
                         <Grid HorizontalAlignment="Left" Height="155" Margin="5,7,-13,0" VerticalAlignment="Top" Width="367">
@@ -95,41 +95,41 @@
                         </Grid>
                     </GroupBox>
 
-                    <Button Content="{Binding ProcessMessageButtonText}" Command="{Binding ProcessMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="299,248,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <GroupBox HorizontalAlignment="Left" Height="337" Margin="402,-33,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
+                    <Button Content="{Binding ProcessMessageButtonText}" Command="{Binding ProcessMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="292,213,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="18" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <GroupBox HorizontalAlignment="Left" Height="334" Margin="431,-33,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
                         <GroupBox.Header>
-                            <TextBlock Text="Processed Message" Foreground="White" />
+                            <TextBlock Text="{Binding ProcessedMessageTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
 
                         <Grid HorizontalAlignment="Left" Height="155" Margin="5,7,-13,0" VerticalAlignment="Top" Width="367">
                             <TextBlock Text="{Binding MessageHeaderTextBlock}" HorizontalAlignment="Left" Margin="2,2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="8.771,13.972" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7"/>
-                            <TextBox Text="{Binding ProcessedMessageHeaderTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="1,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
-                            <TextBlock  Text="{Binding MessageTextTextBlock}" HorizontalAlignment="Left" Margin="4,165,0,-26" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
+                            <TextBox Text="{Binding ProcessedMessageHeaderTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="0,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBlock  Text="{Binding MessageTextTextBlock}" HorizontalAlignment="Left" Margin="0,163,0,-24" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
                             <TextBox Text="{Binding ProcessedMessageTextTextBox }" IsReadOnly="true" HorizontalAlignment="Left" Height="50" Margin="0,182,0,-77" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" FontWeight="Normal" AcceptsReturn="True" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
                             <TextBlock Text="{Binding SaveMessageErrorTextBlock}" HorizontalAlignment="Left" Height="32"  TextWrapping="Wrap" VerticalAlignment="Top" Width="346" FontWeight="Normal" Background="#FF2F3136" Foreground="Red" Margin="2,238,0,-115"/>
-                            <TextBox Text="{Binding ProcessedMessageSenderTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="2,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
-                            <TextBox Text="{Binding ProcessedMessageSortCodeTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="159,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
-                            <TextBox Text="{Binding ProcessedMessageIncidentTypeTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="159,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
-                            <TextBlock  Text="{Binding MessageSenderTextBlock}" HorizontalAlignment="Left" Margin="3,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
-                            <TextBlock  Text="{Binding MessageIncidentTypeTextBlock}" HorizontalAlignment="Left" Margin="160,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="90"/>
-                            <TextBlock  Text="{Binding MessagesSortCodeTextBlock}" HorizontalAlignment="Left" Margin="161,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="89"/>
-                            <TextBox Text="{Binding ProcessedMessageSubjectTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="2,137,0,-7" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
-                            <TextBlock  Text="{Binding MessageSubjectTextBlock}" HorizontalAlignment="Left" Margin="4,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
+                            <TextBox Text="{Binding ProcessedMessageSenderTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="0,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBox Text="{Binding ProcessedMessageSortCodeTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="148,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBox Text="{Binding ProcessedMessageIncidentTypeTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="148,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBlock  Text="{Binding MessageSenderTextBlock}" HorizontalAlignment="Left" Margin="0,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
+                            <TextBlock  Text="{Binding MessageIncidentTypeTextBlock}" HorizontalAlignment="Left" Margin="148,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="90"/>
+                            <TextBlock  Text="{Binding MessagesSortCodeTextBlock}" HorizontalAlignment="Left" Margin="148,4,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="89"/>
+                            <TextBox Text="{Binding ProcessedMessageSubjectTextBox}" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="0,135,0,-5" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontWeight="Normal" Background="#FF40444B" BorderBrush="#FF40444B" Foreground="White"/>
+                            <TextBlock  Text="{Binding MessageSubjectTextBlock}" HorizontalAlignment="Left" Margin="0,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
                         </Grid>
                     </GroupBox>
-                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="690,271,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearProcessedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="601,272,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="214,249,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
+                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="716,270,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearProcessedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="627,270,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="207,213,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="18" Foreground="White" BorderBrush="#FFE41D1D"/>
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Process File" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
+            <TabItem Header="{Binding ProcessFileTabText}" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
                 <Grid Margin="0,0,-6,562">
-                    <GroupBox HorizontalAlignment="Left" Height="322" VerticalAlignment="Top" Width="772" Margin="18,7,0,0" FontWeight="Bold" Foreground="White">
+                    <GroupBox HorizontalAlignment="Left" Height="391" VerticalAlignment="Top" Width="772" Margin="18,8,0,0" FontWeight="Bold" Foreground="White">
                         <GroupBox.Header>
-                            <TextBlock Text="Messages" Foreground="White" />
+                            <TextBlock Text="{Binding LoadedMessagesTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView ItemsSource="{Binding LoadedMessages}" HorizontalAlignment="Left" Margin="4,5,0,71" Width="750" FontWeight="Normal" Foreground="White" Background="#FF40444B" BorderBrush="{x:Null}" >
+                        <ListView ItemsSource="{Binding LoadedMessages}" HorizontalAlignment="Left" Margin="4,5,0,137" Width="750" FontWeight="Normal" Foreground="White" Background="#FF40444B" BorderBrush="{x:Null}" >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5" Foreground="White"/>
@@ -140,28 +140,28 @@
 
                     </GroupBox>
 
-                    <ListView ItemsSource="{Binding LoadedMessagesErrors}" HorizontalAlignment="Left" Margin="29,260,0,97" Width="749" FontWeight="Normal" Foreground="Red" Background="#FF2F3136" BorderBrush="#FF2F3136" >
+                    <ListView ItemsSource="{Binding LoadedMessagesErrors}" HorizontalAlignment="Left" Margin="29,264,0,97" Width="749" FontWeight="Normal" Foreground="Red" Background="#FF2F3136" BorderBrush="#FF2F3136" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5" Foreground="Red"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Button Content="{Binding LoadMessageButtonText}" Command="{Binding LoadMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="650,378,0,0" VerticalAlignment="Top" Width="110" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearLoadedMessageCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="622,343,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
-                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveLoadedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="711,343,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding LoadMessageButtonText}" Command="{Binding LoadMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="643,367,0,0" VerticalAlignment="Top" Width="110" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearLoadedMessageCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="615,338,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
+                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveLoadedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="704,338,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
                 </Grid>
 
 
             </TabItem>
 
-            <TabItem Header="Lists" BorderBrush="White" Background="White" Foreground="#FF36393F" FontWeight="Bold">
+            <TabItem Header="{Binding ListsTabText}" BorderBrush="White" Background="White" Foreground="#FF36393F" FontWeight="Bold">
                 <Grid Background="#FF2F3136" Margin="0,0,32,561">
-                    <GroupBox HorizontalAlignment="Left" Height="349" VerticalAlignment="Top" Width="250" Margin="12,21,0,0" FontWeight="Bold">
+                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="10,11,0,0" FontWeight="Bold">
                         <GroupBox.Header>
-                            <TextBlock Text="Trends" Foreground="White" />
+                            <TextBlock Text="{Binding TrendListTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstMentions" ItemsSource="{Binding TrendList}" HorizontalAlignment="Left" Height="315" Margin="3,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" Background="#FF40444B" BorderBrush="{x:Null}" Foreground="White">
+                        <ListView x:Name="lstMentions" ItemsSource="{Binding TrendList}" HorizontalAlignment="Left" Height="315" Margin="4,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" Background="#FF40444B" BorderBrush="{x:Null}" Foreground="White">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -169,11 +169,11 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </GroupBox>
-                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="281,22,0,0" FontWeight="Bold">
+                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="279,12,0,0" FontWeight="Bold">
                         <GroupBox.Header>
-                            <TextBlock Text="Mentions" Foreground="White" />
+                            <TextBlock Text="{Binding MentionListTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstTrends" ItemsSource="{Binding MentionList}" HorizontalAlignment="Left" Height="316" Margin="5,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
+                        <ListView x:Name="lstTrends" ItemsSource="{Binding MentionList}" HorizontalAlignment="Left" Height="315" Margin="4,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -181,9 +181,9 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </GroupBox>
-                    <GroupBox HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="250" Margin="551,21,-25,0" FontWeight="Bold">
+                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="549,11,-23,0" FontWeight="Bold">
                         <GroupBox.Header>
-                            <TextBlock Text="SIR" Foreground="White" />
+                            <TextBlock Text="{Binding SIRListTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
                         <ListView x:Name="lstSIR" ItemsSource="{Binding SIRList}" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>

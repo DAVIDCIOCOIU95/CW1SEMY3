@@ -22,6 +22,11 @@ namespace NapierBankingApp.ViewModels
         public ObservableCollection<string> MentionList { get; set; }
         public ObservableCollection<string> SIRList { get; set; }
 
+        // Tab Titles
+        public string ProcessMessageTabText { get; private set; }
+        public string ProcessFileTabText { get; private set; }
+        public string ListsTabText { get; private set; }
+
         public string MessageHeaderTextBlock { get; private set; }
         public string MessageBodyTextBlock { get; private set; }
         public string MessageSenderTextBlock { get; private set; }
@@ -31,6 +36,12 @@ namespace NapierBankingApp.ViewModels
         public string MessageSubjectTextBlock { get; private set; }
         public string MessageErrorTextBlock { get; private set; }
         public string SaveMessageErrorTextBlock { get; private set; }
+        public string MessageTitleTextBox { get; private set; }
+        public string ProcessedMessageTitleTextBox { get; private set; }
+        public string LoadedMessagesTitleTextBox { get; private set; }
+        public string MentionListTitleTextBox { get; private set; }
+        public string TrendListTitleTextBox { get; private set; }
+        public string SIRListTitleTextBox { get; private set; }
 
         public string MessageHeaderTextBox { get; set; }
         public string MessageBodyTextBox { get; set; }
@@ -68,6 +79,12 @@ namespace NapierBankingApp.ViewModels
             TrendList = new ObservableCollection<string>();
             MentionList = new ObservableCollection<string>();
 
+            // Tab Texts
+            ProcessMessageTabText = "Process Message";
+            ProcessFileTabText = "Process File";
+            ListsTabText = "Lists";
+
+
             // Text Blocks
             MessageHeaderTextBlock = "Header";
             MessageBodyTextBlock = "Body";
@@ -76,6 +93,12 @@ namespace NapierBankingApp.ViewModels
             MessagesSortCodeTextBlock = "Sort Code";
             MessageTextTextBlock = "Text";
             MessageSubjectTextBlock = "Subject";
+            MessageTitleTextBox = "Message";
+            ProcessedMessageTitleTextBox = "Processed Message";
+            LoadedMessagesTitleTextBox = "Loaded Messages";
+            TrendListTitleTextBox = "Trending List";
+            MentionListTitleTextBox = "Mention List";
+            SIRListTitleTextBox = "SIR List";
 
             MessageErrorTextBlock = string.Empty;
             SaveMessageErrorTextBlock = string.Empty;
