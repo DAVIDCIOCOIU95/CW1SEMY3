@@ -10,10 +10,9 @@ namespace NapierBankingApp.Services.Validation
     /// </summary>
     class Validator : MessageValidator
     {
-        public List<string> UnloadedMessages { get; private set; }
+
         public Validator()
         {
-            UnloadedMessages = new List<string>();
         }
 
         /// <summary>
@@ -41,9 +40,10 @@ namespace NapierBankingApp.Services.Validation
         /// Validates a file containing messages.
         /// </summary>
         /// <param name="fields"></param>
-        /// <returns>A list of valid messages.</returns>
-        public List<Message> ValidateFile(string path)
+        /// <returns>A touple in the form (Validated Messages, MessageErrors)</returns>
+        public (List<Message>, List<string>) ValidateFile(string path)
         {
+            List<string> UnloadedMessages = new List<string>();
             var fields = Parser.ParseCsvFile(path, "|");
             List<Message> validMessages = new List<Message>();
             UnloadedMessages.Clear();
@@ -69,7 +69,7 @@ namespace NapierBankingApp.Services.Validation
             {
                 throw new Exception("No valid messages identified in the file");
             }
-            return validMessages;
+            return (validMessages, UnloadedMessages);
         }
     }
 }
