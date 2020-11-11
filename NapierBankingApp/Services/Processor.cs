@@ -152,7 +152,11 @@ namespace NapierBankingApp.Services
         /// <param name="text"></param>
         private void AddToMentionList(string text)
         {
-            MessageBox.Show(text);
+            // Prevent throwing exception for empty text
+            if (text.Length == 0)
+            {
+                return;
+            }
             // Split the text in order to find each id
             // If the first char is a @ then set a flag, else leave it to zero
             var flag = 0;
@@ -188,11 +192,27 @@ namespace NapierBankingApp.Services
         /// <param name="text"></param>
         private void AddToTrendingList(string text)
         {
-            // Split the text in order to find each hashtag
-            string[] textSplit = text.Split('#');
-            foreach (var chunk in textSplit)
+            // Prevent throwing exception for empty text
+            if (text.Length == 0)
             {
-                var hashtag = '#' + chunk;
+                return;
+            }
+            // Split the text in order to find each hashtag
+            // If the first char is a # then set a flag, else leave it to zero
+            var flag = 0;
+            if (text[0] == '#')
+            {
+                flag = 1;
+            }
+            string[] textSplit = text.Split('#');
+            for (var counter = 0; counter < textSplit.Length; counter++)
+            {
+                // Check if first word in order to deal with the eventual @ lost on splitting
+                if (counter == 0 && flag == 0)
+                {
+                    continue;
+                }
+                var hashtag = '#' + textSplit[counter];
                 //  Hashtags can only contain letters, numbers, and underscores
                 foreach (Match match in Regex.Matches(hashtag, @"\B\#\w{1,15}\b"))
                 {
