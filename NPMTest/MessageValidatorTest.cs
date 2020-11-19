@@ -9,17 +9,20 @@ namespace NPMTest
     [TestClass]
     public class MessageValidatorTest
     {
+
         [TestMethod]
-        public void ValidateHeader_WhenMinorThan10_ShouldThrowException()
+        public void ValidateHeader_WhenLengthIs10_ShouldPass()
         {
-            string header = "123";
+            string header = "S000000000";
             try
             {
-                MessageValidator.ValidateHeader(header);
+                string validatedHeader = MessageValidator.ValidateHeader(header);
+                Assert.AreEqual(header, validatedHeader);
             }
             catch (Exception ex)
             {
-                Assert.AreEqual("The header must have a length of 10.", ex.Message.ToString());
+                Assert.Fail();
+               
             }
         }
 
@@ -29,7 +32,7 @@ namespace NPMTest
             string header = "";
             try
             {
-                MessageValidator.ValidateHeader(header);
+                string validatedHeader = MessageValidator.ValidateHeader(header);
             }
             catch (Exception ex)
             {
@@ -38,12 +41,12 @@ namespace NPMTest
         }
 
         [TestMethod]
-        public void ValidateHeader_whenBiggerThan10_ShouldThrowException()
+        public void ValidateHeader_WhenLengthMinorThan10_ShouldThrowException()
         {
-            string header = "12345678910";
+            string header = "S000";
             try
             {
-                MessageValidator.ValidateHeader(header);
+                string validatedHeader = MessageValidator.ValidateHeader(header);
             }
             catch (Exception ex)
             {
@@ -52,32 +55,31 @@ namespace NPMTest
         }
 
         [TestMethod]
-        public void ValidateHeader_IfFirstLetterNot_S_E_T_ShouldThrowException()
+        public void ValidateHeader_WhenLengthBiggerThan10_ShouldThrowException()
+        {
+            string header = "S000000000000";
+            try
+            {
+                string validatedHeader = MessageValidator.ValidateHeader(header);
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual("The header must have a length of 10.", ex.Message.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ValidateHeader_IfFirstLetterIs_S_E_T_ShouldPass()
         {
             string header = "P123456789";
 
             try
             {
-                MessageValidator.ValidateHeader(header);
+                string validatedHeader = MessageValidator.ValidateHeader(header);
             }
             catch (Exception ex)
             {
                 Assert.AreEqual("The header must start with S, E or T", ex.Message.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void ValidateHeader_IfNonNumericAfterType_ShouldThrowException()
-        {
-            string header = "S12345678A";
-
-            try
-            {
-                MessageValidator.ValidateHeader(header);
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual("The header type must be followed by only numeric characters.", ex.Message.ToString());
             }
         }
     }
