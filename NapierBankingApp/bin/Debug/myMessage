@@ -71,6 +71,12 @@
       "Header": "S000000021",
       "Sender": "+006767",
       "Text": "Hello ASAP <As soon as possible>"
+    },
+    "S000000077": {
+      "MessageType": "S",
+      "Header": "S000000077",
+      "Sender": "+8970000",
+      "Text": "hello LOL <Laughing out loud>"
     }
   },
   "TweetList": {
