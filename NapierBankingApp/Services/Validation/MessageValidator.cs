@@ -41,7 +41,7 @@ namespace NapierBankingApp.Services.Validation
             }
             if (fields[0] != Regex.Match(fields[0], senderRegex).Value)
             {
-                throw new Exception("Invalid sender type.");
+                throw new Exception("The sender must start with + followed by 7 to 15 numeric characters.");
             }
             return fields[0];
         }

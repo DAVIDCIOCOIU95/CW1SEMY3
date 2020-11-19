@@ -65,6 +65,12 @@
       "Header": "S000000777",
       "Sender": "+342",
       "Text": "hellofsafdasfdsfdasfdsafdsafdsfdsafdsa  hellofsafdasfdsfdasfdsafdsafdsfdsafdsa  hellofsafdasfdsfdasfdsafdsafdsfdsafdsa  hellofsaf"
+    },
+    "S000000021": {
+      "MessageType": "S",
+      "Header": "S000000021",
+      "Sender": "+006767",
+      "Text": "Hello ASAP <As soon as possible>"
     }
   },
   "TweetList": {
@@ -294,6 +300,14 @@
       "Sender": "david@gmail.com",
       "Text": "",
       "Subject": "hello",
+      "EmailType": "SEM"
+    },
+    "E000000000": {
+      "MessageType": "E",
+      "Header": "E000000000",
+      "Sender": "david@gmail.com",
+      "Text": "hello world <URL quarantined>",
+      "Subject": "Bank Invoice",
       "EmailType": "SEM"
     }
   }

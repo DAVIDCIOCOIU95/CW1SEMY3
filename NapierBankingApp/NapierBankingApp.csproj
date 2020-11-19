@@ -92,7 +92,7 @@
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Services\Database.cs" />
-    <Compile Include="Services\MessageCollection.cs" />
+    <Compile Include="Models\MessageCollection.cs" />
     <Compile Include="Models\SEM.cs" />
     <Compile Include="Models\SIR.cs" />
     <Compile Include="Models\SMS.cs" />
@@ -100,7 +100,7 @@
     <Compile Include="Services\Processor.cs" />
     <Compile Include="Services\Validation\EmailValidator.cs" />
     <Compile Include="Services\Validation\MessageValidator.cs" />
-    <Compile Include="Services\Validation\Parser.cs" />
+    <Compile Include="Services\Parser.cs" />
     <Compile Include="Services\Validation\SMSValidator.cs" />
     <Compile Include="Services\Validation\TweetValidator.cs" />
     <Compile Include="Services\Validation\Validator.cs" />
