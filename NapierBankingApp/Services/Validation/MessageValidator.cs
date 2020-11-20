@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace NapierBankingApp.Services.Validation
 {
@@ -31,17 +28,16 @@ namespace NapierBankingApp.Services.Validation
             if (specialCharacters == null)
                 specialCharacters = new Dictionary<string, string>();
 
-            if ((fields.Count == 0))
-            {
-                throw new Exception("The body must have at least a sender specified.");
-            }
+            // Replace special chars to clean the sender
             foreach (var spChar in specialCharacters)
             {
                 fields[0] = fields[0].Replace(spChar.Key, spChar.Value);
             }
-            if (fields[0] != Regex.Match(fields[0], senderRegex).Value)
+            // Match regex
+            if (string.IsNullOrEmpty(fields[0]) || fields[0] != Regex.Match(fields[0], senderRegex).Value)
             {
-                throw new Exception("The sender must start with + followed by 7 to 15 numeric characters.");
+                
+                throw new Exception("The sender format is incorrect, please enter a valid sender.");
             }
             return fields[0];
         }

@@ -1,10 +1,5 @@
 ﻿using NapierBankingApp.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace NapierBankingApp.Services.Validation
 {
@@ -13,7 +8,7 @@ namespace NapierBankingApp.Services.Validation
         public static SMS ValidateSMS(string header, string body)
         {
             var fields = Parser.ParseBody(body, ",", true);
-            return new SMS(header, ValidateSender(fields, @"^[\+0]\d{7,15}$", new Dictionary<string, string>() { [" "] = "", ["    "] = "", ["_"] = "", ["-"] = "", ["#"] = "", ["*"] = "" }), ValidateText(fields, 1, 140));
+            return new SMS(header, ValidateSender(fields, @"^[\+]\d{7,15}$", new Dictionary<string, string>() { [" "] = "", ["    "] = "", ["_"] = "", ["-"] = "", ["#"] = "", ["*"] = "" }), ValidateText(fields, 1, 140));
         }
     }
 }

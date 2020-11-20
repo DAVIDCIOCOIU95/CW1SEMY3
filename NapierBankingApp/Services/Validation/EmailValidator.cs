@@ -67,7 +67,7 @@ namespace NapierBankingApp.Services.Validation
             {
                 throw new Exception("The body must have a sort code specified.");
             }
-            if (fields[sortCodeIndex] != Regex.Match(fields[sortCodeIndex], sortCodeRegex).Value)
+            if (string.IsNullOrEmpty(fields[sortCodeIndex]) || fields[sortCodeIndex] != Regex.Match(fields[sortCodeIndex], sortCodeRegex).Value)
             {
                 throw new Exception("Incorrect sort code format.");
             }
