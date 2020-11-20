@@ -13,58 +13,28 @@ namespace NPMTest
         public void ValidateHeader_WhenLengthIs10_ShouldPass()
         {
             string header = "S000000000";
-            try
-            {
-                string validatedHeader = MessageValidator.ValidateHeader(header);
-                Assert.AreEqual(header, validatedHeader);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail();
-               
-            }
+            Assert.AreEqual(header, MessageValidator.ValidateHeader(header));
         }
 
         [TestMethod]
         public void ValidateHeader_whenEmpty_ShouldThrowException()
         {
             string header = "";
-            try
-            {
-                string validatedHeader = MessageValidator.ValidateHeader(header);
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual("The header must have a length of 10.", ex.Message.ToString());
-            }
+            Assert.ThrowsException<System.Exception>(() => MessageValidator.ValidateHeader(header));
         }
 
         [TestMethod]
         public void ValidateHeader_WhenLengthMinorThan10_ShouldThrowException()
         {
             string header = "S000";
-            try
-            {
-                string validatedHeader = MessageValidator.ValidateHeader(header);
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual("The header must have a length of 10.", ex.Message.ToString());
-            }
+            Assert.ThrowsException<System.Exception>(() => MessageValidator.ValidateHeader(header));
         }
 
         [TestMethod]
         public void ValidateHeader_WhenLengthBiggerThan10_ShouldThrowException()
         {
             string header = "S000000000000";
-            try
-            {
-                string validatedHeader = MessageValidator.ValidateHeader(header);
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual("The header must have a length of 10.", ex.Message.ToString());
-            }
+            Assert.ThrowsException<System.Exception>(() => MessageValidator.ValidateHeader(header));
         }
 
 
@@ -72,48 +42,23 @@ namespace NPMTest
         public void ValidateHeader_IfFirstLetterIs_S_ShouldPass()
         {
             string header = "S000000000";
-
-            try
-            {
-                string validatedHeader = MessageValidator.ValidateHeader(header);
-                Assert.AreEqual(header[0], validatedHeader[0]);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail();
-            }
+            Assert.AreEqual("S", MessageValidator.ValidateHeader(header));
         }
 
         [TestMethod]
         public void ValidateHeader_IfFirstLetterIs_E_ShouldPass()
         {
             string header = "E000000000";
+            Assert.AreEqual("E", MessageValidator.ValidateHeader(header)[0]);
 
-            try
-            {
-                string validatedHeader = MessageValidator.ValidateHeader(header);
-                Assert.AreEqual(header[0], validatedHeader[0]);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail();
-            }
+
         }
 
         [TestMethod]
         public void ValidateHeader_IfFirstLetterIs_T_ShouldPass()
         {
             string header = "T000000000";
-
-            try
-            {
-                string validatedHeader = MessageValidator.ValidateHeader(header);
-                Assert.AreEqual(header[0], validatedHeader[0]);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail();
-            }
+            Assert.AreEqual("T", MessageValidator.ValidateHeader(header)[0]);
         }
 
         [TestMethod]
