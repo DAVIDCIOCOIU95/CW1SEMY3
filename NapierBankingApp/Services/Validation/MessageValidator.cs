@@ -49,7 +49,7 @@ namespace NapierBankingApp.Services.Validation
                 text = fields[textPosition];
                 if (text.Length > maxChars)
                 {
-                    throw new Exception("The text length contains" + text.Length + " characters.\nThe max characters allowed is: 140.");
+                    throw new Exception("The text length contains " + text.Length + " characters.\nThe max characters allowed is: " + maxChars);
                 }
             }
             return text;
