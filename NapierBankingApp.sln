@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NapierBankingApp", "NapierBankingApp\NapierBankingApp.csproj", "{08B7BCA6-5F70-48AC-B8BF-7E85F91AB42D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPMTest", "NPMTest\NPMTest.csproj", "{8EB01EE1-F73C-4892-8E4F-ADBB59EC7E5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPMTest", "NPMTest\NPMTest.csproj", "{8EB01EE1-F73C-4892-8E4F-ADBB59EC7E5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

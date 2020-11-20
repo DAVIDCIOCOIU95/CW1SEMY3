@@ -21,6 +21,8 @@ namespace NapierBankingApp.ViewModels
         public ObservableCollection<string> TrendList { get; set; }
         public ObservableCollection<string> MentionList { get; set; }
         public ObservableCollection<string> SIRList { get; set; }
+        public ObservableCollection<string> URLList { get; set; }
+
 
         // Tab Titles
         public string ProcessMessageTabText { get; private set; }
@@ -42,6 +44,7 @@ namespace NapierBankingApp.ViewModels
         public string MentionListTitleTextBox { get; private set; }
         public string TrendListTitleTextBox { get; private set; }
         public string SIRListTitleTextBox { get; private set; }
+        public string URLListTitleTextBox { get; private set; }
 
         public string MessageHeaderTextBox { get; set; }
         public string MessageBodyTextBox { get; set; }
@@ -78,6 +81,7 @@ namespace NapierBankingApp.ViewModels
             SIRList = new ObservableCollection<string>();
             TrendList = new ObservableCollection<string>();
             MentionList = new ObservableCollection<string>();
+            URLList = new ObservableCollection<string>();
 
             // Tab Texts
             ProcessMessageTabText = "Process Message";
@@ -99,6 +103,7 @@ namespace NapierBankingApp.ViewModels
             TrendListTitleTextBox = "Trending List";
             MentionListTitleTextBox = "Mention List";
             SIRListTitleTextBox = "SIR List";
+            URLListTitleTextBox = "URL List";
 
             MessageErrorTextBlock = string.Empty;
             SaveMessageErrorTextBlock = string.Empty;
@@ -360,6 +365,11 @@ namespace NapierBankingApp.ViewModels
             switch (message.MessageType)
             {
                 case "E":
+                    URLList.Clear();
+                    foreach(var item in processor.QuarantinedLinks)
+                    {
+                        URLList.Add("Link: " + item.Key.ToString() + "\nCount: " + item.Value.ToString());
+                    }
                     Email email = (Email)message;
                     if (email.EmailType == "SIR")
                     {

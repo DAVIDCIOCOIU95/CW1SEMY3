@@ -96,7 +96,7 @@
                     </GroupBox>
 
                     <Button Content="{Binding ProcessMessageButtonText}" Command="{Binding ProcessMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="292,213,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="18" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <GroupBox HorizontalAlignment="Left" Height="334" Margin="431,-33,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
+                    <GroupBox HorizontalAlignment="Left" Height="334" Margin="422,-33,0,0" VerticalAlignment="Top" Width="370" FontWeight="Bold" BorderBrush="#FF36393F" Foreground="Black" Background="#FF2F3136">
                         <GroupBox.Header>
                             <TextBlock Text="{Binding ProcessedMessageTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
@@ -117,15 +117,15 @@
                             <TextBlock  Text="{Binding MessageSubjectTextBlock}" HorizontalAlignment="Left" Margin="0,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic" Foreground="#FFC7C7C7" Width="50"/>
                         </Grid>
                     </GroupBox>
-                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="716,270,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearProcessedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="627,270,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
+                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="702,270,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearProcessedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="613,270,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
                     <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="207,213,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="18" Foreground="White" BorderBrush="#FFE41D1D"/>
                 </Grid>
             </TabItem>
 
             <TabItem Header="{Binding ProcessFileTabText}" Foreground="#FF2F3136" BorderBrush="White" Background="White" FontWeight="Bold">
                 <Grid Margin="0,0,-6,562">
-                    <GroupBox HorizontalAlignment="Left" Height="391" VerticalAlignment="Top" Width="772" Margin="18,8,0,0" FontWeight="Bold" Foreground="White">
+                    <GroupBox HorizontalAlignment="Left" Height="391" VerticalAlignment="Top" Width="772" Margin="16,8,0,0" FontWeight="Bold" Foreground="White">
                         <GroupBox.Header>
                             <TextBlock Text="{Binding LoadedMessagesTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
@@ -140,16 +140,16 @@
 
                     </GroupBox>
 
-                    <ListView ItemsSource="{Binding LoadedMessagesErrors}" HorizontalAlignment="Left" Margin="29,264,0,97" Width="749" FontWeight="Normal" Foreground="Red" Background="#FF2F3136" BorderBrush="#FF2F3136" >
+                    <ListView ItemsSource="{Binding LoadedMessagesErrors}" HorizontalAlignment="Left" Margin="27,264,0,97" Width="749" FontWeight="Normal" Foreground="Red" Background="#FF2F3136" BorderBrush="#FF2F3136" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5" Foreground="Red"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Button Content="{Binding LoadMessageButtonText}" Command="{Binding LoadMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="643,367,0,0" VerticalAlignment="Top" Width="110" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
-                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearLoadedMessageCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="615,338,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
-                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveLoadedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="704,338,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding LoadMessageButtonText}" Command="{Binding LoadMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="641,367,0,0" VerticalAlignment="Top" Width="110" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
+                    <Button Content="{Binding ClearMessageButtonText}" Command="{Binding ClearLoadedMessageCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="613,338,0,0" VerticalAlignment="Top" Width="74" Background="#FFE41D1D" Height="20" Foreground="White" BorderBrush="#FFE41D1D"/>
+                    <Button Content="{Binding SaveMessageButtonText}" Command="{Binding SaveLoadedMessageButtonCommand}" Style="{StaticResource ButtonStyle1}" FontWeight="Bold" HorizontalAlignment="Left" Margin="702,338,0,0" VerticalAlignment="Top" Width="74" Background="#FF758ADB" Height="20" Foreground="White" BorderBrush="#FF758ADB"/>
                 </Grid>
 
 
@@ -157,11 +157,11 @@
 
             <TabItem Header="{Binding ListsTabText}" BorderBrush="White" Background="White" Foreground="#FF36393F" FontWeight="Bold">
                 <Grid Background="#FF2F3136" Margin="0,0,32,561">
-                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="10,11,0,0" FontWeight="Bold">
+                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="175" Margin="5,11,0,0" FontWeight="Bold">
                         <GroupBox.Header>
                             <TextBlock Text="{Binding TrendListTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstMentions" ItemsSource="{Binding TrendList}" HorizontalAlignment="Left" Height="315" Margin="4,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" Background="#FF40444B" BorderBrush="{x:Null}" Foreground="White">
+                        <ListView x:Name="lstMentions" ItemsSource="{Binding TrendList}" HorizontalAlignment="Left" Height="315" Margin="4,8,0,0" VerticalAlignment="Top" Width="155" FontWeight="Normal" Background="#FF40444B" BorderBrush="{x:Null}" Foreground="White">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -169,11 +169,11 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </GroupBox>
-                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="279,12,0,0" FontWeight="Bold">
+                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="175" Margin="210,12,0,0" FontWeight="Bold">
                         <GroupBox.Header>
                             <TextBlock Text="{Binding MentionListTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstTrends" ItemsSource="{Binding MentionList}" HorizontalAlignment="Left" Height="315" Margin="4,8,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
+                        <ListView x:Name="lstTrends" ItemsSource="{Binding MentionList}" HorizontalAlignment="Left" Height="315" Margin="4,8,0,0" VerticalAlignment="Top" Width="155" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -181,11 +181,11 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </GroupBox>
-                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="250" Margin="549,11,-23,0" FontWeight="Bold">
+                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="175" Margin="417,11,0,0" FontWeight="Bold">
                         <GroupBox.Header>
                             <TextBlock Text="{Binding SIRListTitleTextBox}" Foreground="White" />
                         </GroupBox.Header>
-                        <ListView x:Name="lstSIR" ItemsSource="{Binding SIRList}" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="230" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
+                        <ListView x:Name="lstSIR" ItemsSource="{Binding SIRList}" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="155" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
@@ -193,6 +193,19 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </GroupBox>
+                    <GroupBox HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="175" Margin="622,12,-21,0" FontWeight="Bold">
+                        <GroupBox.Header>
+                            <TextBlock Text="{Binding URLListTitleTextBox}" Foreground="White" />
+                        </GroupBox.Header>
+                        <ListView x:Name="lstURL" ItemsSource="{Binding URLList}" HorizontalAlignment="Left" Height="315" Margin="4,9,0,0" VerticalAlignment="Top" Width="155" FontWeight="Normal" BorderBrush="{x:Null}" Foreground="White" Background="#FF40444B">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding .}" TextWrapping="Wrap" Margin="0 5"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </GroupBox>
+
                 </Grid>
             </TabItem>
         </TabControl>

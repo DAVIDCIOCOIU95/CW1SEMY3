@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace NapierBankingApp.Services.Validation
 {
-    class EmailValidator : MessageValidator
+    public class EmailValidator : MessageValidator
     {
         public static Email ValidateEmail(string header, string body)
         {

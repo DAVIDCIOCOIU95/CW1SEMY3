@@ -42,14 +42,14 @@ namespace NPMTest
         public void ValidateHeader_IfFirstLetterIs_S_ShouldPass()
         {
             string header = "S000000000";
-            Assert.AreEqual("S", MessageValidator.ValidateHeader(header));
+            Assert.AreEqual(header[0], MessageValidator.ValidateHeader(header)[0]);
         }
 
         [TestMethod]
         public void ValidateHeader_IfFirstLetterIs_E_ShouldPass()
         {
             string header = "E000000000";
-            Assert.AreEqual("E", MessageValidator.ValidateHeader(header)[0]);
+            Assert.AreEqual(header[0], MessageValidator.ValidateHeader(header)[0]);
 
 
         }
@@ -58,7 +58,7 @@ namespace NPMTest
         public void ValidateHeader_IfFirstLetterIs_T_ShouldPass()
         {
             string header = "T000000000";
-            Assert.AreEqual("T", MessageValidator.ValidateHeader(header)[0]);
+            Assert.AreEqual(header[0], MessageValidator.ValidateHeader(header)[0]);
         }
 
         [TestMethod]
@@ -263,10 +263,5 @@ namespace NPMTest
         }
 
         #endregion
-
-        #region Email Validation
-        #endregion
-
-
     }
 }
