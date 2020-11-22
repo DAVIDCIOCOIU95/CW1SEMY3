@@ -29,6 +29,6 @@ C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\System.T
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\System.ValueTuple.xml
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.csproj.CopyComplete
-C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.csprojAssemblyReference.cache
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\Views\MainWindow.g.cs
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\Views\MainWindow.baml
+C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.csprojAssemblyReference.cache

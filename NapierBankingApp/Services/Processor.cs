@@ -102,7 +102,7 @@ namespace NapierBankingApp.Services
         #endregion
 
         #region Processor private methods
-        private void LoadAbbreviations(string filename)
+        protected void LoadAbbreviations(string filename)
         {
             var path = Path.Combine(Environment.CurrentDirectory, filename);
             var lines = File.ReadAllLines(path);
@@ -113,7 +113,7 @@ namespace NapierBankingApp.Services
                 abbreviations.Add(abbreviation[0], abbreviation[1]);
             }
         }
-        private string SobstituteAbbreviations(string text)
+        protected string SobstituteAbbreviations(string text)
         {
             foreach (var entry in abbreviations)
             {
@@ -150,7 +150,7 @@ namespace NapierBankingApp.Services
         /// Checks if the text has any occurencies of twitter Ids, is so updates the instance, otherwise it adds it to the mention list.
         /// </summary>
         /// <param name="text"></param>
-        private void AddToMentionList(string text)
+        protected void AddToMentionList(string text)
         {
             // Prevent throwing exception for empty text
             if (text.Length == 0)
@@ -190,7 +190,7 @@ namespace NapierBankingApp.Services
         /// Checks if the list has any mentions of the trending list, if so updates the list, otherwise it adds the new instance to the trending list.
         /// </summary>
         /// <param name="text"></param>
-        private void AddToTrendingList(string text)
+        protected void AddToTrendingList(string text)
         {
             // Prevent throwing exception for empty text
             if (text.Length == 0)

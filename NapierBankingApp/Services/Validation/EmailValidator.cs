@@ -59,7 +59,7 @@ namespace NapierBankingApp.Services.Validation
 
         protected static string ValidateSortCode(List<string> fields, int sortCodeIndex, string sortCodeRegex)
         {
-            if ((fields.Count < (sortCodeIndex + 1)))
+            if (fields.Count < sortCodeIndex + 1 || string.IsNullOrWhiteSpace(fields[sortCodeIndex]))
             {
                 throw new Exception("The body must have a sort code specified.");
             }
