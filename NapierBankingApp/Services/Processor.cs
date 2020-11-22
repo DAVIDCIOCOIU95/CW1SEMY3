@@ -122,7 +122,7 @@ namespace NapierBankingApp.Services
             return text;
         }
 
-        private string SobstituteURL(string text)
+        protected string SobstituteURL(string text)
         {
             List<string> urls = new List<string>();
             var linkRegex = @"\b(?:http(s)?:\\\\)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+\b";
