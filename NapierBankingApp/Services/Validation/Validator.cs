@@ -9,7 +9,7 @@ namespace NapierBankingApp.Services.Validation
     /// <summary>
     /// Takes in a header and a body of a message. Detects and validates the message. Returns a message type according to the business rules.
     /// </summary>
-    class Validator : MessageValidator
+    class Validator
     {
 
         public Validator()
@@ -24,7 +24,7 @@ namespace NapierBankingApp.Services.Validation
         /// <returns>A validated message object of a particular type.</returns>
         public Message ValidateMessage(string header, string body)
         {
-            switch (ValidateHeader(header)[0])
+            switch (MessageValidator.ValidateHeader(header)[0])
             {
                 case 'S':
                     return SMSValidator.ValidateSMS(header, body);

@@ -1,11 +1,9 @@
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\NapierBankingApp.exe.config
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\NapierBankingApp.exe
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\NapierBankingApp.pdb
-C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\MainWindow.g.cs
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\App.g.cs
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp_MarkupCompile.cache
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp_MarkupCompile.lref
-C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\MainWindow.baml
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.g.resources
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.Properties.Resources.resources
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.csproj.GenerateResource.cache
@@ -32,3 +30,5 @@ C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\System.T
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\bin\Debug\System.ValueTuple.xml
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.csproj.CopyComplete
 C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\NapierBankingApp.csprojAssemblyReference.cache
+C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\Views\MainWindow.g.cs
+C:\Users\david\C#\CW1-Y3-SE\NapierBankingApp\NapierBankingApp\obj\Debug\Views\MainWindow.baml
